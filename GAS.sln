@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS", "GAS\GAS.csproj", "{A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS.Core", "GAS.Core\GAS.Core.csproj", "{14E25EB2-BE99-4157-AA66-2B1606466927}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS.CLI", "GAS.CLI\GAS.CLI.csproj", "{DC3168C0-BF20-4FE7-B60E-11F383B83D69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{14E25EB2-BE99-4157-AA66-2B1606466927}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{14E25EB2-BE99-4157-AA66-2B1606466927}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{14E25EB2-BE99-4157-AA66-2B1606466927}.Release|x86.ActiveCfg = Release|Any CPU
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Debug|x86.ActiveCfg = Debug|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Debug|x86.Build.0 = Debug|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Release|Any CPU.ActiveCfg = Release|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Release|x86.ActiveCfg = Release|x86
+		{DC3168C0-BF20-4FE7-B60E-11F383B83D69}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
