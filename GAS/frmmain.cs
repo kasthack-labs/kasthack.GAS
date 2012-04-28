@@ -84,6 +84,7 @@ namespace GAS
                 Core.WaitForResponse = chkResp.Checked;
                 Core.AppendRANDOMChars = chkMsgRandom.Checked;
                 Core.AppendRANDOMCharsUrl = chkRandom.Checked;
+                Core.Data = txtData.Text;
             #endregion
                 cmdAttack.Text = "Stop Attack";
                 Application.DoEvents();
