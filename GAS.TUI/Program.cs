@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-namespace GAS.CLI
+namespace GAS.TUI
 {
     class Program
     {
