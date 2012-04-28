@@ -67,8 +67,7 @@ namespace GAS.Core
         }
         private void bw_DoWork(object indexinthreads)
         {
-            while (!init)
-                Thread.Sleep(100);
+            while (!init) Thread.Sleep(100);
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
             try
             {
