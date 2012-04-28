@@ -39,12 +39,10 @@ namespace GAS.Core
     /// </remarks>
     public class ReCoil : IAttacker
     {
-        private string _dns, _ip, _subSite;
         private int _port, _nSockets;
         private bool _random,_usegZip,_resp,init = false;
         private Thread[] WorkingThreads;
-        private string DefaultAgent,
-                       RandomAgent = "GET {0}{1} HTTP/1.1{2}HOST: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}Keep-Alive: 300{2}Connection: keep-alive{2}{4}{2}";
+        private string  _dns, _ip, _subSite,DefaultAgent,RandomAgent = "GET {0}{1} HTTP/1.1{2}HOST: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}Keep-Alive: 300{2}Connection: keep-alive{2}{4}{2}";
         private List<Socket>[] _lSockets;
         /// <summary>
         /// creates the ReCoil object. <.<
