@@ -38,6 +38,7 @@
     <Compile Include="GAS.Core.cs" />
     <Compile Include="HTTPFlooder.cs" />
     <Compile Include="IAttacker.cs" />
+    <Compile Include="PacketFlood.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReCoil.cs" />
     <Compile Include="SlowLoic.cs" />
