@@ -6,7 +6,12 @@ namespace GAS.TUI
         static GAS.Core.Manager Core = new GAS.Core.Manager();
         public static void Main(string[] args)
         {
-            Console.WriteLine("Select target");
+            if (Environment.OSVersion.Platform.ToString().ToLower().Contains("unix"))
+                if (Environment.UserName != "root")
+                    Console.Error.WriteLine("You are using Linux/Mac OS and you are not root.\r\nIf you want to use ReCoil/SlowLoic attack you must run \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\"");
+                else
+                    Console.WriteLine("Is file open limit unlocked?\r\nIf attack will not give any effect run \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\" as root");
+            Console.WriteLine("Select target[kremlin.ru]");
             string temp = Console.ReadLine();
             bool IPOK = Core.LockOn(temp);
             if (!IPOK)
