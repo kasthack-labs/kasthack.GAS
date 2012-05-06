@@ -9,7 +9,6 @@ namespace GAS.Core
     {
         bool init = false;
         public IPAddress IP, DNS;
-        public int Port;
         public string Subsite;
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
@@ -55,11 +54,10 @@ namespace GAS.Core
                 #region Prepare
                 int bfsize = 1024; // this should be less than the MTU
                 byte[] buf = System.Text.Encoding.ASCII.GetBytes(
-                    String.Format(random ? "GET {0}{1} HTTP/1.1{2}Host: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}{4}{2}" :
-                                          "GET {0} HTTP/1.1{2}Host: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}{4}{2}",
+                    String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
+                                          "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
                                           Subsite,
                                           Functions.RandomString(),
-                                          Environment.NewLine,
                                           DNS,
                                           ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
                                           "")));
