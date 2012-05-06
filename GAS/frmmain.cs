@@ -59,9 +59,6 @@ namespace GAS
             #region Configure
             Core.Subsite = txtSubsite.Text;
                 Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), cbMethod.Text);
-                //if (!int.TryParse(txtTimeout.Text, out Core.Timeout)) { Core.Timeout = 30; txtTimeout.Text = Core.Timeout.ToString(); }
-                //if (!int.TryParse(txtThreads.Text, out Core.Threads)){ Core.Threads = 10; txtThreads.Text = Core.Threads.ToString();}
-                //if (!int.TryParse(txtSLSpT.Text, out Core.SPT)){Core.SPT = 50;txtSLSpT.Text = Core.SPT.ToString(); }
                 Core.Port = Convert.ToInt32(nudPort.Value);    
                 Core.Timeout = Convert.ToInt32( nudTimeout.Value);
                 Core.Threads = Convert.ToInt32(nudThreadNum.Value);
@@ -74,8 +71,8 @@ namespace GAS
                 Core.AppendRANDOMCharsUrl = chkRandom.Checked;
                 Core.Data = txtData.Text;
             #endregion
-                cmdAttack.Text = "Stop Attack";
-                Application.DoEvents();
+            cmdAttack.Text = "Stop Attack";
+            Application.DoEvents();
             LockSetting(Attacking);
             Core.Start();
         }

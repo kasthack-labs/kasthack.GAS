@@ -1,12 +1,15 @@
-﻿using System;
+﻿#region Usings
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+#endregion
 namespace GAS.Core
 {
     public class HTTPFlooder : IAttacker
     {
+        #region Variables
         bool init = false;
         public IPAddress IP, DNS;
         public string Subsite;
@@ -15,6 +18,7 @@ namespace GAS.Core
         private Thread[] WorkingThreads;
         private volatile int _attacktype = 0;
         private volatile string AttackHeader = "";
+        #endregion
         public HTTPFlooder(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip,int threadcount,int attacktype=0)
         {
             ThreadCount = threadcount;
