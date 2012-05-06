@@ -37,7 +37,7 @@
   <ItemGroup>
     <Compile Include="Functions.cs" />
     <Compile Include="GAS.Core.cs" />
-    <Compile Include="GAS.Core.SlowPost.cs" />
+    <Compile Include="SlowPost.cs" />
     <Compile Include="HTTPFlooder.cs" />
     <Compile Include="IAttacker.cs" />
     <Compile Include="PacketFlood.cs" />

