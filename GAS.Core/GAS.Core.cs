@@ -29,6 +29,27 @@ namespace GAS.Core
         static IPAddress locolhaust = IPAddress.Parse("127.0.0.1");
         public IAttacker Worker;
         public string Data;
+        public int Requested
+        {
+            get
+            {
+                return Worker.Requested;
+            }
+        }
+        public int Failed
+        {
+            get
+            {
+                return Worker.Failed;
+            }
+        }
+        public int Downloaded
+        {
+            get
+            {
+                return Worker.Downloaded;
+            }
+        }
         public bool LockOn(string host)
         {
             host = host.Trim().ToLower();

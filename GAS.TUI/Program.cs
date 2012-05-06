@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 namespace GAS.TUI
 {
     class Program
@@ -49,8 +50,27 @@ namespace GAS.TUI
             Core.Start();
             Console.WriteLine("Attacking...");
             Console.WriteLine("Press Enter stop attack and exit");
+            new Thread(new ThreadStart(stats)).Start();
             Console.ReadLine();
             Core.Stop();
+        }
+        static void stats()
+        {
+            DateTime d = DateTime.Now;
+            Console.WriteLine();
+            int x = Console.CursorLeft,y=Console.CursorTop,w=Console.WindowWidth;
+            char[] e = new char[w];
+            for (int i=0;i<w;e[i++]=' ');
+            while (true)
+            {
+                Console.SetCursorPosition(x,y);
+                Console.WriteLine(e);
+                Console.WriteLine(e);
+                Console.SetCursorPosition(x, y);
+                Console.WriteLine("Time elapsed\tSent\tReceived\tFailed")
+                Console.WriteLine("{0}\t{1}\t{2}\t{3}",DateTime.Now.Subtract(d).ToString(),Core.Requested,Core.Downloaded,Core.Failed);
+                Thread.Sleep(500);
+            }
         }
     }
 }
