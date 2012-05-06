@@ -74,6 +74,12 @@
   <ItemGroup>
     <None Include="Resources\loic.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GAS.Core\GAS.Core.csproj">
+      <Project>{14E25EB2-BE99-4157-AA66-2B1606466927}</Project>
+      <Name>GAS.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
