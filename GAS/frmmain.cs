@@ -87,6 +87,7 @@ namespace GAS
         }
         void LockSetting(bool ForAttack)
         {
+            /*
                 cbMethod.Enabled = !ForAttack;
                 chkUsegZip.Enabled = ForAttack ? false : (cbMethod.SelectedIndex >= 2);
                 chkUseGet.Enabled = ForAttack ? false : (cbMethod.SelectedIndex == 4);
@@ -100,6 +101,7 @@ namespace GAS
                 nudPort.Enabled = !ForAttack;
                 nudThreadNum.Enabled = !ForAttack;
                 tbSpeed.Enabled = !ForAttack;
+             * */
         }
 
         private void tShowStats_Tick(object sender, EventArgs e)

@@ -372,7 +372,8 @@
             "ReCoil",
             "SlowLOIC",
             "RefRef",
-            "AhrDosme"});
+            "AhrDosme",
+            "SlowPost"});
             this.cbMethod.Location = new System.Drawing.Point(64, 69);
             this.cbMethod.Name = "cbMethod";
             this.cbMethod.Size = new System.Drawing.Size(75, 22);
@@ -426,7 +427,7 @@
             // 
             // pBanner
             // 
-            this.pBanner.Image = global::GAS.Properties.Resources.LOIC;
+            this.pBanner.Image = global::GAS.Properties.Resources.loic;
             this.pBanner.Location = new System.Drawing.Point(12, 14);
             this.pBanner.Name = "pBanner";
             this.pBanner.Size = new System.Drawing.Size(184, 462);

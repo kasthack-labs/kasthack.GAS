@@ -60,9 +60,9 @@ namespace GAS.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap LOIC {
+        internal static System.Drawing.Bitmap loic {
             get {
-                object obj = ResourceManager.GetObject("LOIC", resourceCulture);
+                object obj = ResourceManager.GetObject("loic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

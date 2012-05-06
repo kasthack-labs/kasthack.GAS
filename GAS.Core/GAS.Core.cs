@@ -14,7 +14,8 @@ namespace GAS.Core
         ReCoil,
         SlowLOIC,
         RefRef,
-        AhrDosme
+        AhrDosme,
+        SlowPost
     }
     public class Manager
     {
@@ -86,6 +87,7 @@ namespace GAS.Core
                 case AttackMethod.AhrDosme:
                     Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads,1);
                     break;
+                //case AttackMethod.
                 default :
                     throw new NotImplementedException("Code it yourself, lazy bastard");
             }
