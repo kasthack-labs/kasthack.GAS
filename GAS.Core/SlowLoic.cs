@@ -35,7 +35,11 @@ namespace GAS.Core
             this.WorkingThreads = new Thread[ThreadCount];
             this.States = new ReqState[ThreadCount];
             this._lSockets = new List<Socket>[ThreadCount];
-            for (int i = 0; i < ThreadCount; States[i] = ReqState.Ready, _lSockets[i] = new List<Socket>()) ;
+            for (int i = 0; i < ThreadCount;i++)
+            {
+                States[i] = ReqState.Ready;
+                _lSockets[i] = new List<Socket>() ;
+            }
             this._dns = (dns == "") ? ip : dns; //hopefully they know what they are doing :)
             this._ip = ip;
             this._port = port;

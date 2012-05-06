@@ -84,7 +84,6 @@ namespace GAS.Core
                     break;
                 default :
                     throw new NotImplementedException("Code it yourself, lazy bastard");
-                    break;
             }
             Worker.Start();
         }
