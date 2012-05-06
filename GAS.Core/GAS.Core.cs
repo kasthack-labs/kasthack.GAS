@@ -31,16 +31,19 @@ namespace GAS.Core
         {
             host = host.Trim().ToLower();
             if (IPAddress.TryParse(host, out Target))
+            {
+                DNSString = Target.ToString();
                 return true;
+            }
             else
             {
                 try
                 {
                     if (!host.StartsWith("http://") && !host.StartsWith("https://")) host = String.Concat("http://", host);
-                    var trg =new Uri(host);
+                    var trg = new Uri(host);
                     Target = Dns.GetHostEntry(trg.Host).AddressList[0];
                     DNSString = trg.Host;
-                    Subsite=trg.PathAndQuery;
+                    Subsite = trg.PathAndQuery;
                     return true;
                 }
                 catch
