@@ -67,7 +67,7 @@ namespace GAS.TUI
                 Console.WriteLine(e);
                 Console.WriteLine(e);
                 Console.SetCursorPosition(x, y);
-                Console.WriteLine("Time elapsed\tSent\tReceived\tFailed")
+                Console.WriteLine("Time elapsed\tSent\tReceived\tFailed");
                 Console.WriteLine("{0}\t{1}\t{2}\t{3}",DateTime.Now.Subtract(d).ToString(),Core.Requested,Core.Downloaded,Core.Failed);
                 Thread.Sleep(500);
             }
