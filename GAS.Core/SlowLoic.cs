@@ -150,9 +150,11 @@ namespace GAS.Core
                         #endregion
                     }
                    #endregion
+                    #region Stats
                     States[MY_INDEX_FOR_WORK] = ReqState.Completed;
                     IsDelayed = (_lSockets[MY_INDEX_FOR_WORK].Count < _nSockets);
                     if (!IsDelayed) System.Threading.Thread.Sleep(Timeout);
+                    #endregion
                 }
             }
             catch { States[MY_INDEX_FOR_WORK] = ReqState.Failed; }
