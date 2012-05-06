@@ -371,7 +371,8 @@
             "HTTP",
             "ReCoil",
             "SlowLOIC",
-            "RefRef"});
+            "RefRef",
+            "AhrDosme"});
             this.cbMethod.Location = new System.Drawing.Point(64, 69);
             this.cbMethod.Name = "cbMethod";
             this.cbMethod.Size = new System.Drawing.Size(75, 22);

