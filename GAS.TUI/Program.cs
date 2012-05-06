@@ -60,6 +60,8 @@ namespace GAS.TUI
             Console.WriteLine();
             int x = Console.CursorLeft,y=Console.CursorTop,w=Console.WindowWidth;
             char[] e = new char[w];
+            string s;
+            int ind = 0;
             for (int i=0;i<w;e[i++]=' ');
             while (true)
             {
@@ -68,7 +70,9 @@ namespace GAS.TUI
                 Console.WriteLine(e);
                 Console.SetCursorPosition(x, y);
                 Console.WriteLine("Time elapsed\tSent\tReceived\tFailed");
-                Console.WriteLine("{0}\t{1}\t{2}\t{3}",DateTime.Now.Subtract(d).ToString(),Core.Requested,Core.Downloaded,Core.Failed);
+                s = DateTime.Now.Subtract(d).ToString();
+                s = s.Substring(0, (ind=s.LastIndexOf('.'))>0?ind:s.Length);
+                Console.WriteLine("{0}\t{1}\t{2}\t\t{3}",s,Core.Requested,Core.Downloaded,Core.Failed);
                 Thread.Sleep(500);
             }
         }
