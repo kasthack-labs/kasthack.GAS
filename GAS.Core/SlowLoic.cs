@@ -12,9 +12,9 @@ namespace GAS.Core
     {
         private string _dns, _ip,_subSite;
         private int _port, _nSockets;
-        private bool _random,_randcmds,_useget,_usegZip,init = false;
+        private volatile bool _random,_randcmds,_useget,_usegZip,init = false;
         private Thread[] WorkingThreads;
-        private List<Socket>[] _lSockets;
+        private volatile List<Socket>[] _lSockets;
         /// <summary>
         /// creates the SlowLoic / -Loris object. <.<
         /// </summary>
