@@ -62,7 +62,11 @@ namespace GAS.Core
             this.WorkingThreads = new Thread[ThreadCount];
             this.States = new ReqState[ThreadCount];
             this._lSockets = new List<Socket>[ThreadCount];
-            for (int i = 0; i < ThreadCount; States[i] = ReqState.Ready, _lSockets[i++] = new List<Socket>()) ;
+            for (int i = 0; i < ThreadCount; i++)
+            {
+                States[i] = ReqState.Ready;
+                _lSockets[i] = new List<Socket>();
+            }
             this._dns = (dns == "") ? ip : dns; //hopefully they know what they are doing :)
             this._ip = ip;
             this._port = port;
@@ -75,6 +79,11 @@ namespace GAS.Core
             this._usegZip = usegZip;
             this._resp = resp;
             IsDelayed = true;
+            for (int i = 0; i < ThreadCount; i++)
+            {
+                States[i] = ReqState.Ready;
+                _lSockets[i] = new List<Socket>();
+            }
             Requested = 0; // we reset this! - meaning of this counter changes in this context!
             DefaultAgent = String.Format("GET {0} HTTP/1.1{1}HOST: {2}{1}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){1}Keep-Alive: 300{1}Connection: keep-alive{1}{3}{1}", _subSite, Environment.NewLine, _dns, ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : ""));
             RandomAgent = String.Format(RandomAgent, _subSite, "{0}", Environment.NewLine, _dns, ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : ""));

@@ -4,7 +4,8 @@ using System.ComponentModel;
 using System.Net.Sockets;
 using System.Threading;
 namespace GAS.Core
-{ /// <summary>
+{ 
+    /// <summary>
     /// SlowLoic is the port of RSnake's SlowLoris
     /// </summary>
     public class SlowLoic : IAttacker

