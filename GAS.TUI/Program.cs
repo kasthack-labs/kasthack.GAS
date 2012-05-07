@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 namespace GAS.TUI
 {
     class Program
     {
+        static string[] Blacklist = new string[] { "epicm.org", "localhost","127.0.0", "192.168."};
         static GAS.Core.Manager Core = new GAS.Core.Manager();
         public static void Main(string[] args)
         {
@@ -15,13 +17,19 @@ namespace GAS.TUI
             Console.WriteLine("Select target[kremlin.ru]");
             string temp = Console.ReadLine();
             temp = (temp == "" ? "kremlin.ru" : temp);
+            foreach(string s in Blacklist)
+                if (temp.ToLower().Contains(s))
+                {
+                    Console.WriteLine("U SUK COX");
+                    Environment.Exit(666);
+                }
             bool IPOK = Core.LockOn(temp);
             if (!IPOK)
             {
                 Console.WriteLine("Wrong Target!");
                 Environment.Exit(1);
             }
-            Console.WriteLine("Subsite is {0}, do you want to change it?[y/n]", Core.Subsite);
+            Console.WriteLine("Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite);
             if (Console.ReadLine().ToLower() == "y")
                 Core.Subsite = Console.ReadLine();
             Console.WriteLine("Enter port[80]");
