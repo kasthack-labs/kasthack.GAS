@@ -47,7 +47,7 @@ namespace GAS.TUI
                 Core.Subsite = Console.ReadLine();
             Console.WriteLine("Enter port[80]");
             Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
-            Console.WriteLine("Select attack type [ReCoil] (UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme)");
+            Console.WriteLine("Select attack type [ReCoil] (UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post)");
             Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), (temp=Console.ReadLine())==""?"ReCoil":temp);
             Console.WriteLine("Enter thread count[50]");
             Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);

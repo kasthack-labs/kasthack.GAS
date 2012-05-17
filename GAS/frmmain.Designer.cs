@@ -371,7 +371,8 @@
             "SlowLOIC",
             "RefRef",
             "AhrDosme",
-            "SlowPost"});
+            "SlowPost",
+            "Post"});
             this.cbMethod.Location = new System.Drawing.Point(64, 69);
             this.cbMethod.Name = "cbMethod";
             this.cbMethod.Size = new System.Drawing.Size(75, 22);
@@ -416,7 +417,7 @@
             this.groupBox5.Controls.Add(this.label15);
             this.groupBox5.Controls.Add(this.label16);
             this.groupBox5.ForeColor = System.Drawing.Color.LightBlue;
-            this.groupBox5.Location = new System.Drawing.Point(15, 442);
+            this.groupBox5.Location = new System.Drawing.Point(12, 374);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(758, 71);
             this.groupBox5.TabIndex = 17;
@@ -466,7 +467,7 @@
             // 
             this.groupBox2.Controls.Add(this.txtTarget);
             this.groupBox2.ForeColor = System.Drawing.Color.LightBlue;
-            this.groupBox2.Location = new System.Drawing.Point(12, 110);
+            this.groupBox2.Location = new System.Drawing.Point(12, 100);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(758, 109);
             this.groupBox2.TabIndex = 15;
@@ -589,9 +590,9 @@
             this.grp_Setting.Controls.Add(this.cbMethod);
             this.grp_Setting.Controls.Add(this.tbSpeed);
             this.grp_Setting.ForeColor = System.Drawing.Color.LightBlue;
-            this.grp_Setting.Location = new System.Drawing.Point(13, 241);
+            this.grp_Setting.Location = new System.Drawing.Point(15, 226);
             this.grp_Setting.Name = "grp_Setting";
-            this.grp_Setting.Size = new System.Drawing.Size(757, 195);
+            this.grp_Setting.Size = new System.Drawing.Size(757, 141);
             this.grp_Setting.TabIndex = 23;
             this.grp_Setting.TabStop = false;
             this.grp_Setting.Text = "3. Attack options";
@@ -682,7 +683,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
-            this.ClientSize = new System.Drawing.Size(780, 525);
+            this.ClientSize = new System.Drawing.Size(780, 457);
             this.Controls.Add(this.grp_Setting);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);

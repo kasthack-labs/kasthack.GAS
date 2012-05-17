@@ -17,9 +17,8 @@ namespace GAS.Core
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
         private Thread[] WorkingThreads;
-        private volatile int _attacktype = 0;
         private volatile string AttackHeader = "";
-        byte[] GZIPBomb = Properties.Resources._1gbzeros;//contains gzipped dump of /dev/zero. gzipped size=1.2Mb, real = 1GB
+        byte[] GZIPBomb = Properties.Resources._1gz;//contains gzipped dump of /dev/zero. gzipped size=1.2Mb, real = 1GB
         #endregion
         public PostAttack(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip, int threadcount)
         {
@@ -42,7 +41,6 @@ namespace GAS.Core
             this.random = random;
             this.usegZip = usegzip;
             States = new ReqState[ThreadCount];
-            _attacktype = attacktype;
 
         }
         public override void Start()

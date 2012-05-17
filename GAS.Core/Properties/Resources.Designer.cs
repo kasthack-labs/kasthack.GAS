@@ -60,9 +60,9 @@ namespace GAS.Core.Properties {
             }
         }
         
-        internal static byte[] _1gbzeros {
+        internal static byte[] _1gz {
             get {
-                object obj = ResourceManager.GetObject("_1gbzeros", resourceCulture);
+                object obj = ResourceManager.GetObject("_1gz", resourceCulture);
                 return ((byte[])(obj));
             }
         }
