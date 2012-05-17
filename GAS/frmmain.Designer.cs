@@ -59,7 +59,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.pBanner = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -84,15 +83,14 @@
             this.tbSpeed = new System.Windows.Forms.TrackBar();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.pBanner)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grp_Setting.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.nudSLPT)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.nudThreadNum)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.nudPort)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.nudTimeout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.tbSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSLPT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudThreadNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -101,20 +99,20 @@
             this.groupBox1.Controls.Add(this.txtTargetIP);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.ForeColor = System.Drawing.Color.LightBlue;
-            this.groupBox1.Location = new System.Drawing.Point(212, 14);
+            this.groupBox1.Location = new System.Drawing.Point(12, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(465, 75);
+            this.groupBox1.Size = new System.Drawing.Size(465, 78);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "1. Select your target";
             // 
             // cmdTargetIP
             // 
-            this.cmdTargetIP.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (32)))), ((int) (((byte) (64)))), ((int) (((byte) (96)))));
+            this.cmdTargetIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(64)))), ((int)(((byte)(96)))));
             this.cmdTargetIP.ForeColor = System.Drawing.Color.Azure;
             this.cmdTargetIP.Location = new System.Drawing.Point(388, 23);
             this.cmdTargetIP.Name = "cmdTargetIP";
-            this.cmdTargetIP.Size = new System.Drawing.Size(71, 22);
+            this.cmdTargetIP.Size = new System.Drawing.Size(71, 25);
             this.cmdTargetIP.TabIndex = 4;
             this.cmdTargetIP.Text = "Lock on";
             this.cmdTargetIP.UseVisualStyleBackColor = false;
@@ -122,7 +120,7 @@
             // 
             // txtTargetIP
             // 
-            this.txtTargetIP.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
+            this.txtTargetIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
             this.txtTargetIP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTargetIP.ForeColor = System.Drawing.Color.Azure;
             this.txtTargetIP.Location = new System.Drawing.Point(63, 23);
@@ -136,7 +134,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(6, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 14);
+            this.label1.Size = new System.Drawing.Size(51, 17);
             this.label1.TabIndex = 2;
             this.label1.Text = "URL/IP";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -146,7 +144,7 @@
             this.label19.BackColor = System.Drawing.Color.Azure;
             this.label19.Location = new System.Drawing.Point(6, 40);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(746, 1);
+            this.label19.Size = new System.Drawing.Size(746, 10);
             this.label19.TabIndex = 25;
             this.label19.Text = "Idle";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -155,17 +153,17 @@
             // 
             this.lbFailed.Location = new System.Drawing.Point(648, 41);
             this.lbFailed.Name = "lbFailed";
-            this.lbFailed.Size = new System.Drawing.Size(101, 24);
+            this.lbFailed.Size = new System.Drawing.Size(101, 27);
             this.lbFailed.TabIndex = 24;
             this.lbFailed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbFailed, "How many times (in total) the webserver didn\'t respond. High number = server down" +
-                    ".");
+        ".");
             // 
             // lbRequested
             // 
             this.lbRequested.Location = new System.Drawing.Point(541, 41);
             this.lbRequested.Name = "lbRequested";
-            this.lbRequested.Size = new System.Drawing.Size(101, 24);
+            this.lbRequested.Size = new System.Drawing.Size(101, 27);
             this.lbRequested.TabIndex = 23;
             this.lbRequested.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbRequested, "How many times (in total) a download has been requested");
@@ -174,7 +172,7 @@
             // 
             this.label22.Location = new System.Drawing.Point(648, 16);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(101, 24);
+            this.label22.Size = new System.Drawing.Size(101, 27);
             this.label22.TabIndex = 22;
             this.label22.Text = "Failed";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -183,7 +181,7 @@
             // 
             this.label23.Location = new System.Drawing.Point(541, 16);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(101, 24);
+            this.label23.Size = new System.Drawing.Size(101, 27);
             this.label23.TabIndex = 21;
             this.label23.Text = "Requested";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -192,17 +190,17 @@
             // 
             this.lbDownloaded.Location = new System.Drawing.Point(434, 41);
             this.lbDownloaded.Name = "lbDownloaded";
-            this.lbDownloaded.Size = new System.Drawing.Size(101, 24);
+            this.lbDownloaded.Size = new System.Drawing.Size(101, 27);
             this.lbDownloaded.TabIndex = 20;
             this.lbDownloaded.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbDownloaded, "How many times (in total) that a download has been initiated");
             // 
             // lbDownloading
             // 
-            this.lbDownloading.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (12)))), ((int) (((byte) (24)))), ((int) (((byte) (32)))));
+            this.lbDownloading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
             this.lbDownloading.Location = new System.Drawing.Point(327, 41);
             this.lbDownloading.Name = "lbDownloading";
-            this.lbDownloading.Size = new System.Drawing.Size(101, 24);
+            this.lbDownloading.Size = new System.Drawing.Size(101, 27);
             this.lbDownloading.TabIndex = 19;
             this.lbDownloading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbDownloading, "How many threads that are downloading information from the server");
@@ -211,7 +209,7 @@
             // 
             this.lbRequesting.Location = new System.Drawing.Point(220, 41);
             this.lbRequesting.Name = "lbRequesting";
-            this.lbRequesting.Size = new System.Drawing.Size(101, 24);
+            this.lbRequesting.Size = new System.Drawing.Size(101, 27);
             this.lbRequesting.TabIndex = 18;
             this.lbRequesting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbRequesting, "How many threads that are requesting information from the server");
@@ -220,7 +218,7 @@
             // 
             this.label14.Location = new System.Drawing.Point(220, 16);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(101, 24);
+            this.label14.Size = new System.Drawing.Size(101, 27);
             this.label14.TabIndex = 13;
             this.label14.Text = "Requesting";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -229,7 +227,7 @@
             // 
             this.label15.Location = new System.Drawing.Point(113, 16);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(101, 24);
+            this.label15.Size = new System.Drawing.Size(101, 27);
             this.label15.TabIndex = 12;
             this.label15.Text = "Connecting";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -238,7 +236,7 @@
             // 
             this.label16.Location = new System.Drawing.Point(6, 16);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(101, 24);
+            this.label16.Size = new System.Drawing.Size(101, 27);
             this.label16.TabIndex = 11;
             this.label16.Text = "Idle";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -252,7 +250,7 @@
             // 
             this.lbConnecting.Location = new System.Drawing.Point(113, 41);
             this.lbConnecting.Name = "lbConnecting";
-            this.lbConnecting.Size = new System.Drawing.Size(101, 24);
+            this.lbConnecting.Size = new System.Drawing.Size(101, 27);
             this.lbConnecting.TabIndex = 17;
             this.lbConnecting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbConnecting, "How many threads that are trying to connect");
@@ -261,16 +259,16 @@
             // 
             this.lbIdle.Location = new System.Drawing.Point(6, 41);
             this.lbIdle.Name = "lbIdle";
-            this.lbIdle.Size = new System.Drawing.Size(101, 24);
+            this.lbIdle.Size = new System.Drawing.Size(101, 27);
             this.lbIdle.TabIndex = 16;
             this.lbIdle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbIdle, "How many threads that are without work. Should be 0");
             // 
             // txtTarget
             // 
-            this.txtTarget.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
+            this.txtTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
             this.txtTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTarget.Font = new System.Drawing.Font("Arial", 48F, ((System.Drawing.FontStyle) ((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtTarget.Font = new System.Drawing.Font("Arial", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTarget.ForeColor = System.Drawing.Color.Azure;
             this.txtTarget.Location = new System.Drawing.Point(6, 19);
             this.txtTarget.Name = "txtTarget";
@@ -283,12 +281,12 @@
             // 
             // cmdAttack
             // 
-            this.cmdAttack.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (32)))), ((int) (((byte) (64)))), ((int) (((byte) (96)))));
-            this.cmdAttack.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cmdAttack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(64)))), ((int)(((byte)(96)))));
+            this.cmdAttack.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdAttack.ForeColor = System.Drawing.Color.Azure;
             this.cmdAttack.Location = new System.Drawing.Point(6, 19);
             this.cmdAttack.Name = "cmdAttack";
-            this.cmdAttack.Size = new System.Drawing.Size(246, 50);
+            this.cmdAttack.Size = new System.Drawing.Size(246, 53);
             this.cmdAttack.TabIndex = 1;
             this.cmdAttack.Text = "IMMA CHARGIN MAH LAZER";
             this.TTip.SetToolTip(this.cmdAttack, "I sincerely hope you can guess what this button does.");
@@ -332,9 +330,9 @@
             // 
             // txtData
             // 
-            this.txtData.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
+            this.txtData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
             this.txtData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtData.ForeColor = System.Drawing.Color.Azure;
             this.txtData.Location = new System.Drawing.Point(330, 34);
             this.txtData.Name = "txtData";
@@ -346,9 +344,9 @@
             // 
             // txtSubsite
             // 
-            this.txtSubsite.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
+            this.txtSubsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
             this.txtSubsite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtSubsite.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSubsite.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSubsite.ForeColor = System.Drawing.Color.Azure;
             this.txtSubsite.Location = new System.Drawing.Point(62, 34);
             this.txtSubsite.Name = "txtSubsite";
@@ -360,9 +358,9 @@
             // 
             // cbMethod
             // 
-            this.cbMethod.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
+            this.cbMethod.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
             this.cbMethod.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cbMethod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cbMethod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbMethod.ForeColor = System.Drawing.Color.Azure;
             this.cbMethod.FormattingEnabled = true;
             this.cbMethod.Items.AddRange(new object[] {
@@ -386,7 +384,7 @@
             // 
             this.label13.Location = new System.Drawing.Point(327, 16);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(101, 24);
+            this.label13.Size = new System.Drawing.Size(101, 27);
             this.label13.TabIndex = 14;
             this.label13.Text = "Downloading";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -395,7 +393,7 @@
             // 
             this.label12.Location = new System.Drawing.Point(434, 16);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(101, 24);
+            this.label12.Size = new System.Drawing.Size(101, 27);
             this.label12.TabIndex = 15;
             this.label12.Text = "Downloaded";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -418,68 +416,59 @@
             this.groupBox5.Controls.Add(this.label15);
             this.groupBox5.Controls.Add(this.label16);
             this.groupBox5.ForeColor = System.Drawing.Color.LightBlue;
-            this.groupBox5.Location = new System.Drawing.Point(212, 408);
+            this.groupBox5.Location = new System.Drawing.Point(15, 442);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(758, 68);
+            this.groupBox5.Size = new System.Drawing.Size(758, 71);
             this.groupBox5.TabIndex = 17;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Attack status";
             // 
-            // pBanner
-            // 
-            this.pBanner.Image = global::GAS.Properties.Resources.loic;
-            this.pBanner.Location = new System.Drawing.Point(12, 14);
-            this.pBanner.Name = "pBanner";
-            this.pBanner.Size = new System.Drawing.Size(184, 462);
-            this.pBanner.TabIndex = 22;
-            this.pBanner.TabStop = false;
-            // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(212, 382);
+            this.label11.Location = new System.Drawing.Point(12, 374);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(23, 23);
+            this.label11.Size = new System.Drawing.Size(23, 26);
             this.label11.TabIndex = 21;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(212, 234);
+            this.label3.Location = new System.Drawing.Point(12, 226);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 23);
+            this.label3.Size = new System.Drawing.Size(23, 26);
             this.label3.TabIndex = 19;
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.cmdAttack);
             this.groupBox4.ForeColor = System.Drawing.Color.LightBlue;
-            this.groupBox4.Location = new System.Drawing.Point(712, 14);
+            this.groupBox4.Location = new System.Drawing.Point(512, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(258, 75);
+            this.groupBox4.Size = new System.Drawing.Size(258, 78);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "2. Ready?";
             // 
             // label10
             // 
-            this.label10.Location = new System.Drawing.Point(683, 11);
+            this.label10.Location = new System.Drawing.Point(483, 3);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(23, 23);
+            this.label10.Size = new System.Drawing.Size(23, 26);
             this.label10.TabIndex = 20;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(212, 92);
+            this.label5.Location = new System.Drawing.Point(12, 84);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 23);
+            this.label5.Size = new System.Drawing.Size(23, 26);
             this.label5.TabIndex = 18;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtTarget);
             this.groupBox2.ForeColor = System.Drawing.Color.LightBlue;
-            this.groupBox2.Location = new System.Drawing.Point(212, 118);
+            this.groupBox2.Location = new System.Drawing.Point(12, 110);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(758, 106);
+            this.groupBox2.Size = new System.Drawing.Size(758, 109);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Selected target";
@@ -488,7 +477,7 @@
             // 
             this.label4.Location = new System.Drawing.Point(327, 95);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 15);
+            this.label4.Size = new System.Drawing.Size(92, 18);
             this.label4.TabIndex = 31;
             this.label4.Text = "Sockets / Thread";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -497,7 +486,7 @@
             // 
             this.chkMsgRandom.Location = new System.Drawing.Point(437, 14);
             this.chkMsgRandom.Name = "chkMsgRandom";
-            this.chkMsgRandom.Size = new System.Drawing.Size(212, 18);
+            this.chkMsgRandom.Size = new System.Drawing.Size(212, 21);
             this.chkMsgRandom.TabIndex = 29;
             this.chkMsgRandom.Text = "Append random chars to the message";
             // 
@@ -517,7 +506,7 @@
             // 
             this.label18.Location = new System.Drawing.Point(328, 15);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(105, 16);
+            this.label18.Size = new System.Drawing.Size(105, 19);
             this.label18.TabIndex = 25;
             this.label18.Text = "TCP / UDP message:";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -526,7 +515,7 @@
             // 
             this.label17.Location = new System.Drawing.Point(62, 14);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(77, 17);
+            this.label17.Size = new System.Drawing.Size(77, 20);
             this.label17.TabIndex = 24;
             this.label17.Text = "HTTP Subsite:";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -535,7 +524,7 @@
             // 
             this.label9.Location = new System.Drawing.Point(6, 16);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(50, 15);
+            this.label9.Size = new System.Drawing.Size(50, 18);
             this.label9.TabIndex = 23;
             this.label9.Text = "Timeout";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -544,7 +533,7 @@
             // 
             this.label7.Location = new System.Drawing.Point(161, 94);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 15);
+            this.label7.Size = new System.Drawing.Size(57, 18);
             this.label7.TabIndex = 22;
             this.label7.Text = "Threads";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -553,7 +542,7 @@
             // 
             this.label6.Location = new System.Drawing.Point(64, 94);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 15);
+            this.label6.Size = new System.Drawing.Size(75, 18);
             this.label6.TabIndex = 21;
             this.label6.Text = "Method";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -562,7 +551,7 @@
             // 
             this.label8.Location = new System.Drawing.Point(6, 94);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 15);
+            this.label8.Size = new System.Drawing.Size(60, 18);
             this.label8.TabIndex = 20;
             this.label8.Text = "Port";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -571,7 +560,7 @@
             // 
             this.label20.Location = new System.Drawing.Point(362, 94);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(390, 15);
+            this.label20.Size = new System.Drawing.Size(390, 18);
             this.label20.TabIndex = 18;
             this.label20.Text = "<= faster     Speed     slower =>";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -600,9 +589,9 @@
             this.grp_Setting.Controls.Add(this.cbMethod);
             this.grp_Setting.Controls.Add(this.tbSpeed);
             this.grp_Setting.ForeColor = System.Drawing.Color.LightBlue;
-            this.grp_Setting.Location = new System.Drawing.Point(213, 249);
+            this.grp_Setting.Location = new System.Drawing.Point(13, 241);
             this.grp_Setting.Name = "grp_Setting";
-            this.grp_Setting.Size = new System.Drawing.Size(757, 130);
+            this.grp_Setting.Size = new System.Drawing.Size(757, 195);
             this.grp_Setting.TabIndex = 23;
             this.grp_Setting.TabStop = false;
             this.grp_Setting.Text = "3. Attack options";
@@ -692,12 +681,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (12)))), ((int) (((byte) (24)))), ((int) (((byte) (32)))));
-            this.ClientSize = new System.Drawing.Size(983, 486);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
+            this.ClientSize = new System.Drawing.Size(780, 525);
             this.Controls.Add(this.grp_Setting);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.pBanner);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox4);
@@ -711,17 +699,16 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.pBanner)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.grp_Setting.ResumeLayout(false);
             this.grp_Setting.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.nudSLPT)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.nudThreadNum)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.nudPort)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.nudTimeout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.tbSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSLPT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudThreadNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -752,7 +739,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.PictureBox pBanner;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox4;
