@@ -127,7 +127,7 @@
             this.txtTargetIP.Name = "txtTargetIP";
             this.txtTargetIP.Size = new System.Drawing.Size(319, 20);
             this.txtTargetIP.TabIndex = 3;
-            this.txtTargetIP.Text = "http://kremlin.ru";
+            this.txtTargetIP.Text = "http://beon.ru/p/login.cgi";
             this.TTip.SetToolTip(this.txtTargetIP, "If you know your target\'s IP, enter the IP here and click \"Lock on\"");
             // 
             // label1
@@ -377,7 +377,7 @@
             this.cbMethod.Name = "cbMethod";
             this.cbMethod.Size = new System.Drawing.Size(75, 22);
             this.cbMethod.TabIndex = 5;
-            this.cbMethod.Text = "ReCoil";
+            this.cbMethod.Text = "Post";
             this.TTip.SetToolTip(this.cbMethod, "What type of attack to launch");
             this.cbMethod.SelectedIndexChanged += new System.EventHandler(this.cbMethod_SelectedIndexChanged);
             // 
@@ -494,8 +494,6 @@
             // chkRandom
             // 
             this.chkRandom.AutoSize = true;
-            this.chkRandom.Checked = true;
-            this.chkRandom.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRandom.Location = new System.Drawing.Point(135, 13);
             this.chkRandom.Name = "chkRandom";
             this.chkRandom.Size = new System.Drawing.Size(185, 17);
@@ -631,7 +629,7 @@
             this.nudThreadNum.Size = new System.Drawing.Size(73, 20);
             this.nudThreadNum.TabIndex = 36;
             this.nudThreadNum.Value = new decimal(new int[] {
-            1000,
+            1,
             0,
             0,
             0});

