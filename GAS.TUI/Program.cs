@@ -9,6 +9,7 @@ namespace GAS.TUI
         static GAS.Core.Manager Core = new GAS.Core.Manager();
         public static void Main(string[] args)
         {
+            #region Detect oS
             string temp;
             if (Environment.OSVersion.Platform.ToString().ToLower().Contains("unix"))
                 if (Environment.UserName != "root")
@@ -25,8 +26,9 @@ namespace GAS.TUI
                         }
                         catch { }
                     }
-                    
+
                 }
+            #endregion
             Console.WriteLine("Select target[kremlin.ru]");
             temp = Console.ReadLine();
             temp = (temp == "" ? "kremlin.ru" : temp);

