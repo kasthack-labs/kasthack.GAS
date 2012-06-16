@@ -107,6 +107,7 @@ namespace GAS.Core
                     socket.Blocking = Resp;
                     States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
                     socket.Send(buf, SocketFlags.None);
+                    //socket.SendAsync(buf, SocketFlags.None);
                     #endregion
                     States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
                         Requested++;

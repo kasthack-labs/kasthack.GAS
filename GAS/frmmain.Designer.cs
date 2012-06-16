@@ -86,11 +86,11 @@
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grp_Setting.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSLPT)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudThreadNum)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudSLPT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudThreadNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.tbSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -108,7 +108,7 @@
             // 
             // cmdTargetIP
             // 
-            this.cmdTargetIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(64)))), ((int)(((byte)(96)))));
+            this.cmdTargetIP.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (32)))), ((int) (((byte) (64)))), ((int) (((byte) (96)))));
             this.cmdTargetIP.ForeColor = System.Drawing.Color.Azure;
             this.cmdTargetIP.Location = new System.Drawing.Point(388, 23);
             this.cmdTargetIP.Name = "cmdTargetIP";
@@ -120,7 +120,7 @@
             // 
             // txtTargetIP
             // 
-            this.txtTargetIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+            this.txtTargetIP.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
             this.txtTargetIP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtTargetIP.ForeColor = System.Drawing.Color.Azure;
             this.txtTargetIP.Location = new System.Drawing.Point(63, 23);
@@ -157,7 +157,7 @@
             this.lbFailed.TabIndex = 24;
             this.lbFailed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TTip.SetToolTip(this.lbFailed, "How many times (in total) the webserver didn\'t respond. High number = server down" +
-        ".");
+                    ".");
             // 
             // lbRequested
             // 
@@ -197,7 +197,7 @@
             // 
             // lbDownloading
             // 
-            this.lbDownloading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
+            this.lbDownloading.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (12)))), ((int) (((byte) (24)))), ((int) (((byte) (32)))));
             this.lbDownloading.Location = new System.Drawing.Point(327, 41);
             this.lbDownloading.Name = "lbDownloading";
             this.lbDownloading.Size = new System.Drawing.Size(101, 27);
@@ -266,9 +266,9 @@
             // 
             // txtTarget
             // 
-            this.txtTarget.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+            this.txtTarget.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
             this.txtTarget.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtTarget.Font = new System.Drawing.Font("Arial", 48F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTarget.Font = new System.Drawing.Font("Arial", 48F, ((System.Drawing.FontStyle) ((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtTarget.ForeColor = System.Drawing.Color.Azure;
             this.txtTarget.Location = new System.Drawing.Point(6, 19);
             this.txtTarget.Name = "txtTarget";
@@ -281,8 +281,8 @@
             // 
             // cmdAttack
             // 
-            this.cmdAttack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(64)))), ((int)(((byte)(96)))));
-            this.cmdAttack.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmdAttack.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (32)))), ((int) (((byte) (64)))), ((int) (((byte) (96)))));
+            this.cmdAttack.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.cmdAttack.ForeColor = System.Drawing.Color.Azure;
             this.cmdAttack.Location = new System.Drawing.Point(6, 19);
             this.cmdAttack.Name = "cmdAttack";
@@ -330,9 +330,9 @@
             // 
             // txtData
             // 
-            this.txtData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+            this.txtData.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
             this.txtData.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtData.ForeColor = System.Drawing.Color.Azure;
             this.txtData.Location = new System.Drawing.Point(330, 34);
             this.txtData.Name = "txtData";
@@ -344,9 +344,9 @@
             // 
             // txtSubsite
             // 
-            this.txtSubsite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+            this.txtSubsite.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
             this.txtSubsite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtSubsite.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSubsite.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtSubsite.ForeColor = System.Drawing.Color.Azure;
             this.txtSubsite.Location = new System.Drawing.Point(62, 34);
             this.txtSubsite.Name = "txtSubsite";
@@ -358,9 +358,9 @@
             // 
             // cbMethod
             // 
-            this.cbMethod.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(48)))), ((int)(((byte)(64)))));
+            this.cbMethod.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (24)))), ((int) (((byte) (48)))), ((int) (((byte) (64)))));
             this.cbMethod.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cbMethod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMethod.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.cbMethod.ForeColor = System.Drawing.Color.Azure;
             this.cbMethod.FormattingEnabled = true;
             this.cbMethod.Items.AddRange(new object[] {
@@ -372,7 +372,8 @@
             "RefRef",
             "AhrDosme",
             "SlowPost",
-            "Post"});
+            "Post",
+            "TMOF"});
             this.cbMethod.Location = new System.Drawing.Point(64, 69);
             this.cbMethod.Name = "cbMethod";
             this.cbMethod.Size = new System.Drawing.Size(75, 22);
@@ -685,7 +686,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (12)))), ((int) (((byte) (24)))), ((int) (((byte) (32)))));
             this.ClientSize = new System.Drawing.Size(780, 457);
             this.Controls.Add(this.grp_Setting);
             this.Controls.Add(this.groupBox1);
@@ -708,11 +709,11 @@
             this.groupBox2.PerformLayout();
             this.grp_Setting.ResumeLayout(false);
             this.grp_Setting.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSLPT)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudThreadNum)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPort)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudSLPT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudThreadNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.nudTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.tbSpeed)).EndInit();
             this.ResumeLayout(false);
 
         }

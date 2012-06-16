@@ -55,6 +55,7 @@ namespace GAS.Core
             StringBuilder temp = new StringBuilder(6000);
             for (int k = 0; k < 1300; temp.Append(",5-" + (k++))) ;
             this.AttackHeader = temp.ToString();
+            init = false;
             for (int i = 0; i < ThreadCount; i++)
                 (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
             init = true;
