@@ -309,6 +309,8 @@
             // chkUseGet
             // 
             this.chkUseGet.AutoSize = true;
+            this.chkUseGet.Checked = true;
+            this.chkUseGet.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseGet.Location = new System.Drawing.Point(655, 13);
             this.chkUseGet.Name = "chkUseGet";
             this.chkUseGet.Size = new System.Drawing.Size(68, 17);

