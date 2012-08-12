@@ -61,6 +61,7 @@ namespace GAS.Core
                     {
                         csockets++;
                         rSocket s = new rSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                        s.NoDelay=  true;
                         s.Connect(Target, Port);
                         s.Shutdown(SocketShutdown.Receive);
                         s.Send(handshake);
@@ -76,7 +77,6 @@ namespace GAS.Core
         public override void Stop()
         {
             IsFlooding = false;
-            //throw new NotImplementedException();
         }
     }
 }
