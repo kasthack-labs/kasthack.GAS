@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Timers;
 namespace GAS.TUI
 {
     class Program
     {
+        static DateTime d;
         static string[] Blacklist = new string[] { "epicm.org", "localhost","127.0.0", "192.168."};
         static GAS.Core.Manager Core = new GAS.Core.Manager();
         public static void Main(string[] args)
         {
+            try { Console.Title = "GAS for urkaine"; }
+            catch { }
             #region Detect oS
             string temp;
             if (Environment.OSVersion.Platform.ToString().ToLower().Contains("unix"))
@@ -74,36 +77,58 @@ namespace GAS.TUI
             Core.AppendRANDOMCharsUrl = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
             Console.WriteLine("Starting attack");
             #endregion
+#region Start and stop
             Core.Start();
-            Console.WriteLine("Attacking...");
-            Console.WriteLine("Press Enter stop attack and exit");
-            Thread t = new Thread(new ThreadStart(stats));
+            d = DateTime.Now;
+            Console.Clear();
+            Timer t = new System.Timers.Timer();
+            t.Interval = 500;
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
             t.Start();
+            //attack started
+            #region Cool UI
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("GAS 4 anon by github.com/kasthack");
+                Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++");
+                try
+                {
+                    Console.SetCursorPosition(0, 6);
+                }
+                catch { }
+                Console.WriteLine("Attacking...");
+                Console.WriteLine("Press Enter stop attack and exit");
+            #endregion
             Console.ReadLine();
+            Console.WriteLine("Exiting, please wait");
+            t.Stop();
             Core.Stop();
-            t.Abort();
+            Console.Clear();
+#endregion
         }
-        static void stats()
+
+        static void t_Elapsed(object sender, ElapsedEventArgs argZ)
         {
-            DateTime d = DateTime.Now;
-            Console.WriteLine();
-            int x = Console.CursorLeft,y=Console.CursorTop,w=Console.WindowWidth;
+            int x = Console.CursorLeft, y = Console.CursorTop, w = Console.WindowWidth;
             char[] e = new char[w];
             string s;
             int ind = 0;
-            for (int i=0;i<w;e[i++]=' ');
-            while (true)
+            for (int i = 0; i < w; e[i++] = ' ') ;
+            try
             {
-                Console.SetCursorPosition(x,y);
-                Console.WriteLine(e);
-                Console.WriteLine(e);
-                Console.SetCursorPosition(x, y);
-                Console.WriteLine("Time elapsed\tSent\tReceived\tFailed");
-                s = DateTime.Now.Subtract(d).ToString();
-                s = s.Substring(0, (ind=s.LastIndexOfAny(new char[]{'.',','}))>0?ind:s.Length);
-                Console.WriteLine("{0}\t{1}\t{2}\t\t{3}",s,Core.Requested,Core.Downloaded,Core.Failed);
-                Thread.Sleep(500);
+                Console.SetCursorPosition(0, 3);
             }
+            catch { }
+            Console.WriteLine(e);
+            Console.WriteLine(e);
+            try
+            {
+                Console.SetCursorPosition(0, 3);
+            }
+            catch { }
+            Console.WriteLine("Time elapsed\tSent\tReceived\tFailed");
+            s = DateTime.Now.Subtract(d).ToString();
+            s = s.Substring(0, (ind = s.LastIndexOfAny(new char[] { '.', ',' })) > 0 ? ind : s.Length);
+            Console.WriteLine("{0}\t{1}\t{2}\t\t{3}", s, Core.Requested, Core.Downloaded, Core.Failed);
         }
     }
 }
