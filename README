@@ -3,3 +3,13 @@ GAS
 GAS is opensource stress-test tool originally based on IRC-LOIC(github.com/neweracracker/loic)
 
 Please [s]don't[/s] attack governments' servers. Their agents will kill me).
+
+
+TODO
+++++++++++++++++++++++++
+1) Rewrite attack methods using async IO
+2) Add support of setting any http field: host/cookie/referrer/etc
+3) Add attack exporting/importing
+4) Add working stats
+5) Add multitargetting
+6)
