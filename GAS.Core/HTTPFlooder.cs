@@ -39,7 +39,6 @@ namespace GAS.Core
                     this.IP = Dns.GetHostAddresses(dns)[0];
                 }
                 catch { this.IPOrDns = false; }
-                //this.IPOrDns = false;
             }
             try { this.DNS = dns; }
             catch { this.DNS = this.IP.ToString(); }
@@ -53,7 +52,6 @@ namespace GAS.Core
             States = new ReqState[ThreadCount];
             this.SPT = connections_per_thread;
             _attacktype = attacktype;
-
         }
         public override void Start()
         {
@@ -72,10 +70,7 @@ namespace GAS.Core
         {
             while (!init) Thread.Sleep(100);//i know it's bad 
             int MY_INDEX_FOR_WORK = (int) indexinthreads;
-            //if (this.SPT==1)
-            //    NoSyncAttack(MY_INDEX_FOR_WORK);   
-            //else
-                AsyncAttack(MY_INDEX_FOR_WORK);
+            AsyncAttack(MY_INDEX_FOR_WORK);
         }
         private void NoSyncAttack(int MY_INDEX_FOR_WORK)
         {
