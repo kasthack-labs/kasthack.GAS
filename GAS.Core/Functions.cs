@@ -85,6 +85,7 @@ namespace GAS.Core
         {
             return input;
         }
+        /*character functions*/
         static char[] __random_string_gen(StringFormat f, int MinLen, int MaxLen)
         {/*
             int cnt = random.Next(MinLen, MaxLen + 1),c_len=1;
@@ -196,6 +197,95 @@ namespace GAS.Core
                 output[i++] = '%';
                 output[i++] = hex_chars[(rnd >> 4) & 0xf];
                 output[i++] = hex_chars[rnd & 0xf];
+            }
+            return output;
+        }
+        /*same but with bytes*/
+        public byte[] int_to_hex_string_bytes(long i)
+        {
+            if (i == 0) return new byte[] { (byte)'0' };
+            int sz = 0;
+            if (i < 0)
+            {
+                sz++;
+                i *= -1;
+            }
+            long copy = i;
+            while ((i >>= 4) > 0) sz++;
+            byte[] output = new byte[sz + 1];
+            output[0] = (byte)'-';
+            do output[sz--] = (byte)hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            return output;
+        }
+        public byte[] int_to_dec_string_bytes(long i)
+        {
+            if (i == 0) return new byte[] { (byte)'0' };
+            int sz = 0;
+            if (i < 0)
+            {
+                sz++;
+                i *= -1;
+            }
+            long copy = i;
+            while ((i /= 10) > 0) sz++;
+            byte[] output = new byte[sz + 1];
+            output[0] = (byte)'-';
+            do output[sz--] = (byte)(copy % 10 + 48); while ((copy /= 10) > 0);
+            return output;
+        }
+        public byte[] int_to_hex_string_bytes(int i)
+        {
+            if (i == 0) return new byte[] { (byte)'0' };
+            int sz = 0;
+            if (i < 0)
+            {
+                sz++;
+                i *= -1;
+            }
+            int copy = i;
+            while ((i >>= 4) > 0) sz++;
+            byte[] output = new byte[sz + 1];
+            output[0] = (byte)'-';
+            do output[sz--] = (byte)hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            return output;
+        }
+        public byte[] int_to_dec_string_bytes(int i)
+        {
+            if (i == 0) return new byte[] { (byte)'0' };
+            int sz = 0;
+            if (i < 0)
+            {
+                sz++;
+                i *= -1;
+            }
+            int copy = i;
+            while ((i /= 10) > 0) sz++;
+            byte[] output = new byte[sz + 1];
+            output[0] = (byte)'-';
+            do output[sz--] = (byte)(copy % 10 + 48); while ((copy /= 10) > 0);
+            return output;
+        }
+        public byte[] random_ascii_bytes(int min_len, int max_len)
+        {
+            int rnd = random.Next(min_len, max_len + 1);
+            byte[] output = new byte[rnd];
+            for (int i = 0; i < rnd; output[i++] = (byte)ascii_chars[random.Next(ascii_char_count)]) ;
+            return output;
+        }
+        public byte[] random_utf_urlencode_string_bytes(int min_real_len, int max_real_len)
+        {
+            int len = random.Next(max_real_len, max_real_len) * 6;
+            byte[] output = new byte[len];
+            ushort rnd = 0;
+            for (int i = 0; i < len; )
+            {
+                rnd = (ushort)random.Next(1, 65535);
+                output[i++] = (byte)'%';
+                output[i++] = (byte)hex_chars[rnd >> 12];
+                output[i++] = (byte)hex_chars[(rnd >> 8) & 0xf];
+                output[i++] = (byte)'%';
+                output[i++] = (byte)hex_chars[(rnd >> 4) & 0xf];
+                output[i++] = (byte)hex_chars[rnd & 0xf];
             }
             return output;
         }
