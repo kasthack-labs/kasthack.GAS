@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GAS.Core
 {
-    class IntExpression:IExpression
+    public class IntExpression:IExpression
     {
         public NumberFormat Format;
         public int Min, Max;

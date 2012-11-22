@@ -54,6 +54,7 @@
     <Compile Include="ReCoil.cs" />
     <Compile Include="rSocket.cs" />
     <Compile Include="SlowLoic.cs" />
+    <Compile Include="StaticASCIIStringExpression.cs" />
     <Compile Include="StringFormat.cs" />
     <Compile Include="TMOF.cs" />
   </ItemGroup>
