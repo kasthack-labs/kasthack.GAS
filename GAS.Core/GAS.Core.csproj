@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharExpression.cs" />
+    <Compile Include="NumberFormat.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="GAS.Core.cs" />
     <Compile Include="IExpression.cs" />
