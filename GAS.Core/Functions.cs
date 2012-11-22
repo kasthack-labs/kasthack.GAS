@@ -9,6 +9,8 @@ namespace GAS.Core
         int ascii_char_count = 0;
         char[] hex_chars = "0123456789abcdef".ToCharArray();
         char[] ascii_chars;
+        byte[] ascii_chars_bytes;
+        byte[] hex_chars_bytes;
         ushort[] offsets = { 0, 0, 33, 48, 65, 97 };
         ushort[] lengs = { 65535, 32, 32, 10, 26, 26 };
 

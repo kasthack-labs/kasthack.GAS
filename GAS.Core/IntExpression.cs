@@ -8,20 +8,30 @@ namespace GAS.Core
 {
     class IntExpression:IExpression
     {
-        NumberFormat Format;
+        public NumberFormat Format;
+        public int Min, Max;
+        Functions funcs;
+        Random rnd;
+        public IntExpression(Functions _funcs, Random _rnd=null)
+        {
+            rnd = _rnd==null?new Random():_rnd;
+            funcs = _funcs;
+        }
         public string GetString()
         {
-            throw new NotImplementedException();
+            return new string(Format == NumberFormat.Decimal ? funcs.int_to_dec_string(rnd.Next(Min,Max+1)) :
+                                    funcs.int_to_hex_string(rnd.Next(Min, Max + 1)));
         }
 
         public char[] GetChars()
         {
-            throw new NotImplementedException();
+            return Format == NumberFormat.Decimal ? funcs.int_to_dec_string(rnd.Next(Min, Max + 1)) :
+                                    funcs.int_to_hex_string(rnd.Next(Min, Max + 1));
         }
 
         public byte[] GetEncodingBytes(Encoding enc)
         {
-            throw new NotImplementedException();
+            return 
         }
     }
 }
