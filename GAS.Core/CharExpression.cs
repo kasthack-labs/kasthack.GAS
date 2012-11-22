@@ -30,5 +30,11 @@ namespace GAS.Core
         {
             return enc.GetBytes(new char[] { (char)rnd.Next(Min, Max + 1) });
         }
+
+
+        public byte[] GetAsciiBytes()
+        {
+            return new byte[] { (byte)rnd.Next(Min, Max) };
+        }
     }
 }

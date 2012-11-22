@@ -8,6 +8,7 @@ namespace GAS.Core
     {
         public string GetString();
         public char[] GetChars();
+        public byte[] GetAsciiBytes();
         public byte[] GetEncodingBytes(Encoding enc);
     }
 }

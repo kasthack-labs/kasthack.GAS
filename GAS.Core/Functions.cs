@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace GAS.Core
 {
     public class Functions
@@ -24,6 +24,8 @@ namespace GAS.Core
             ascii_char_count = ascii_chars.Length;
             _tmp.Clear();
             _tmp = null;
+            ascii_chars_bytes = ascii_chars.Cast<byte>().ToArray();
+            hex_chars_bytes = hex_chars.Cast<byte>().ToArray();
         }
         public static string RandomString()
         {
@@ -205,7 +207,7 @@ namespace GAS.Core
             while ((i >>= 4) > 0) sz++;
             byte[] output = new byte[sz + 1];
             output[0] = (byte)'-';
-            do output[sz--] = (byte)hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            do output[sz--] = hex_chars_bytes[copy & 0x0fL]; while ((copy >>= 4) > 0);
             return output;
         }
         public byte[] int_to_dec_string_bytes(long i)
@@ -237,7 +239,7 @@ namespace GAS.Core
             while ((i >>= 4) > 0) sz++;
             byte[] output = new byte[sz + 1];
             output[0] = (byte)'-';
-            do output[sz--] = (byte)hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            do output[sz--] = hex_chars_bytes[copy & 0x0fL]; while ((copy >>= 4) > 0);
             return output;
         }
         public byte[] int_to_dec_string_bytes(int i)
@@ -260,7 +262,7 @@ namespace GAS.Core
         {
             int rnd = random.Next(min_len, max_len + 1);
             byte[] output = new byte[rnd];
-            for (int i = 0; i < rnd; output[i++] = (byte)ascii_chars[random.Next(ascii_char_count)]) ;
+            for (int i = 0; i < rnd; output[i++] = ascii_chars_bytes[random.Next(ascii_char_count)]) ;
             return output;
         }
         public byte[] random_utf_urlencode_string_bytes(int min_real_len, int max_real_len)
@@ -268,15 +270,16 @@ namespace GAS.Core
             int len = random.Next(max_real_len, max_real_len) * 6;
             byte[] output = new byte[len];
             ushort rnd = 0;
+            byte percent =(byte)'%';
             for (int i = 0; i < len; )
             {
                 rnd = (ushort)random.Next(1, 65535);
-                output[i++] = (byte)'%';
-                output[i++] = (byte)hex_chars[rnd >> 12];
-                output[i++] = (byte)hex_chars[(rnd >> 8) & 0xf];
-                output[i++] = (byte)'%';
-                output[i++] = (byte)hex_chars[(rnd >> 4) & 0xf];
-                output[i++] = (byte)hex_chars[rnd & 0xf];
+                output[i++] = percent;
+                output[i++] = hex_chars_bytes[rnd >> 12];
+                output[i++] = hex_chars_bytes[(rnd >> 8) & 0xf];
+                output[i++] = percent;
+                output[i++] = hex_chars_bytes[(rnd >> 4) & 0xf];
+                output[i++] = hex_chars_bytes[rnd & 0xf];
             }
             return output;
         }

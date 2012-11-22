@@ -31,7 +31,15 @@ namespace GAS.Core
 
         public byte[] GetEncodingBytes(Encoding enc)
         {
-            return 
+            return enc.GetBytes(Format == NumberFormat.Decimal ? funcs.int_to_dec_string(rnd.Next(Min, Max + 1)) :
+                                    funcs.int_to_hex_string(rnd.Next(Min, Max + 1)));
+        }
+
+
+        public byte[] GetAsciiBytes()
+        {
+            return Format == NumberFormat.Decimal ? funcs.int_to_dec_string_bytes(rnd.Next(Min, Max + 1)) :
+                                    funcs.int_to_hex_string_bytes(rnd.Next(Min, Max + 1));
         }
     }
 }
