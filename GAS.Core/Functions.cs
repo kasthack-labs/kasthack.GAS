@@ -5,17 +5,6 @@ namespace GAS.Core
 {
     public class Functions
     {
-        enum StringFormat
-        {
-            UpperCase,
-            LowerCase,
-            Digits,
-            Punctuation,
-            Special,
-            Random,
-            Urlencode
-        }
-
         static Random random = new Random();
         int ascii_char_count = 0;
         char[] hex_chars = "0123456789abcdef".ToCharArray();
@@ -73,7 +62,7 @@ namespace GAS.Core
         ///             0 - digits
         ///             s - punctuation
         ///             S - special
-        ///             Z - random unicode
+        ///             u - random unicode
         ///             U - urlencode string
         ///         Example:
         ///         {#string:Aa0s:3:1000#}

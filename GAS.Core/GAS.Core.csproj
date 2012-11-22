@@ -35,8 +35,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharExpression.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="GAS.Core.cs" />
+    <Compile Include="IExpression.cs" />
+    <Compile Include="IntExpression.cs" />
     <Compile Include="PostAttacks.cs" />
     <Compile Include="HTTPFlooder.cs" />
     <Compile Include="IAttacker.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="ReCoil.cs" />
     <Compile Include="rSocket.cs" />
     <Compile Include="SlowLoic.cs" />
+    <Compile Include="StringFormat.cs" />
     <Compile Include="TMOF.cs" />
   </ItemGroup>
   <ItemGroup>
