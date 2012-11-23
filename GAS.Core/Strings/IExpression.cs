@@ -10,5 +10,6 @@ namespace GAS.Core
         public char[] GetChars();
         public byte[] GetAsciiBytes();
         public byte[] GetEncodingBytes(Encoding enc);
+        
     }
 }

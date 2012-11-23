@@ -6,26 +6,26 @@ namespace GAS.Core
     public class Functions
     {
         static Random random = new Random();
-        int ascii_char_count = 0;
-        char[] hex_chars = "0123456789abcdef".ToCharArray();
-        char[] ascii_chars;
-        byte[] ascii_chars_bytes;
-        byte[] hex_chars_bytes;
-        ushort[] offsets = { 0, 0, 33, 48, 65, 97 };
-        ushort[] lengs = { 65535, 32, 32, 10, 26, 26 };
+        //magic!
+        //public jfl
+        public static char[] _hex_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        public static char[] _ascii_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+                                            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                            'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+                                            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                                            '!','"','#','$','%','&','\'','(',')','*','+',',','-','.','/',':',';',
+                                            '<','=','>','?','@','[','\\',']','^','_','`','{','|','}','~'};
+        public static byte[] _ascii_chars_bytes = { 48,49,50,51,52,53,54,55,56,57,97,98,99,100,101,102,103,104,105,106,107,
+                                                      108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,65,66,67,
+                                                      68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,
+                                                      33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,58,59,60,61,62,63,64,91,
+                                                      92,93,94,95,96,123,124,125,126};
+        public static byte[] _hex_chars_bytes = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,};
+        public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
+        public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
 
         public Functions()
         {
-            List<char> _tmp = new List<char>(100);
-            for (char c = '0'; c <= '9'; _tmp.Add(c++)) ;
-            for (char c = 'a'; c <= 'z'; _tmp.Add(c++)) ;
-            for (char c = 'A'; c <= 'Z'; _tmp.Add(c++)) ;
-            this.ascii_chars = _tmp.ToArray();
-            ascii_char_count = ascii_chars.Length;
-            _tmp.Clear();
-            _tmp = null;
-            ascii_chars_bytes = ascii_chars.Cast<byte>().ToArray();
-            hex_chars_bytes = hex_chars.Cast<byte>().ToArray();
         }
         public static string RandomString()
         {
@@ -118,7 +118,7 @@ namespace GAS.Core
             while ((i >>= 4) > 0) sz++;
             char[] output = new char[sz + 1];
             output[0] = '-';
-            do output[sz--] = hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            do output[sz--] = _hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
             return output;
         }
         public char[] int_to_dec_string(long i)
@@ -134,7 +134,7 @@ namespace GAS.Core
             while ((i /= 10) > 0) sz++;
             char[] output = new char[sz + 1];
             output[0] = '-';
-            do output[sz--] = hex_chars[copy % 10]; while ((copy /= 10) > 0);
+            do output[sz--] = _hex_chars[copy % 10]; while ((copy /= 10) > 0);
             return output;
         }
         public char[] int_to_hex_string(int i)
@@ -150,7 +150,7 @@ namespace GAS.Core
             while ((i >>= 4) > 0) sz++;
             char[] output = new char[sz + 1];
             output[0] = '-';
-            do output[sz--] = hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            do output[sz--] = _hex_chars[copy & 0x0fL]; while ((copy >>= 4) > 0);
             return output;
         }
         public char[] int_to_dec_string(int i)
@@ -166,14 +166,18 @@ namespace GAS.Core
             while ((i /= 10) > 0) sz++;
             char[] output = new char[sz + 1];
             output[0] = '-';
-            do output[sz--] = hex_chars[copy % 10]; while ((copy /= 10) > 0);
+            do output[sz--] = _hex_chars[copy % 10]; while ((copy /= 10) > 0);
             return output;
         }
         public char[] random_ascii(int min_len, int max_len)
         {
+            return random_ascii(min_len, max_len, _ascii_chars, 0, _ascii_chars.Length);
+        }
+        public char[] random_ascii(int min_len, int max_len, char[] source, int startindex, int maxindex)
+        {
             int rnd = random.Next(min_len, max_len + 1);
             char[] output = new char[rnd];
-            for (int i = 0; i < rnd; output[i++] = ascii_chars[random.Next(ascii_char_count)]) ;
+            for (int i = 0; i < rnd; output[i++] = _ascii_chars[random.Next(startindex,maxindex+1)]) ;
             return output;
         }
         public char[] random_utf_urlencode_string(int min_real_len, int max_real_len)
@@ -185,11 +189,11 @@ namespace GAS.Core
             {
                 rnd = (ushort)random.Next(1, 65535);
                 output[i++] = '%';
-                output[i++] = hex_chars[rnd >> 12];
-                output[i++] = hex_chars[(rnd >> 8) & 0xf];
+                output[i++] = _hex_chars[rnd >> 12];
+                output[i++] = _hex_chars[(rnd >> 8) & 0xf];
                 output[i++] = '%';
-                output[i++] = hex_chars[(rnd >> 4) & 0xf];
-                output[i++] = hex_chars[rnd & 0xf];
+                output[i++] = _hex_chars[(rnd >> 4) & 0xf];
+                output[i++] = _hex_chars[rnd & 0xf];
             }
             return output;
         }
@@ -207,7 +211,7 @@ namespace GAS.Core
             while ((i >>= 4) > 0) sz++;
             byte[] output = new byte[sz + 1];
             output[0] = (byte)'-';
-            do output[sz--] = hex_chars_bytes[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            do output[sz--] = _hex_chars_bytes[copy & 0x0fL]; while ((copy >>= 4) > 0);
             return output;
         }
         public byte[] int_to_dec_string_bytes(long i)
@@ -239,7 +243,7 @@ namespace GAS.Core
             while ((i >>= 4) > 0) sz++;
             byte[] output = new byte[sz + 1];
             output[0] = (byte)'-';
-            do output[sz--] = hex_chars_bytes[copy & 0x0fL]; while ((copy >>= 4) > 0);
+            do output[sz--] = _hex_chars_bytes[copy & 0x0fL]; while ((copy >>= 4) > 0);
             return output;
         }
         public byte[] int_to_dec_string_bytes(int i)
@@ -260,9 +264,14 @@ namespace GAS.Core
         }
         public byte[] random_ascii_bytes(int min_len, int max_len)
         {
+            return random_ascii_bytes(min_len, max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length-1);
+        }
+        public byte[] random_ascii_bytes(int min_len, int max_len, byte[] source,int startindex,int maxindex)
+        {
+            maxindex++;
             int rnd = random.Next(min_len, max_len + 1);
             byte[] output = new byte[rnd];
-            for (int i = 0; i < rnd; output[i++] = ascii_chars_bytes[random.Next(ascii_char_count)]) ;
+            for (int i = 0; i < rnd; output[i++] = source[random.Next(startindex,maxindex+1)]) ;
             return output;
         }
         public byte[] random_utf_urlencode_string_bytes(int min_real_len, int max_real_len)
@@ -275,11 +284,11 @@ namespace GAS.Core
             {
                 rnd = (ushort)random.Next(1, 65535);
                 output[i++] = percent;
-                output[i++] = hex_chars_bytes[rnd >> 12];
-                output[i++] = hex_chars_bytes[(rnd >> 8) & 0xf];
+                output[i++] = _hex_chars_bytes[rnd >> 12];
+                output[i++] = _hex_chars_bytes[(rnd >> 8) & 0xf];
                 output[i++] = percent;
-                output[i++] = hex_chars_bytes[(rnd >> 4) & 0xf];
-                output[i++] = hex_chars_bytes[rnd & 0xf];
+                output[i++] = _hex_chars_bytes[(rnd >> 4) & 0xf];
+                output[i++] = _hex_chars_bytes[rnd & 0xf];
             }
             return output;
         }

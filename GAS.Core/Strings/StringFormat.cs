@@ -2,12 +2,13 @@
 {
     public enum StringFormat
     {
-        UpperCase,
-        LowerCase,
-        Digits,
-        Punctuation,
-        Special,
-        Random,
-        Urlencode
+        Decimal,        //0-9
+        Hexadecimal,    //0-f
+        Letters,        //a-Z
+        LowerCase,      //a-z
+        Random,         //*
+        Std,            //0-Z
+        UpperCase,      //A-Z
+        Urlencode       //full UTF-8
     }
 }

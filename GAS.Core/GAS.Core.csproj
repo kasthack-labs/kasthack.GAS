@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Strings\StringExpression.cs" />
     <Compile Include="Strings\CharExpression.cs" />
     <Compile Include="Strings\NumberFormat.cs" />
     <Compile Include="Strings\Functions.cs" />
@@ -67,6 +68,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

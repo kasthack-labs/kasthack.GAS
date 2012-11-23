@@ -59,35 +59,5 @@ namespace GAS.Core.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] _128mz {
-            get {
-                object obj = ResourceManager.GetObject("_128mz", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] _1gz {
-            get {
-                object obj = ResourceManager.GetObject("_1gz", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] _256mz {
-            get {
-                object obj = ResourceManager.GetObject("_256mz", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
