@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Strings\FormattedStringGenerator.cs" />
     <Compile Include="Strings\StringExpression.cs" />
     <Compile Include="Strings\CharExpression.cs" />
     <Compile Include="Strings\NumberFormat.cs" />

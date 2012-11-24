@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-namespace GAS.Core
+using GAS.Core.Strings;
+using GAS.Core;
+namespace GAS.Core.Strings
 {
     public class StringExpression:IExpression
     {

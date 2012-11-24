@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace GAS.Core
+using GAS.Core.Strings;
+using GAS.Core;
+namespace GAS.Core.Strings
 {
     public class Functions
     {
+        #region Variables
         static Random random = new Random();
         //magic!
         //public jfl
@@ -23,7 +26,7 @@ namespace GAS.Core
         public static byte[] _hex_chars_bytes = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,};
         public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
         public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
-
+        #endregion
         public Functions()
         {
         }
@@ -51,30 +54,43 @@ namespace GAS.Core
         /// <summary>
         /// Generate random string
         /// syntax:
-        ///     {#i:from:to:type#} - integer
-        ///         default:dec
-        ///         hex - 0x....
-        ///     Example:
-        ///         {#int:0:1000:dec#}
-        ///     {#c:from:to#} -character
-        ///     Example
-        ///         {#char:1:65535#}
-        ///     {#s:type:min_length:max_length#} -string
-        ///         type(may be combined)
-        ///             A - uppercase ASCII
-        ///             a - lowercase ASCII
-        ///             0 - digits
-        ///             s - punctuation
-        ///             S - special
-        ///             u - random unicode
-        ///             U - urlencode string
+        ///     {#I:from:to:type#} - integer
+        ///         type
+        ///             D:dec
+        ///             H- 0x....
         ///         Example:
-        ///         {#string:Aa0s:3:1000#}
+        ///             {#int:0:1000:D#}
+        ///         Result example
+        ///             384
+        ///     {#C:from:to#} -character
+        ///         Example
+        ///             {#C:1:65535#}
+        ///         Result example
+        ///             Ё
+        ///     {#S:type:min_length:max_length#} -string
+        ///         type
+        ///             D,      //0-9
+        ///             H,      //0-f
+        ///             L,      //a-Z
+        ///             a,      //a-z
+        ///             R,      //*
+        ///             S,      //0-Z
+        ///             A,      //A-Z
+        ///             U       //full UTF-8
+        ///         Example:
+        ///             {#S:a:3:1000#}
+        ///         Result example
+        ///             gfdfyhtueyrstgdfggfr
+        ///     {#E:{expressions}:min_count:max_count#} - mutiple generator invocation
+        ///         Example
+        ///             {#E:{{#S:L:1:5#}={#S:U:1:50#}&}:1:5#}
+        ///         Result example
+        ///             werf=%A1%B3&tjy=%5F%9C%2D%42%A1%B3&ertg=%39%7E%E8%B2&
         /// Warning! string will NOT be validated
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static string RandomFormattedString(string input)
+        public static FormattedStringGenerator RandomFormattedString(string input)
         {
             return input;
         }

@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-
-namespace GAS.Core
+using GAS.Core.Strings;
+using GAS.Core;
+namespace GAS.Core.Strings
 {
     public class IntExpression:IExpression
     {
