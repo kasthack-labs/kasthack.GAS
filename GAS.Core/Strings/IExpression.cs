@@ -6,10 +6,10 @@ namespace GAS.Core
 {
     public interface IExpression
     {
-        public string GetString();
-        public char[] GetChars();
-        public byte[] GetAsciiBytes();
-        public byte[] GetEncodingBytes(Encoding enc);
+        string GetString();
+        char[] GetChars();
+        byte[] GetAsciiBytes();
+        byte[] GetEncodingBytes(Encoding enc);
         
     }
 }

@@ -110,7 +110,7 @@ namespace GAS.Core
                     output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._ascii_chars, 10, 35));
                     break;
                 case StringFormat.Random:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max);
+                    output = enc.GetBytes( funcs.random_ascii(Min, Max));
                     break;
                 case StringFormat.Std:
                     output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._ascii_chars, 0, 61));
