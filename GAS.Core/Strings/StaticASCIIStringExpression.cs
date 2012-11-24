@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using GAS.Core.Strings;
 using GAS.Core;
-namespace GAS.Core
+namespace GAS.Core.Strings
 {
     public class StaticASCIIStringExpression:IExpression
     {

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using GAS.Core.Strings;
 namespace GAS.Core
 {
     public class PacketFlood:IAttacker

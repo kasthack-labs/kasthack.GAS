@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using GAS.Core.Strings;
 #endregion
 namespace GAS.Core
 {

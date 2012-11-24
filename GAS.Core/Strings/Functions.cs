@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using GAS.Core.Strings;
 using GAS.Core;
 namespace GAS.Core.Strings
@@ -9,23 +10,29 @@ namespace GAS.Core.Strings
     {
         #region Variables
         static Random random = new Random();
-        //magic!
-        //public jfl
-        public static char[] _hex_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-        public static char[] _ascii_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
-                                            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-                                            'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-                                            'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                                            '!','"','#','$','%','&','\'','(',')','*','+',',','-','.','/',':',';',
-                                            '<','=','>','?','@','[','\\',']','^','_','`','{','|','}','~'};
-        public static byte[] _ascii_chars_bytes = { 48,49,50,51,52,53,54,55,56,57,97,98,99,100,101,102,103,104,105,106,107,
-                                                      108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,65,66,67,
-                                                      68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,
-                                                      33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,58,59,60,61,62,63,64,91,
-                                                      92,93,94,95,96,123,124,125,126};
-        public static byte[] _hex_chars_bytes = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,};
-        public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
-        public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
+        #region magic!
+            //public jfl
+            public static char[] _hex_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+            public static char[] _ascii_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+                                                'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                                                'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+                                                'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                                                '!','"','#','$','%','&','\'','(',')','*','+',',','-','.','/',':',';',
+                                                '<','=','>','?','@','[','\\',']','^','_','`','{','|','}','~'};
+            public static byte[] _ascii_chars_bytes = { 48,49,50,51,52,53,54,55,56,57,97,98,99,100,101,102,103,104,105,106,107,
+                                                          108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,65,66,67,
+                                                          68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,
+                                                          33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,58,59,60,61,62,63,64,91,
+                                                          92,93,94,95,96,123,124,125,126};
+            public static byte[] _hex_chars_bytes = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102,};
+            public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
+            public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
+        #endregion
+        static Regex AnyExpressionRegex = new Regex(@"\{#[RICS](:[a-zA-Z]|\{$$.*$$\})?:[0-9]+:[0-9]+#\}");
+        static Regex IntExpressionRegex = new Regex(@"\{#I:[DH]:[0-9]+:[0-9]+#\}");
+        static Regex CharExpressionRegex = new Regex(@"\{#C:[0-9]+:[0-9]+#\}");
+        static Regex StringExpressionRegex = new Regex(@"\{#S:[DHLaRSAU]:[0-9]+:[0-9]+#\}");
+        static Regex ExpressionRegex = new Regex(@"\{#E:\{$$.*$$\}:[0-9]+:[0-9]+#\}");
         #endregion
         public Functions()
         {
@@ -54,20 +61,23 @@ namespace GAS.Core.Strings
         /// <summary>
         /// Generate random string
         /// syntax:
-        ///     {#I:from:to:type#} - integer
+        ///     {#I:type:from:to#} - integer
+        ///     \{#I:[DH]:[0-9]+:[0-9]+#\}
         ///         type
         ///             D:dec
         ///             H- 0x....
         ///         Example:
-        ///             {#int:0:1000:D#}
+        ///             {#I:D:0:1000#}
         ///         Result example
         ///             384
         ///     {#C:from:to#} -character
+        ///     \{#C:[0-9]+:[0-9]+#\}
         ///         Example
         ///             {#C:1:65535#}
         ///         Result example
         ///             Ё
         ///     {#S:type:min_length:max_length#} -string
+        ///     \{#S:[DHLaRSAU]:[0-9]+:[0-9]+#\}
         ///         type
         ///             D,      //0-9
         ///             H,      //0-f
@@ -81,18 +91,30 @@ namespace GAS.Core.Strings
         ///             {#S:a:3:1000#}
         ///         Result example
         ///             gfdfyhtueyrstgdfggfr
-        ///     {#E:{expressions}:min_count:max_count#} - mutiple generator invocation
+        ///     {#R:{$$expressions$$}:min_count:max_count#} - mutiple generator invocation
+        ///     \{#R:\{$$.*$$\}:[0-9]+:[0-9]+#\}
+        ///     //0+ level
+        ///     //expressions are not supported yet
         ///         Example
-        ///             {#E:{{#S:L:1:5#}={#S:U:1:50#}&}:1:5#}
+        ///             {#R:{$${#S:L:1:5#}={#S:U:1:50#}&$$}:1:5#}
         ///         Result example
         ///             werf=%A1%B3&tjy=%5F%9C%2D%42%A1%B3&ertg=%39%7E%E8%B2&
+        ///             
+        /// 
+        ///     \{#[ICS](:[a-zA-Z])?:[0-9]+:[0-9]+#\}
         /// Warning! string will NOT be validated
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         public static FormattedStringGenerator RandomFormattedString(string input)
         {
-            return input;
+            FormattedStringGenerator gen = new FormattedStringGenerator();
+            var Matches = AnyExpressionRegex.Matches(input);
+            var Borders = ((IEnumerable<Match>)Matches).SelectMany(a => new int[] { a.Index, a.Index + a.Length });
+            //if (((IEnumerable<Match>)Matches).First().Index>0)
+               // Borders.
+            throw new NotImplementedException();
+            return gen;
         }
         /*character functions*/
         static char[] __random_string_gen(StringFormat f, int MinLen, int MaxLen)

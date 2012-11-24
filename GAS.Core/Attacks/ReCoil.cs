@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
-
+using GAS.Core.Strings;
 namespace GAS.Core
 {
     /// <summary>
