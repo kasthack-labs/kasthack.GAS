@@ -10,8 +10,10 @@ namespace GAS.Core.Strings
     {
         IExpression[] Expressions;
 
-        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int count, ASCIIEncoding _enc=null)
+        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int count, ASCIIEncoding _enc=null,Random rnd=null)
         {
+            if (rnd == null)
+                rnd = new Random();
             if (_enc==null)
                 _enc=new ASCIIEncoding();
             char* start = from, end = from + count;
@@ -24,12 +26,12 @@ namespace GAS.Core.Strings
                 {
                     if (--from > start)
                     {
-                        exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from - start))));
+                        exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from - start)),_enc));
                         start = from;
                     }
                     from++;
                     int cnt=(int)(end-from);
-                    exprs.Add(ExprSelect(ref from, ref cnt, _enc));
+                    exprs.Add(ExprSelect(ref from, ref cnt, rnd,_enc));
                     count += cnt;
                 }
                 from++;
@@ -37,7 +39,7 @@ namespace GAS.Core.Strings
             }
             if (--from > start)
             {
-                exprs.Add(new StaticASCIIStringExpression(new string(from, 0, (int)(from - start))));
+                exprs.Add(new StaticASCIIStringExpression(new string(from, 0, (int)(from - start)),_enc));
                 start = from;
             }
             from++;
@@ -48,18 +50,22 @@ namespace GAS.Core.Strings
             };
         }
 
-        private static unsafe IExpression ExprSelect(ref char* from, ref int cnt, ASCIIEncoding _enc)
+        private static unsafe IExpression ExprSelect(ref char* from, ref int cnt, Random rnd=null,ASCIIEncoding enc=null)
         {
+            if (enc == null)
+                enc = new ASCIIEncoding();
+            if (rnd == null)
+                rnd = new Random();
             switch (*from++)
             {
                 case 'I':
-                    return IntExpression.Parse(ref from, ref cnt, _enc);
+                    return IntExpression.Parse(ref from, ref cnt,rnd);//fine
                 case 'C':
-                    return CharExpression.Parse(ref from, ref cnt, _enc);
+                    return CharExpression.Parse(ref from, ref cnt, rnd);//fine
                 case 'S':
-                    return StringExpression.Parse(ref from, ref cnt, _enc);
+                    return StringExpression.Parse(ref from, ref cnt,rnd);//
                 case 'R':
-                    return RepeatExpression.Parse(ref from, ref cnt, _enc);
+                    return RepeatExpression.Parse(ref from, ref cnt, rnd,enc);
                 default :
                     throw new FormatException("Not supported expression");
             }

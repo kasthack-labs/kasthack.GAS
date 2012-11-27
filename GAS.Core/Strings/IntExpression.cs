@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -41,9 +40,41 @@ namespace GAS.Core.Strings
                                     Functions.int_to_hex_string_bytes(rnd.Next(Min, Max + 1));
         }
 
-        internal static unsafe IExpression Parse(ref char* from, ref int cnt, ASCIIEncoding _enc)
+        internal static unsafe IntExpression Parse(ref char* from, ref int cnt, Random rnd=null)
         {
-            throw new NotImplementedException();
+            /*
+             * TODO: add string validation
+             */
+            if (rnd == null)
+                rnd = new Random();
+            int _cnt = 0;
+            char* end = from + cnt;
+            IntExpression exp = new IntExpression(rnd);
+            if (rnd == null)
+                rnd = new Random();
+            from++;
+            switch (*(from++))
+            {
+                case 'D':
+                case 'd':
+                    exp.Format=NumberFormat.Decimal;
+                    break;
+                case 'H':
+                case 'h':
+                    exp.Format=NumberFormat.Hex;
+                    break;
+                default:break;
+            }
+            from++;
+            cnt = 0;
+            while (from<end&&((int)*(from))!=':' ) {_cnt++;from++};
+            exp.Min=Functions.qintparse((char*)(from-_cnt),0,_cnt);
+            from++;
+            cnt = 0;
+            while (from<end&&((int)*(from)) !='}') {_cnt++;from++};
+            exp.Max=Functions.qintparse((char*)(from-_cnt),0,_cnt);
+            from++;
+            return exp;
         }
     }
 }

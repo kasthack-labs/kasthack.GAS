@@ -156,11 +156,11 @@ namespace GAS.Core.Strings
             }
             return null;
         }*/
-        public int qintparse(char[] input)
+        public static int qintparse(char[] input)
         {
             return qintparse(input, 0, input.Length);
         }
-        public int qintparse(char[] input, int from, int count)
+        public static int qintparse(char[] input, int from, int count)
         {
             int sum = 0, cnt = 0;
             bool pos = true;
@@ -176,11 +176,11 @@ namespace GAS.Core.Strings
             }
             return pos ? sum : -sum;
         }
-        public long qlongparse(char[] input)
+        public static long qlongparse(char[] input)
         {
             return qlongparse(input, 0, input.Length);
         }
-        public long qlongparse(char[] input, int from, int count)
+        public static long qlongparse(char[] input, int from, int count)
         {
             long sum = 0, cnt = 0;
             bool pos = true;
@@ -193,6 +193,42 @@ namespace GAS.Core.Strings
             {
                 sum *= 10;
                 sum += ((int)input[(cnt++) + from]) - 48;
+            }
+            return pos ? sum : -sum;
+        }
+        public static unsafe int qintparse(char* input, int from, int count)
+        {
+            int sum = 0;//, cnt = 0;
+            input += from;
+            char* end = input + count;
+            bool pos = true;
+            if (*input == '-')
+            {
+                pos = false;
+                input++;
+            }
+            while (input < end)
+            {
+                sum *= 10;
+                sum += ((int)*input++) - 48;
+            }
+            return pos ? sum : -sum;
+        }
+        public static unsafe long qlongparse(char* input, int from, int count)
+        {
+            long sum = 0;//, cnt = 0;
+            input += from;
+            char* end = input + count;
+            bool pos = true;
+            if (*input == '-')
+            {
+                pos = false;
+                input++;
+            }
+            while (input < end)
+            {
+                sum *= 10;
+                sum += ((int)*input++) - 48;
             }
             return pos ? sum : -sum;
         }

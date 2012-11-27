@@ -11,10 +11,8 @@ namespace GAS.Core.Strings
         public StringFormat Format;
         public int Min, Max;
         Random rnd;
-        Functions funcs;
-        public StringExpression(Functions _funcs, Random _rnd)
+        public StringExpression( Random _rnd)
         {
-            funcs = _funcs;
             rnd = _rnd == null ? new Random() : _rnd;
         }
 
@@ -23,21 +21,21 @@ namespace GAS.Core.Strings
             switch (Format)
             {
                 case StringFormat.Decimal:
-                    return new string(funcs.random_ascii(Min,Max, Functions._hex_chars,0, 9));
+                    return new string(Functions.random_ascii(Min,Max, Functions._hex_chars,0, 9));
                 case StringFormat.Hexadecimal:
-                    return new string(funcs.random_ascii(Min,Max, Functions._hex_chars,0, 15));
+                    return new string(Functions.random_ascii(Min,Max, Functions._hex_chars,0, 15));
                 case StringFormat.Letters:
-                    return new string(funcs.random_ascii(Min,Max, Functions._ascii_chars,10, 61));
+                    return new string(Functions.random_ascii(Min,Max, Functions._ascii_chars,10, 61));
                 case StringFormat.LowerCase:
-                    return new string(funcs.random_ascii(Min, Max, Functions._ascii_chars, 10, 35));
+                    return new string(Functions.random_ascii(Min, Max, Functions._ascii_chars, 10, 35));
                 case StringFormat.Random:
-                    return new string(funcs.random_ascii(Min, Max));
+                    return new string(Functions.random_ascii(Min, Max));
                 case StringFormat.Std:
-                    return new string(funcs.random_ascii(Min, Max, Functions._ascii_chars, 0, 61));
+                    return new string(Functions.random_ascii(Min, Max, Functions._ascii_chars, 0, 61));
                 case StringFormat.UpperCase:
-                    return new string(funcs.random_ascii(Min, Max, Functions._ascii_chars, 36, 61));
+                    return new string(Functions.random_ascii(Min, Max, Functions._ascii_chars, 36, 61));
                 case StringFormat.Urlencode:
-                    return new string(funcs.random_utf_urlencode_string(Min, Max));
+                    return new string(Functions.random_utf_urlencode_string(Min, Max));
                 default:
                     throw new ArgumentException("Bad string format");
             }
@@ -48,21 +46,21 @@ namespace GAS.Core.Strings
             switch (Format)
             {
                 case StringFormat.Decimal:
-                    return funcs.random_ascii(Min, Max, Functions._hex_chars, 0, 9);
+                    return Functions.random_ascii(Min, Max, Functions._hex_chars, 0, 9);
                 case StringFormat.Hexadecimal:
-                    return funcs.random_ascii(Min, Max, Functions._hex_chars, 0, 15);
+                    return Functions.random_ascii(Min, Max, Functions._hex_chars, 0, 15);
                 case StringFormat.Letters:
-                    return funcs.random_ascii(Min, Max, Functions._ascii_chars, 10, 61);
+                    return Functions.random_ascii(Min, Max, Functions._ascii_chars, 10, 61);
                 case StringFormat.LowerCase:
-                    return funcs.random_ascii(Min, Max, Functions._ascii_chars, 10, 35);
+                    return Functions.random_ascii(Min, Max, Functions._ascii_chars, 10, 35);
                 case StringFormat.Random:
-                    return funcs.random_ascii(Min, Max);
+                    return Functions.random_ascii(Min, Max);
                 case StringFormat.Std:
-                    return funcs.random_ascii(Min, Max, Functions._ascii_chars, 0, 61);
+                    return Functions.random_ascii(Min, Max, Functions._ascii_chars, 0, 61);
                 case StringFormat.UpperCase:
-                    return funcs.random_ascii(Min, Max, Functions._ascii_chars, 36, 61);
+                    return Functions.random_ascii(Min, Max, Functions._ascii_chars, 36, 61);
                 case StringFormat.Urlencode:
-                    return funcs.random_utf_urlencode_string(Min, Max);
+                    return Functions.random_utf_urlencode_string(Min, Max);
                 default:
                     throw new ArgumentException("Bad string format");
             }
@@ -73,21 +71,21 @@ namespace GAS.Core.Strings
             switch (Format)
             {
                 case StringFormat.Decimal:
-                    return funcs.random_ascii_bytes(Min, Max, Functions._hex_chars_bytes, 0, 9);
+                    return Functions.random_ascii_bytes(Min, Max, Functions._hex_chars_bytes, 0, 9);
                 case StringFormat.Hexadecimal:
-                    return funcs.random_ascii_bytes(Min, Max, Functions._hex_chars_bytes, 0, 15);
+                    return Functions.random_ascii_bytes(Min, Max, Functions._hex_chars_bytes, 0, 15);
                 case StringFormat.Letters:
-                    return funcs.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 10, 61);
+                    return Functions.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 10, 61);
                 case StringFormat.LowerCase:
-                    return funcs.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 10, 35);
+                    return Functions.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 10, 35);
                 case StringFormat.Random:
-                    return funcs.random_ascii_bytes(Min, Max);
+                    return Functions.random_ascii_bytes(Min, Max);
                 case StringFormat.Std:
-                    return funcs.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 0, 61);
+                    return Functions.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 0, 61);
                 case StringFormat.UpperCase:
-                    return funcs.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 36, 61);
+                    return Functions.random_ascii_bytes(Min, Max, Functions._ascii_chars_bytes, 36, 61);
                 case StringFormat.Urlencode:
-                    return funcs.random_utf_urlencode_string_bytes(Min, Max);
+                    return Functions.random_utf_urlencode_string_bytes(Min, Max);
                 default:
                     throw new ArgumentException("Bad string format");
             }
@@ -99,28 +97,28 @@ namespace GAS.Core.Strings
             switch (Format)
             {
                 case StringFormat.Decimal:
-                    output = enc.GetBytes(funcs.random_ascii(Min, Max, Functions._hex_chars, 0, 9));
+                    output = enc.GetBytes(Functions.random_ascii(Min, Max, Functions._hex_chars, 0, 9));
                     break;
                 case StringFormat.Hexadecimal:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._hex_chars, 0, 15));
+                    output = enc.GetBytes( Functions.random_ascii(Min, Max, Functions._hex_chars, 0, 15));
                     break;
                 case StringFormat.Letters:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._ascii_chars, 10, 61));
+                    output = enc.GetBytes( Functions.random_ascii(Min, Max, Functions._ascii_chars, 10, 61));
                     break;
                 case StringFormat.LowerCase:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._ascii_chars, 10, 35));
+                    output = enc.GetBytes( Functions.random_ascii(Min, Max, Functions._ascii_chars, 10, 35));
                     break;
                 case StringFormat.Random:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max));
+                    output = enc.GetBytes( Functions.random_ascii(Min, Max));
                     break;
                 case StringFormat.Std:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._ascii_chars, 0, 61));
+                    output = enc.GetBytes( Functions.random_ascii(Min, Max, Functions._ascii_chars, 0, 61));
                     break;
                 case StringFormat.UpperCase:
-                    output = enc.GetBytes( funcs.random_ascii(Min, Max, Functions._ascii_chars, 36, 61));
+                    output = enc.GetBytes( Functions.random_ascii(Min, Max, Functions._ascii_chars, 36, 61));
                     break;
                 case StringFormat.Urlencode:
-                    output = enc.GetBytes( funcs.random_utf_urlencode_string(Min, Max));
+                    output = enc.GetBytes( Functions.random_utf_urlencode_string(Min, Max));
                     break;
                 default:
                     throw new ArgumentException("Bad string format");
@@ -128,9 +126,57 @@ namespace GAS.Core.Strings
             return output;
         }
 
-        internal static unsafe IExpression Parse(ref char* from, ref int cnt, ASCIIEncoding _enc)
+        public static unsafe StringExpression Parse(ref char* from, ref int cnt, Random rnd=null)
         {
-            throw new NotImplementedException();
+            /*
+             * TODO: add string validation
+             */
+            if (rnd == null)
+                rnd = new Random();
+            int _cnt = 0;
+            char* end = from + cnt;
+            StringExpression exp = new StringExpression(rnd);
+            if (rnd == null)
+                rnd = new Random();
+            from++;
+            switch (*(from++))
+            {
+                case 'D':
+                    exp.Format=StringFormat.Decimal;
+                    break;
+                case 'H':
+                    exp.Format=StringFormat.Hexadecimal;
+                    break;
+                case 'L':
+                    exp.Format=StringFormat.Letters;
+                    break;
+                case 'a':
+                    exp.Format=StringFormat.LowerCase;
+                    break;
+                case 'R':
+                    exp.Format=StringFormat.Random;
+                    break;
+                case 'S':
+                    exp.Format=StringFormat.Std;
+                    break;
+                case 'A':
+                    exp.Format=StringFormat.UpperCase;
+                    break;
+                case 'U':
+                    exp.Format=StringFormat.Urlencode;
+                    break;
+                default:throw new FormatException("Bad string format");
+            }
+            from++;
+            cnt = 0;
+            while (from<end&&((int)*(from))!=':' ) {_cnt++;from++};
+            exp.Min=Functions.qintparse((char*)(from-_cnt),0,_cnt);
+            from++;
+            cnt = 0;
+            while (from<end&&((int)*(from)) !='}') {_cnt++;from++};
+            exp.Max=Functions.qintparse((char*)(from-_cnt),0,_cnt);
+            from++;
+            return exp;
         }
     }
 }
