@@ -63,7 +63,6 @@ namespace GAS.Core.Strings
             int _cnt = 0;
             char* end = from + outcount;
             IntExpression exp = new IntExpression(rnd);
-            outcount = 0;
             #endregion
             #region Parse Format
             switch (*(from += 2))//skip expression type+separator
@@ -79,7 +78,7 @@ namespace GAS.Core.Strings
                 default: break;
             }
             from += 2;//skip format+separator
-            outcount = 4;//total move
+            outcount += 4;//total move
             #endregion
             #region Parse Min
             //get min value length

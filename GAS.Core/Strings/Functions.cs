@@ -420,7 +420,7 @@ namespace GAS.Core.Strings
             }
             return output;
         }
-        public static unsafe IExpression ExprSelect(ref char* from, ref int outcount, Random _rnd = null, ASCIIEncoding _enc = null)
+        public static unsafe IExpression ExprSelect(ref char* from, ref int outcount, int _max_count, Random _rnd = null, ASCIIEncoding _enc = null)
         {
             if (_enc == null)
                 _enc = new ASCIIEncoding();

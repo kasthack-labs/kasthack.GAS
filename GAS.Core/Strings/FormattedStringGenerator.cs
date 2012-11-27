@@ -16,13 +16,14 @@ namespace GAS.Core.Strings
         /// <param name="outcount">output to save move offset</param>
         /// <param name="_enc">encoding instanse for generated expressions</param>
         /// <param name="_rnd">randomizer instanse for generated expressions</param>
+        /// <param name="_max_count">max string parse length</param>
         /// <returns>expression tree</returns>
-        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int outcount, ASCIIEncoding _enc = null, Random _rnd = null)
+        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int outcount, int _max_count, ASCIIEncoding _enc = null, Random _rnd = null)
         {
             #region Variables
             List<IExpression> __exprs = new List<IExpression>();
             char*   start = from,
-                    end = from + outcount;
+                    end = from + _max_count;
             if (_rnd == null)
                 _rnd = new Random();
             if (_enc == null)
@@ -42,8 +43,8 @@ namespace GAS.Core.Strings
                     }
                     from++;
                     #endregion
-                    int cnt = (int)(end - from);
-                    __exprs.Add(Functions.ExprSelect(ref from, ref cnt, _rnd, _enc));
+                    int cnt = 0;//(int)(end - from);
+                    __exprs.Add(Functions.ExprSelect(ref from, ref cnt, (int)(end-from), _rnd, _enc));
                     outcount += cnt;
                 }
                 from++;
