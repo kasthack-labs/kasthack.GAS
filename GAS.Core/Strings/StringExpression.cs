@@ -127,5 +127,10 @@ namespace GAS.Core.Strings
             }
             return output;
         }
+
+        internal static unsafe IExpression Parse(ref char* from, ref int cnt, ASCIIEncoding _enc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

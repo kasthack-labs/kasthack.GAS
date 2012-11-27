@@ -37,5 +37,10 @@ namespace GAS.Core.Strings
         {
             return new byte[] { (byte)rnd.Next(Min, Max) };
         }
+
+        internal static unsafe IExpression Parse(ref char* from, ref int cnt, ASCIIEncoding _enc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
