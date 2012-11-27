@@ -273,7 +273,7 @@ namespace GAS.Core.Strings
         }
         public static char[] random_utf_urlencode_string(int min_real_len, int max_real_len)
         {
-            int len = random.Next(max_real_len, max_real_len) * 6;
+            int len = random.Next(min_real_len, max_real_len) * 6;
             char[] output = new char[len];
             ushort rnd = 0;
             for (int i = 0; i < len; )
@@ -367,7 +367,7 @@ namespace GAS.Core.Strings
         }
         public static byte[] random_utf_urlencode_string_bytes(int min_real_len, int max_real_len)
         {
-            int len = random.Next(max_real_len, max_real_len) * 6;
+            int len = random.Next(min_real_len, max_real_len) * 6;
             byte[] output = new byte[len];
             ushort rnd = 0;
             byte percent =(byte)'%';
