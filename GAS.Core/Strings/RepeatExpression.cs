@@ -8,24 +8,28 @@ namespace GAS.Core.Strings
     public class RepeatExpression:IExpression
     {
         public int Min, Max;
+        public FormattedStringGenerator GEN;
         public string GetString()
         {
-            throw new NotImplementedException();
+            return GEN.GetString();
         }
-
+        public override string ToString()
+        {
+            return GetString();
+        }
         public char[] GetChars()
         {
-            throw new NotImplementedException();
+            return GEN.GetChars();
         }
 
         public byte[] GetAsciiBytes()
         {
-            throw new NotImplementedException();
+            return GEN.GetAsciiBytes();
         }
 
         public byte[] GetEncodingBytes(Encoding enc)
         {
-            throw new NotImplementedException();
+            return GEN.GetEncodingBytes(enc);
         }
 
         public static unsafe RepeatExpression Parse(ref char* from, ref int cnt, Random rnd=null,ASCIIEncoding enc=null)
@@ -34,7 +38,10 @@ namespace GAS.Core.Strings
                 enc = new ASCIIEncoding();
             if (rnd == null)
                 rnd = new Random();
-            throw new NotImplementedException();
+            from+=3;
+            RepeatExpression exp = new RepeatExpression();
+            exp.GEN = FormattedStringGenerator.Parse(ref from, ref cnt, enc, rnd);    
+            return exp;
         }
     }
 }

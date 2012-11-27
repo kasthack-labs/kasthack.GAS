@@ -16,6 +16,10 @@ namespace GAS.Core.Strings
             rnd = _rnd == null ? new Random() : _rnd;
         }
 
+        public override string ToString()
+        {
+            return GetString();
+        }
         public string GetString()
         {
             switch (Format)
@@ -126,7 +130,7 @@ namespace GAS.Core.Strings
             return output;
         }
 
-        public static unsafe StringExpression Parse(ref char* from, ref int cnt, Random rnd=null)
+        public static unsafe StringExpression Parse(ref char* from, ref int outcount, Random rnd=null)
         {
             /*
              * TODO: add string validation
@@ -134,12 +138,10 @@ namespace GAS.Core.Strings
             if (rnd == null)
                 rnd = new Random();
             int _cnt = 0;
-            char* end = from + cnt;
+            char* end = from + outcount;
             StringExpression exp = new StringExpression(rnd);
-            if (rnd == null)
-                rnd = new Random();
             from++;
-            switch (*(from++))
+            switch (*(++from))
             {
                 case 'D':
                     exp.Format=StringFormat.Decimal;
@@ -167,15 +169,25 @@ namespace GAS.Core.Strings
                     break;
                 default:throw new FormatException("Bad string format");
             }
-            from++;
-            cnt = 0;
-            while (from<end&&((int)*(from))!=':' ) {_cnt++;from++};
+            from+=2;
+            outcount = 2;
+            while (from < end && *from != ':')
+            {
+                _cnt++;
+                from++;
+            }
             exp.Min=Functions.qintparse((char*)(from-_cnt),0,_cnt);
+            outcount += _cnt;
             from++;
-            cnt = 0;
-            while (from<end&&((int)*(from)) !='}') {_cnt++;from++};
+            _cnt = 0;
+            while (from<end&&*from !='}') 
+            {
+                _cnt++;
+                from++;
+            };
             exp.Max=Functions.qintparse((char*)(from-_cnt),0,_cnt);
             from++;
+            outcount += _cnt;
             return exp;
         }
     }

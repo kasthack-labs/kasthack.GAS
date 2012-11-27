@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using GAS.Core.Strings;
 using GAS.Core;
+using System.Text;
 namespace GAS.Core.Strings
 {
     public class Functions
@@ -28,8 +29,8 @@ namespace GAS.Core.Strings
             public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
             public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
         #endregion
-        static Regex RepeatRegex = new Regex(@"{#R:\{\$\$(?<inner_expression>.*)\$\$\}:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
-        static Regex AnyExpressionRegex = new Regex(@"\{#(?<expression_type>[ICS])(?<string_charset>:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
+        static Regex RepeatRegex;// = new Regex(@"{#R:\{\$\$(?<inner_expression>.*)\$\$\}:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
+        static Regex AnyExpressionRegex;// = new Regex(@"\{#(?<expression_type>[ICS])(?<string_charset>:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
         //static Regex IntExpressionRegex = new Regex(@"\{#I:[DH]:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
         //static Regex CharExpressionRegex = new Regex(@"\{#C:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
         //static Regex StringExpressionRegex = new Regex(@"\{#S:[DHLaRSAU]:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
@@ -418,6 +419,29 @@ namespace GAS.Core.Strings
                 output[i++] = _hex_chars_bytes[rnd & 0xf];
             }
             return output;
+        }
+        public static unsafe IExpression ExprSelect(ref char* from, ref int outcount, Random _rnd = null, ASCIIEncoding _enc = null)
+        {
+            if (_enc == null)
+                _enc = new ASCIIEncoding();
+            if (_rnd == null)
+                _rnd = new Random();
+            outcount++;
+            #region Parse
+            switch (*++from)
+            {
+                case 'I':
+                    return IntExpression.Parse(ref from, ref outcount, _rnd);
+                case 'C':
+                    return CharExpression.Parse(ref from, ref outcount, _rnd);
+                case 'S':
+                    return StringExpression.Parse(ref from, ref outcount, _rnd);
+                case 'R':
+                    return RepeatExpression.Parse(ref from, ref outcount, _rnd, _enc);
+                default:
+                    throw new FormatException("Not supported expression");
+            }
+            #endregion
         }
     }
 }

@@ -10,6 +10,10 @@ namespace GAS.Core.Strings
     {
         ASCIIEncoding enc;
         byte[] buf;
+        public override string ToString()
+        {
+            return GetString();
+        }
         public StaticASCIIStringExpression(string _str, ASCIIEncoding _enc = null)
         {
             enc = _enc == null ? new ASCIIEncoding() : _enc;

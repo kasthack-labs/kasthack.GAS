@@ -9,86 +9,101 @@ namespace GAS.Core.Strings
     public class FormattedStringGenerator : IExpression
     {
         IExpression[] Expressions;
-
-        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int count, ASCIIEncoding _enc=null,Random rnd=null)
+        /// <summary>
+        /// Parses string as ExpressionTree
+        /// </summary>
+        /// <param name="from">pointer to start parsing</param>
+        /// <param name="outcount">output to save move offset</param>
+        /// <param name="_enc">encoding instanse for generated expressions</param>
+        /// <param name="_rnd">randomizer instanse for generated expressions</param>
+        /// <returns>expression tree</returns>
+        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int outcount, ASCIIEncoding _enc = null, Random _rnd = null)
         {
-            if (rnd == null)
-                rnd = new Random();
-            if (_enc==null)
-                _enc=new ASCIIEncoding();
-            char* start = from, end = from + count;
-            count = 0;
-            List<IExpression> exprs = new List<IExpression>();
+            #region Variables
+            List<IExpression> __exprs = new List<IExpression>();
+            char*   start = from,
+                    end = from + outcount;
+            if (_rnd == null)
+                _rnd = new Random();
+            if (_enc == null)
+                _enc = new ASCIIEncoding();
+            #endregion
+            #region Parse
             while (from < end)
             {
                 if (*from == '}') break;
                 if (*from == '{')
                 {
+                    #region Add prev string
                     if (--from > start)
                     {
-                        exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from - start)),_enc));
+                        __exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from + 1 - start)), _enc));
                         start = from;
                     }
                     from++;
-                    int cnt=(int)(end-from);
-                    exprs.Add(ExprSelect(ref from, ref cnt, rnd,_enc));
-                    count += cnt;
+                    #endregion
+                    int cnt = (int)(end - from);
+                    __exprs.Add(Functions.ExprSelect(ref from, ref cnt, _rnd, _enc));
+                    outcount += cnt;
                 }
                 from++;
-                count++;
+                outcount++;
             }
+            #endregion
+            #region Ending string
             if (--from > start)
             {
-                exprs.Add(new StaticASCIIStringExpression(new string(from, 0, (int)(from - start)),_enc));
+                __exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from + 1 - start)), _enc));
                 start = from;
             }
             from++;
-            //count=end-fr
-            return new FormattedStringGenerator()
-            {
-                Expressions = exprs.ToArray()
-            };
+            #endregion
+            return new FormattedStringGenerator() { Expressions = __exprs.ToArray() };
         }
-
-        private static unsafe IExpression ExprSelect(ref char* from, ref int cnt, Random rnd=null,ASCIIEncoding enc=null)
-        {
-            if (enc == null)
-                enc = new ASCIIEncoding();
-            if (rnd == null)
-                rnd = new Random();
-            switch (*from++)
-            {
-                case 'I':
-                    return IntExpression.Parse(ref from, ref cnt,rnd);//fine
-                case 'C':
-                    return CharExpression.Parse(ref from, ref cnt, rnd);//fine
-                case 'S':
-                    return StringExpression.Parse(ref from, ref cnt,rnd);//
-                case 'R':
-                    return RepeatExpression.Parse(ref from, ref cnt, rnd,enc);
-                default :
-                    throw new FormatException("Not supported expression");
-            }
-        }
+        /// <summary>
+        /// Get string representation of expression execution result
+        /// </summary>
+        /// <returns>string result</returns>
         public string GetString()
         {
             //slow. for prototype only
             return String.Concat(Expressions.Select(a => a.GetString()).ToArray());
         }
+        /// <summary>
+        /// Get char array representation of expression execution result
+        /// </summary>
+        /// <returns>char[] result</returns>
         public char[] GetChars()
         {
             //slow. for prototype only
             return Expressions.SelectMany(a => a.GetChars()).ToArray();
         }
+        /// <summary>
+        /// Get native representation of expression execution result
+        /// </summary>
+        /// <returns>ascii bytes</returns>
         public byte[] GetAsciiBytes()
         {
             //slow. for prototype only
             return Expressions.SelectMany(a => a.GetAsciiBytes()).ToArray();
         }
-        public byte[] GetEncodingBytes(Encoding enc)
+        /// <summary>
+        /// Get bytes of result encoded with encoding
+        /// </summary>
+        /// <param name="_enc">encoding for encoding, lol</param>
+        /// <returns>bytes</returns>
+        public byte[] GetEncodingBytes(Encoding _enc)
         {
             //slow. for prototype only
-            return Expressions.SelectMany(a => a.GetEncodingBytes(enc)).ToArray();
+            return Expressions.SelectMany(a => a.GetEncodingBytes(_enc)).ToArray();
+        }
+        /// <summary>
+        /// alias 4 GetString. 4 debugging
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return GetString();
         }
     }
 }
