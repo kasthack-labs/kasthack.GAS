@@ -16,12 +16,13 @@ namespace DBG.Solution
                 string s = "";
                 Console.WriteLine("Type in formatted string");
                 s = Console.ReadLine();
-                s = "{I:D:0:1000}";
-                int len = s.Length;
+                s =// "{I:D:1:2345}";
+                "{R:{{I:D:1:2345}}:7:8}ABC";
+                int len = 0;
                 fixed (char* _p = s)
                 {
                     char* p = _p;
-                    var Expression = GAS.Core.Strings.FormattedStringGenerator.Parse(ref p, ref len, new ASCIIEncoding(), new Random());
+                    var Expression = GAS.Core.Strings.FormattedStringGenerator.Parse(ref p, out len, s.Length, new ASCIIEncoding(), new Random());
                     Console.WriteLine(Expression);
                 }
             }

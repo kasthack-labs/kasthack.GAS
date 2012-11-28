@@ -130,7 +130,7 @@ namespace GAS.Core.Strings
             return output;
         }
 
-        public static unsafe StringExpression Parse(ref char* from, ref int outcount, Random rnd=null)
+        public static unsafe StringExpression Parse(ref char* from, out int outcount, int max_count,Random rnd=null)
         {
             /*
              * TODO: add string validation
@@ -138,7 +138,7 @@ namespace GAS.Core.Strings
             if (rnd == null)
                 rnd = new Random();
             int _cnt = 0;
-            char* end = from + outcount;
+            char* end = from + max_count;
             StringExpression exp = new StringExpression(rnd);
             from++;
             switch (*(++from))

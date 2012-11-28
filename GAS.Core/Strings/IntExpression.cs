@@ -52,20 +52,29 @@ namespace GAS.Core.Strings
             return enc.GetBytes(Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
                                    Functions.int_to_hex_string(rnd.Next(Min, Max + 1)));
         }
-        internal static unsafe IntExpression Parse(ref char* from, ref int outcount, Random rnd = null)
+        /// <summary>
+        /// parse IntExpression _from string
+        /// pointer will point to closing } of expression
+        /// </summary>
+        /// <param name="_from">pointer to 1st char after opening {</param>
+        /// <param name="_outcount">returned value 4 read character count </param>
+        /// <param name="_rnd">randomizer</param>
+        /// <returns>parsed expression</returns>
+        internal static unsafe IntExpression Parse(ref char* _from, out int _outcount, int _max_count, Random _rnd = null)
         {
             /*
              * TODO: add string validation
              */
             #region Variables
-            if (rnd == null)
-                rnd = new Random();
-            int _cnt = 0;
-            char* end = from + outcount;
-            IntExpression exp = new IntExpression(rnd);
+            if (_rnd == null)
+                _rnd = new Random();
+            int __cnt = 0;
+            char* __end = _from + _max_count;
+            _outcount = 0;
+            IntExpression exp = new IntExpression(_rnd);
             #endregion
             #region Parse Format
-            switch (*(from += 2))//skip expression type+separator
+            switch (*(_from += 2))//skip expression type+separator
             {
                 case 'D':
                 case 'd':
@@ -77,33 +86,35 @@ namespace GAS.Core.Strings
                     break;
                 default: break;
             }
-            from += 2;//skip format+separator
-            outcount += 4;//total move
+            _from += 2;//skip format+separator
+            _outcount += 4;//total move
             #endregion
             #region Parse Min
             //get min value length
-            while (from < end && *from != ':')
+            __cnt = Functions.FindChar(_from, __end, ':');
+            /*while (_from < __end && *_from != ':')
             {
-                _cnt++;
-                from++;
-            };
+                __cnt++;
+                _from++;
+            };*/
             //parse min length
-            exp.Min = Functions.qintparse((char*)(from - _cnt), 0, _cnt);
-            from++;//skip separator
-            outcount += _cnt;//add skip 4 min
+            exp.Min = Functions.qintparse(_from, 0, __cnt);
+            _from += __cnt + 1;//skip separator
+            _outcount += __cnt+1;//add skip 4 min
             #endregion
             #region Parse Max
             //same for max
-            _cnt = 0;
-            while (from < end && *from != '}')
+            __cnt = Functions.FindChar(_from, __end, '}');
+            /*while (_from < __end && *_from != '}')
             {
-                _cnt++;
-                from++;
-            };
-            exp.Max = Functions.qintparse((char*)(from - _cnt), 0, _cnt);
-            outcount += _cnt;
+                __cnt++;
+                _from++;
+            };*/
+            exp.Max = Functions.qintparse(_from, 0, __cnt);
+            _from += __cnt;
+            _outcount += __cnt;
             //skip closing bracket
-            from++;
+            //_from++;
             #endregion
             return exp;
         }

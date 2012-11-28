@@ -12,52 +12,53 @@ namespace GAS.Core.Strings
         /// <summary>
         /// Parses string as ExpressionTree
         /// </summary>
-        /// <param name="from">pointer to start parsing</param>
-        /// <param name="outcount">output to save move offset</param>
+        /// <param name="_from">pointer to __start parsing</param>
+        /// <param name="_outcount">output to save move offset</param>
         /// <param name="_enc">encoding instanse for generated expressions</param>
         /// <param name="_rnd">randomizer instanse for generated expressions</param>
         /// <param name="_max_count">max string parse length</param>
         /// <returns>expression tree</returns>
-        public unsafe static FormattedStringGenerator Parse(ref char* from, ref int outcount, int _max_count, ASCIIEncoding _enc = null, Random _rnd = null)
+        public unsafe static FormattedStringGenerator Parse(ref char* _from, out int _outcount, int _max_count, ASCIIEncoding _enc = null, Random _rnd = null)
         {
             #region Variables
             List<IExpression> __exprs = new List<IExpression>();
-            char*   start = from,
-                    end = from + _max_count;
+            char*   __start = _from,
+                    __end = _from + _max_count;
+            int __cnt = 0;
             if (_rnd == null)
                 _rnd = new Random();
             if (_enc == null)
                 _enc = new ASCIIEncoding();
+            _outcount = 0;
             #endregion
             #region Parse
-            while (from < end)
+            while (_from < __end)
             {
-                if (*from == '}') break;
-                if (*from == '{')
+                if (*_from == '}') break;
+                if (*_from == '{')
                 {
                     #region Add prev string
-                    if (--from > start)
+                    if (--_from > __start)
                     {
-                        __exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from + 1 - start)), _enc));
-                        start = from;
+                        __exprs.Add(new StaticASCIIStringExpression(new string(__start, 0, (int)(_from + 1 - __start)), _enc));
                     }
-                    from++;
-                    #endregion
-                    int cnt = 0;//(int)(end - from);
-                    __exprs.Add(Functions.ExprSelect(ref from, ref cnt, (int)(end-from), _rnd, _enc));
-                    outcount += cnt;
+                    _from++;
+                    #endregion//(int)(__end - _from);
+                    __exprs.Add(Functions.ExprSelect(ref _from, out __cnt, (int)(__end-_from), _rnd, _enc));
+                    _outcount += __cnt;
+                    __start = _from+1;
                 }
-                from++;
-                outcount++;
+                _from++;
+                _outcount++;
             }
             #endregion
             #region Ending string
-            if (--from > start)
+            if (--_from > __start)
             {
-                __exprs.Add(new StaticASCIIStringExpression(new string(start, 0, (int)(from + 1 - start)), _enc));
-                start = from;
+                __exprs.Add(new StaticASCIIStringExpression(new string(__start, 0, (int)(_from + 1 - __start)), _enc));
+                __start = _from;
             }
-            from++;
+            _from++;
             #endregion
             return new FormattedStringGenerator() { Expressions = __exprs.ToArray() };
         }

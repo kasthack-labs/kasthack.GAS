@@ -24,7 +24,7 @@ namespace GAS.Core
         /// <param name="port">the Portnumber. however so far this class only understands HTTP.</param>
         /// <param name="subsite">the path to the targeted site / document. (remember: the file has to be at least around 24KB!)</param>
         /// <param name="delay">time in milliseconds between the creation of new sockets.</param>
-        /// <param name="timeout">time in seconds between a new partial header is sent on the same connection. the higher the better .. but should be UNDER the READ-timeout from the server. (30 seemed to be working always so far!)</param>
+        /// <param name="timeout">time in seconds between a new partial header is sent on the same connection. the higher the better .. but should be UNDER the READ-timeout _from the server. (30 seemed to be working always so far!)</param>
         /// <param name="random">adds a random string to the subsite</param>
         /// <param name="nSockets">the amount of sockets for this object</param>
         /// <param name="randcmds">randomizes the sent header for every request on the same socket. (however all sockets send the same partial header during the same cyclus)</param>

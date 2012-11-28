@@ -29,12 +29,12 @@ namespace GAS.Core.Strings
             public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
             public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
         #endregion
-        static Regex RepeatRegex;// = new Regex(@"{#R:\{\$\$(?<inner_expression>.*)\$\$\}:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
-        static Regex AnyExpressionRegex;// = new Regex(@"\{#(?<expression_type>[ICS])(?<string_charset>:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex IntExpressionRegex = new Regex(@"\{#I:[DH]:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex CharExpressionRegex = new Regex(@"\{#C:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex StringExpressionRegex = new Regex(@"\{#S:[DHLaRSAU]:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex ExpressionRegex = new Regex(@"\{#E:\{$$.*$$\}:(?<from>[0-9]+):(?<to>[0-9]+)#\}");
+        static Regex RepeatRegex;// = new Regex(@"{#R:\{\$\$(?<inner_expression>.*)\$\$\}:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
+        static Regex AnyExpressionRegex;// = new Regex(@"\{#(?<expression_type>[ICS])(?<string_charset>:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
+        //static Regex IntExpressionRegex = new Regex(@"\{#I:[DH]:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
+        //static Regex CharExpressionRegex = new Regex(@"\{#C:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
+        //static Regex StringExpressionRegex = new Regex(@"\{#S:[DHLaRSAU]:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
+        //static Regex ExpressionRegex = new Regex(@"\{#E:\{$$.*$$\}:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
         #endregion
         public Functions()
         {
@@ -63,7 +63,7 @@ namespace GAS.Core.Strings
         /// <summary>
         /// Generate random string
         /// syntax:
-        ///     {I:type:from:to} - integer
+        ///     {I:type:_from:to} - integer
         ///     \{I:[DH]:[0-9]+:[0-9]+\}
         ///         type
         ///             D:dec
@@ -72,7 +72,7 @@ namespace GAS.Core.Strings
         ///             {I:D:0:1000}
         ///         Result example
         ///             384
-        ///     {C:from:to} -character
+        ///     {C:_from:to} -character
         ///     \{C:[0-9]+:[0-9]+\}
         ///         Example
         ///             {C:1:65535}
@@ -147,11 +147,11 @@ namespace GAS.Core.Strings
         /*character functions*/
         /*static char[] __random_string_gen(StringFormat f, int MinLen, int MaxLen)
         {
-            int cnt = random.Next(MinLen, MaxLen + 1),c_len=1;
+            int __cnt = random.Next(MinLen, MaxLen + 1),c_len=1;
             bool urlencode = ((f & StringFormat.Urlencode) == StringFormat.Urlencode);
-            char[] c =new char[ cnt * ( urlencode? 3 : 1)];
+            char[] _c =new char[ __cnt * ( urlencode? 3 : 1)];
 
-            for (int i = 0; i < cnt; i++)
+            for (int i = 0; i < __cnt; i++)
             {
                 random.Next(random.Next(0,c_len);
             }
@@ -199,7 +199,7 @@ namespace GAS.Core.Strings
         }
         public static unsafe int qintparse(char* input, int from, int count)
         {
-            int sum = 0;//, cnt = 0;
+            int sum = 0;//, __cnt = 0;
             input += from;
             char* end = input + count;
             bool pos = true;
@@ -217,7 +217,7 @@ namespace GAS.Core.Strings
         }
         public static unsafe long qlongparse(char* input, int from, int count)
         {
-            long sum = 0;//, cnt = 0;
+            long sum = 0;//, __cnt = 0;
             input += from;
             char* end = input + count;
             bool pos = true;
@@ -420,28 +420,46 @@ namespace GAS.Core.Strings
             }
             return output;
         }
-        public static unsafe IExpression ExprSelect(ref char* from, ref int outcount, int _max_count, Random _rnd = null, ASCIIEncoding _enc = null)
+        public static unsafe IExpression ExprSelect(ref char* _from, out int _outcount, int _max_count, Random _rnd = null, ASCIIEncoding _enc = null)
         {
             if (_enc == null)
                 _enc = new ASCIIEncoding();
             if (_rnd == null)
                 _rnd = new Random();
-            outcount++;
+            _outcount = 0;
+            _max_count--;
+            IExpression expr;
             #region Parse
-            switch (*++from)
+            switch (*++_from)
             {
                 case 'I':
-                    return IntExpression.Parse(ref from, ref outcount, _rnd);
+                    expr= IntExpression.Parse(ref _from, out _outcount, _max_count, _rnd);//works
+                    break;
                 case 'C':
-                    return CharExpression.Parse(ref from, ref outcount, _rnd);
+                    expr = CharExpression.Parse(ref _from, out _outcount, _max_count , _rnd);
+                    break;
                 case 'S':
-                    return StringExpression.Parse(ref from, ref outcount, _rnd);
+                    expr = StringExpression.Parse(ref _from, out _outcount, _max_count , _rnd);
+                    break;
                 case 'R':
-                    return RepeatExpression.Parse(ref from, ref outcount, _rnd, _enc);
+                    expr = RepeatExpression.Parse(ref _from, out _outcount, _max_count , _rnd, _enc);//works
+                    break;
                 default:
                     throw new FormatException("Not supported expression");
             }
             #endregion
+            _outcount++;
+            return expr;
+        }
+        public static unsafe int FindChar(char* _from, char* __end, char _c)
+        {
+            int __cnt = 0;
+            while (_from < __end && *_from != _c)
+            {
+                __cnt++;
+                _from++;
+            };
+            return __cnt;
         }
     }
 }

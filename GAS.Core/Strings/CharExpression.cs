@@ -33,18 +33,18 @@ namespace GAS.Core.Strings
         {
             return new byte[] { (byte)rnd.Next(Min, Max) };
         }
-        public static unsafe CharExpression Parse(ref char* from, ref int cnt, Random rnd = null)
+        public static unsafe CharExpression Parse(ref char* from, out int outcount, int maxcount, Random rnd = null)
         {
             /*
              * TODO: add string validation
              */
             int _cnt = 0;
-            char* end = from + cnt;
+            char* end = from + maxcount;
             CharExpression exp = new CharExpression(rnd);
             if (rnd == null)
                 rnd = new Random();
             from++;
-            cnt = 0;
+            outcount = 0;
             while (from < end && ((int)*(from)) != ':')
             {
                 _cnt++;
@@ -52,7 +52,7 @@ namespace GAS.Core.Strings
             }
             exp.Min = Functions.qintparse((char*)(from - _cnt), 0, _cnt);
             from++;
-            cnt = 0;
+            outcount = 0;
             while (from < end && ((int)*(from)) != '}') { _cnt++; from++; };
             exp.Max = Functions.qintparse((char*)(from - _cnt), 0, _cnt);
             from++;

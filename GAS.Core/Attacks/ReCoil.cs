@@ -24,18 +24,18 @@ namespace GAS.Core
     /// due to that the required size of the targeted file differs -.-
     /// Dataflow: {NET} --> {WINSOCK-Buffer} --> ClientSocket .. so we have to make sure the actual data exceeds
     /// the winsock-buffer + clientsocket-buffer, but we can ONLY change the latter.
-    /// from what i could find on a brief search / test the winsock buffer for a 10/100 links lies around 16-18KB
+    /// _from what i could find on a brief search / test the winsock buffer for a 10/100 links lies around 16-18KB
     /// where 1 GBit links have an underlying buffer around 64KB (size really does matter :P )
     /// 
     /// what to target?:
     /// although it might makes sense to target pictures or other large files on the server this doesn't really makes sense!
-    /// the server could (and in most cases does - except for apache) always read directly from the file-stream resulting in nearly 0 needed RAM
+    /// the server could (and in most cases does - except for apache) always read directly _from the file-stream resulting in nearly 0 needed RAM
     /// --> always target dynamic content! this has to be generated on the fly / pulled fom a DB 
     /// and therefor most likely ends up in the RAM!
     /// 
     /// high-value targets / worst case szenario:
     /// as it seems the echo statement in php writes directly to the socket .. considering this it should be possible to
-    /// take down the back-end infrastructure if the page does an early flush causing the congestation while still holding DB-conns etc.
+    /// take down the back-__end infrastructure if the page does an early flush causing the congestation while still holding DB-conns etc.
     /// </remarks>
     public class ReCoil : IAttacker
     {
@@ -52,7 +52,7 @@ namespace GAS.Core
         /// <param name="port">the Portnumber. however so far this class only understands HTTP.</param>
         /// <param name="subsite">the path to the targeted site / document. (remember: the file has to be at least around 24KB!)</param>
         /// <param name="delay">time in milliseconds between the creation of new sockets.</param>
-        /// <param name="timeout">time in seconds between request on the same connection. the higher the better .. but should be UNDER the timout from the server. (30 seemed to be working always so far!)</param>
+        /// <param name="timeout">time in seconds between request on the same connection. the higher the better .. but should be UNDER the timout _from the server. (30 seemed to be working always so far!)</param>
         /// <param name="random">adds a random string to the subsite so that every new connection requests a new file. (use on searchsites or to bypass the cache / proxy)</param>
         /// <param name="nSockets">the amount of sockets for this object</param>
         /// <param name="usegZip">turns on the gzip / deflate header to check for: CVE-2009-1891 - keep in mind, that the compressed file still has to be larger than ~24KB! (maybe use on large static files like pdf etc?)</param>

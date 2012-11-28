@@ -32,15 +32,24 @@ namespace GAS.Core.Strings
             return GEN.GetEncodingBytes(enc);
         }
 
-        public static unsafe RepeatExpression Parse(ref char* from, ref int cnt, Random rnd=null,ASCIIEncoding enc=null)
+        public static unsafe RepeatExpression Parse(ref char* _from, out int _outcount, int _maxcount, Random _rnd=null,ASCIIEncoding _enc=null)
         {
-            if (enc == null)
-                enc = new ASCIIEncoding();
-            if (rnd == null)
-                rnd = new Random();
-            from+=3;
+            if (_enc == null)
+                _enc = new ASCIIEncoding();
+            if (_rnd == null)
+                _rnd = new Random();
+            _from+=3;
             RepeatExpression exp = new RepeatExpression();
-            exp.GEN = FormattedStringGenerator.Parse(ref from, ref cnt, enc, rnd);    
+            exp.GEN = FormattedStringGenerator.Parse(ref _from, out _outcount, _maxcount-3,  _enc, _rnd);
+            _from += 3;
+            _outcount += 6;
+            int __cnt = 0;
+            __cnt = Functions.FindChar(_from, (char*)(_from + _maxcount - _outcount), ':');
+            exp.Min = Functions.qintparse(_from, 0, __cnt);
+            _from += __cnt+1;
+            __cnt = Functions.FindChar(_from, (char*)(_from + _maxcount - _outcount), '}');
+            exp.Max = Functions.qintparse(_from, 0, __cnt);
+            _from += __cnt;
             return exp;
         }
     }
