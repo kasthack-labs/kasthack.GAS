@@ -66,7 +66,7 @@ namespace GAS.Core.Strings
             if ( _rnd == null )
                 _rnd = new Random();
             _from += 3;
-            RepeatExpression exp = new RepeatExpression();
+            RepeatExpression exp = new RepeatExpression(_rnd);
             exp.Expression = Parse(ref _from, out _outcount, _maxcount - 3, _enc, _rnd);
             _from += 3;
             _outcount += 6;
