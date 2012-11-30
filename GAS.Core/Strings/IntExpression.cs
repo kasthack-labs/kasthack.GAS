@@ -51,5 +51,14 @@ namespace GAS.Core.Strings
         public override string ToString() {
             return GetString();
         }
+
+
+        public System.Collections.Generic.IEnumerable<byte[]> EnumAsciiBuffers() {
+            return new byte[][] { GetAsciiBytes() };
+        }
+
+        public System.Collections.Generic.IEnumerable<string> EnumStrings() {
+            return new string[] {GetString() };
+        }
     }
 }

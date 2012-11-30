@@ -10,7 +10,7 @@ namespace GAS.Core.Strings
         /// Get string representation of expression execution result
         /// </summary>
         /// <returns>string result</returns>
-        public string GetString() {
+        public string   GetString() {
             //slow. for prototype only
             return String.Concat(Expressions.Select(a => a.GetString()).ToArray());
         }
@@ -45,6 +45,15 @@ namespace GAS.Core.Strings
         /// <returns></returns>
         public override string ToString() {
             return GetString();
+        }
+
+
+        public System.Collections.Generic.IEnumerable<byte[]> EnumAsciiBuffers() {
+            return Expressions.SelectMany(a => a.EnumAsciiBuffers());
+        }
+
+        public System.Collections.Generic.IEnumerable<string> EnumStrings() {
+            return Expressions.SelectMany(a => a.EnumStrings());
         }
     }
 }

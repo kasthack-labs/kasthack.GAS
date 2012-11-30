@@ -9,23 +9,23 @@ namespace DBG.Solution
         static void Main(string[] args) {
             while ( true ) {
                 try {
-                    string ExpressionStrring = "";
+                    string ExpressionString = "";
                     Console.WriteLine("Type in formatted string");
-                    ExpressionStrring = Console.ReadLine();
-                    ExpressionStrring =String.IsNullOrEmpty(ExpressionStrring)?
-                        "{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}" :
-                        ExpressionStrring;
-                    IExpression Expression = ExpressionParser.Parse(ExpressionStrring);
-                    Console.WriteLine("Expression: {0}",ExpressionStrring);
+                    ExpressionString = Console.ReadLine();
+                    ExpressionString =String.IsNullOrEmpty(ExpressionString)?"{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}" :ExpressionString;
+                    IExpression Expression = ExpressionParser.Parse(ExpressionString);
+                    Console.WriteLine("Expression: {0}",ExpressionString);
                     Console.WriteLine("Result: {0}", Expression);
+                    
+
                     Console.WriteLine("Enter loops");
                     int cnt = int.Parse(Console.ReadLine());
                     Console.WriteLine("Benching {0}",cnt);
                     var v = new Stopwatch();
                     v.Start();
                     string s = "";
-                    for ( int i = 0; i <cnt; i++ )
-                        s=Expression.GetString();
+                    for ( int i = 0; i < cnt; i++ )
+                        s = String.Concat(Expression.EnumStrings());
                     v.Stop();
                     Console.WriteLine("Finished: {0}", v.Elapsed);
                 }

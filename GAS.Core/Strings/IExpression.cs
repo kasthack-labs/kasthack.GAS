@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace GAS.Core
 {
@@ -8,5 +9,7 @@ namespace GAS.Core
         char[] GetChars();
         byte[] GetAsciiBytes();
         byte[] GetEncodingBytes(Encoding enc);
+        IEnumerable<byte[]> EnumAsciiBuffers();
+        IEnumerable<string> EnumStrings();
     }
 }
