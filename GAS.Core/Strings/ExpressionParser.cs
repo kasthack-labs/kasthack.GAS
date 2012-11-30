@@ -162,7 +162,7 @@ namespace GAS.Core.Strings
                 if ( *_from == '}' ) break;
                 if ( *_from == '{' ) {
                     #region Add prev string
-                    if ( --_from > __start ) {
+                    if ( --_from >= __start ) {
                         __exprs.Add(new StaticASCIIStringExpression(new string(__start, 0, (int)( _from + 1 - __start )), _enc));
                     }
                     _from++;
@@ -176,7 +176,7 @@ namespace GAS.Core.Strings
             }
             #endregion
             #region Ending string
-            if ( --_from > __start ) {
+            if ( --_from >= __start ) {
                 __exprs.Add(new StaticASCIIStringExpression(new string(__start, 0, (int)( _from + 1 - __start )), _enc));
                 __start = _from;
             }
