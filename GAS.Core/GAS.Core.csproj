@@ -10,9 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GAS.Core</RootNamespace>
     <AssemblyName>GAS.Core</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,40 +31,52 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions.cs" />
+    <Compile Include="Strings\ExpressionParser.cs" />
+    <Compile Include="Strings\FormattedStringGenerator.cs" />
+    <Compile Include="Strings\RepeatExpression.cs" />
+    <Compile Include="Strings\StringExpression.cs" />
+    <Compile Include="Strings\CharExpression.cs" />
+    <Compile Include="Strings\NumberFormat.cs" />
+    <Compile Include="Strings\Functions.cs" />
     <Compile Include="GAS.Core.cs" />
-    <Compile Include="PostAttacks.cs" />
-    <Compile Include="HTTPFlooder.cs" />
+    <Compile Include="Strings\IExpression.cs" />
+    <Compile Include="Strings\IntExpression.cs" />
+    <Compile Include="Attacks\PostAttacks.cs" />
+    <Compile Include="Attacks\HTTPFlooder.cs" />
     <Compile Include="IAttacker.cs" />
-    <Compile Include="PacketFlood.cs" />
+    <Compile Include="Attacks\PacketFlood.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ReCoil.cs" />
+    <Compile Include="Attacks\ReCoil.cs" />
     <Compile Include="rSocket.cs" />
-    <Compile Include="SlowLoic.cs" />
-    <Compile Include="TMOF.cs" />
+    <Compile Include="Attacks\SlowLoic.cs" />
+    <Compile Include="Strings\StaticASCIIStringExpression.cs" />
+    <Compile Include="Strings\StringFormat.cs" />
+    <Compile Include="Attacks\TMOF.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="128mz.gz" />
-    <None Include="1gz" />
-    <None Include="256mz.gz" />
-    <None Include="app.config" />
+    <None Include="GZIP_bombs\128mz.gz" />
+    <None Include="GZIP_bombs\1gz" />
+    <None Include="GZIP_bombs\256mz.gz" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
