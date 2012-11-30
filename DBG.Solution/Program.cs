@@ -18,13 +18,9 @@ namespace DBG.Solution
                 s = Console.ReadLine();
                 s =// "{I:D:1:2345}";
                 "{R:{{I:D:1:2345}}:7:8}ABC";
-                int len = 0;
-                fixed (char* _p = s)
-                {
-                    char* p = _p;
-                    var Expression = GAS.Core.Strings.FormattedStringGenerator.Parse(ref p, out len, s.Length, new ASCIIEncoding(), new Random());
-                    Console.WriteLine(Expression);
-                }
+                IExpression ex = ExpressionParser.Parse(s);
+                Console.WriteLine(s);
+                Console.ReadLine();
             }
         }
     }

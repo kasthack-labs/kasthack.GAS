@@ -29,12 +29,6 @@ namespace GAS.Core.Strings
             public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
             public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
         #endregion
-        static Regex RepeatRegex;// = new Regex(@"{#R:\{\$\$(?<inner_expression>.*)\$\$\}:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
-        static Regex AnyExpressionRegex;// = new Regex(@"\{#(?<expression_type>[ICS])(?<string_charset>:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex IntExpressionRegex = new Regex(@"\{#I:[DH]:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex CharExpressionRegex = new Regex(@"\{#C:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex StringExpressionRegex = new Regex(@"\{#S:[DHLaRSAU]:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
-        //static Regex ExpressionRegex = new Regex(@"\{#E:\{$$.*$$\}:(?<_from>[0-9]+):(?<to>[0-9]+)#\}");
         #endregion
         public Functions()
         {
@@ -60,85 +54,6 @@ namespace GAS.Core.Strings
                 "; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17");
             return useragent;
         }
-        /// <summary>
-        /// Generate random string
-        /// syntax:
-        ///     {I:type:_from:to} - integer
-        ///     \{I:[DH]:[0-9]+:[0-9]+\}
-        ///         type
-        ///             D:dec
-        ///             H- 0x....
-        ///         Example:
-        ///             {I:D:0:1000}
-        ///         Result example
-        ///             384
-        ///     {C:_from:to} -character
-        ///     \{C:[0-9]+:[0-9]+\}
-        ///         Example
-        ///             {C:1:65535}
-        ///         Result example
-        ///             Ё
-        ///     {S:type:min_length:max_length} -string
-        ///     \{S:[DHLaRSAU]:[0-9]+:[0-9]+\}
-        ///         type
-        ///             D,      //0-9
-        ///             H,      //0-f
-        ///             L,      //a-Z
-        ///             a,      //a-z
-        ///             R,      //*
-        ///             S,      //0-Z
-        ///             A,      //A-Z
-        ///             U       //full UTF-8
-        ///         Example:
-        ///             {S:a:3:1000}
-        ///         Result example
-        ///             gfdfyhtueyrstgdfggfr
-        ///     {R:{expressions}:min_count:max_count} - mutiple generator invocation
-        ///     \{R:\{.*\}:[0-9]+:[0-9]+\}
-        ///     //2+ level expressions are not supported yet
-        ///         Example
-        ///             {R:{{S:L:1:5}={S:U:1:50}&}:1:5}
-        ///         Result example
-        ///             werf=%A1%B3&tjy=%5F%9C%2D%42%A1%B3&ertg=%39%7E%E8%B2&
-        ///             
-        /// 
-        ///     \{#[ICS](:[a-zA-Z])?:[0-9]+:[0-9]+#\}
-        /// Warning! string will NOT be validated
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        /*public static FormattedStringGenerator RandomFormattedString(string input)
-        {
-
-
-            #region shit
-            /*Bug is here: */
-            /*
-            FormattedStringGenerator gen = new FormattedStringGenerator();
-            var Matches = RepeatRegex.Matches(input);
-            var input2 = RepeatRegex.Replace(input, new MatchEvaluator(Matchev));
-            var Matches_r2 = AnyExpressionRegex.Matches(input);
-            var Mixed_expressions = ((IEnumerable<Match>)Matches).Concat((IEnumerable<Match>)Matches).OrderBy(a => a.Index).SelectMany(a => new int[] { a.Index, a.Index + a.Length }).ToList();
-            if (Mixed_expressions[0] != 0)
-                Mixed_expressions.InsertRange(0, new int[] { 0, 0 });
-            if (Mixed_expressions.Last() != input.Length - 1)
-                Mixed_expressions.AddRange(new int[] { input.Length - 1, input.Length - 1 });
-            List<StaticASCIIStringExpression> expr = new List<StaticASCIIStringExpression>();
-            for (int i = 1; i < Mixed_expressions.Count - 1; i += 2)
-            {
-                Ass
-                //if (
-            }
-            */
-            /*var Borders = ((IEnumerable<Match>)Matches).SelectMany(a => new int[] { a.Index, a.Index + a.Length });
-            if (((IEnumerable<Match>)Matches).First().Index>0)
-                Borders.*/
-            /*
-            throw new NotImplementedException();
-            return gen;
-           #endregion
-        }
-        */
         static string Matchev(Match m)
         {
             //slow. just for prototype
@@ -419,37 +334,6 @@ namespace GAS.Core.Strings
                 output[i++] = _hex_chars_bytes[rnd & 0xf];
             }
             return output;
-        }
-        public static unsafe IExpression ExprSelect(ref char* _from, out int _outcount, int _max_count, Random _rnd = null, ASCIIEncoding _enc = null)
-        {
-            if (_enc == null)
-                _enc = new ASCIIEncoding();
-            if (_rnd == null)
-                _rnd = new Random();
-            _outcount = 0;
-            _max_count--;
-            IExpression expr;
-            #region Parse
-            switch (*++_from)
-            {
-                case 'I':
-                    expr= IntExpression.Parse(ref _from, out _outcount, _max_count, _rnd);//works
-                    break;
-                case 'C':
-                    expr = CharExpression.Parse(ref _from, out _outcount, _max_count , _rnd);
-                    break;
-                case 'S':
-                    expr = StringExpression.Parse(ref _from, out _outcount, _max_count , _rnd);
-                    break;
-                case 'R':
-                    expr = RepeatExpression.Parse(ref _from, out _outcount, _max_count , _rnd, _enc);//works
-                    break;
-                default:
-                    throw new FormatException("Not supported expression");
-            }
-            #endregion
-            _outcount++;
-            return expr;
         }
         public static unsafe int FindChar(char* _from, char* __end, char _c)
         {

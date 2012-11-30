@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Strings\ExpressionParser.cs" />
     <Compile Include="Strings\FormattedStringGenerator.cs" />
     <Compile Include="Strings\RepeatExpression.cs" />
     <Compile Include="Strings\StringExpression.cs" />

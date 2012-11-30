@@ -8,10 +8,10 @@ namespace GAS.Core.Strings
     public class RepeatExpression:IExpression
     {
         public int Min, Max;
-        public FormattedStringGenerator GEN;
+        public FormattedStringGenerator Expression;
         public string GetString()
         {
-            return GEN.GetString();
+            return Expression.GetString();
         }
         public override string ToString()
         {
@@ -19,38 +19,17 @@ namespace GAS.Core.Strings
         }
         public char[] GetChars()
         {
-            return GEN.GetChars();
+            return Expression.GetChars();
         }
 
         public byte[] GetAsciiBytes()
         {
-            return GEN.GetAsciiBytes();
+            return Expression.GetAsciiBytes();
         }
 
         public byte[] GetEncodingBytes(Encoding enc)
         {
-            return GEN.GetEncodingBytes(enc);
-        }
-
-        public static unsafe RepeatExpression Parse(ref char* _from, out int _outcount, int _maxcount, Random _rnd=null,ASCIIEncoding _enc=null)
-        {
-            if (_enc == null)
-                _enc = new ASCIIEncoding();
-            if (_rnd == null)
-                _rnd = new Random();
-            _from+=3;
-            RepeatExpression exp = new RepeatExpression();
-            exp.GEN = FormattedStringGenerator.Parse(ref _from, out _outcount, _maxcount-3,  _enc, _rnd);
-            _from += 3;
-            _outcount += 6;
-            int __cnt = 0;
-            __cnt = Functions.FindChar(_from, (char*)(_from + _maxcount - _outcount), ':');
-            exp.Min = Functions.qintparse(_from, 0, __cnt);
-            _from += __cnt+1;
-            __cnt = Functions.FindChar(_from, (char*)(_from + _maxcount - _outcount), '}');
-            exp.Max = Functions.qintparse(_from, 0, __cnt);
-            _from += __cnt;
-            return exp;
+            return Expression.GetEncodingBytes(enc);
         }
     }
 }
