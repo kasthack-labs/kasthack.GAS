@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
-using GAS.Core.Strings;
-using GAS.Core;
 namespace GAS.Core.Strings
 {
     public class IntExpression : IExpression
@@ -11,16 +7,15 @@ namespace GAS.Core.Strings
         public NumberFormat Format;
         public int Min, Max;
         Random rnd;
-        public IntExpression(Random _rnd = null)
-        {
+        [System.Diagnostics.DebuggerNonUserCode]
+        public IntExpression(Random _rnd = null) {
             rnd = _rnd == null ? new Random() : _rnd;
         }
         /// <summary>
         /// Get string representation of expression execution result
         /// </summary>
         /// <returns>string result</returns>
-        public string GetString()
-        {
+        public string GetString() {
             return new string(Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
                                     Functions.int_to_hex_string(rnd.Next(Min, Max + 1)));
         }
@@ -28,8 +23,7 @@ namespace GAS.Core.Strings
         /// Get char array representation of expression execution result
         /// </summary>
         /// <returns>char[] result</returns>
-        public char[] GetChars()
-        {
+        public char[] GetChars() {
             return Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
                                     Functions.int_to_hex_string(rnd.Next(Min, Max + 1));
         }
@@ -37,8 +31,7 @@ namespace GAS.Core.Strings
         /// Get native representation of expression execution result
         /// </summary>
         /// <returns>ascii bytes</returns>
-        public byte[] GetAsciiBytes()
-        {
+        public byte[] GetAsciiBytes() {
             return Format == NumberFormat.Decimal ? Functions.int_to_dec_string_bytes(rnd.Next(Min, Max + 1)) :
                                     Functions.int_to_hex_string_bytes(rnd.Next(Min, Max + 1));
         }
@@ -47,8 +40,7 @@ namespace GAS.Core.Strings
         /// </summary>
         /// <param name="_enc">encoding for encoding, lol</param>
         /// <returns>bytes</returns>
-        public byte[] GetEncodingBytes(Encoding enc)
-        {
+        public byte[] GetEncodingBytes(Encoding enc) {
             return enc.GetBytes(Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
                                    Functions.int_to_hex_string(rnd.Next(Min, Max + 1)));
         }
@@ -56,8 +48,7 @@ namespace GAS.Core.Strings
         /// alias 4 GetString. 4 debugging
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return GetString();
         }
     }

