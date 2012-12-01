@@ -13,4 +13,5 @@ TODO
 5) Add multitargetting
 6) Add socks proxy support
 7) Add attack exporting (xml serialization)
-8) Add universal interface for attacks 
+8) Add universal interface for attacks
+9) Add hivemind support - need GOOD code
