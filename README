@@ -1,19 +1,16 @@
 [Slowpoke] Master branch is OLD stable version. Check nu_async_sockets for updates [/Slowpoke]
 
-
-
 GAS
 ++++++++++++++++++++++++
 GAS is opensource stress-test tool originally based on IRC-LOIC(github.com/neweracracker/loic)
-
-
-
 
 TODO
 ++++++++++++++++++++++++
 1) Rewrite attack methods using async IO
 2) Add support of setting any http field: host/cookie/referrer/etc
-3) Add attack exporting/importing
-4) Add working stats
+3) Optimize RANDOM generator — it's really slow.
+4) Add random generator features to attacking classes
 5) Add multitargetting
-6) Add 2ch.hk wipe plugin
+6) Add socks proxy support
+7) Add attack exporting (xml serialization)
+8) Add universal interface for attacks 
