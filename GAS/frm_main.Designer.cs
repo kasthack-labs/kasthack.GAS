@@ -65,14 +65,14 @@
             this.property_table.Location = new System.Drawing.Point(0, 0);
             this.property_table.Name = "property_table";
             this.property_table.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.property_table.Size = new System.Drawing.Size(163, 438);
+            this.property_table.Size = new System.Drawing.Size(174, 438);
             this.property_table.TabIndex = 2;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 440);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(737, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(784, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -110,8 +110,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.property_table);
-            this.splitContainer1.Size = new System.Drawing.Size(737, 440);
-            this.splitContainer1.SplitterDistance = 568;
+            this.splitContainer1.Size = new System.Drawing.Size(784, 440);
+            this.splitContainer1.SplitterDistance = 604;
             this.splitContainer1.TabIndex = 16;
             // 
             // dgv_status
@@ -133,7 +133,7 @@
             this.dgv_status.Location = new System.Drawing.Point(136, 290);
             this.dgv_status.Name = "dgv_status";
             this.dgv_status.ReadOnly = true;
-            this.dgv_status.Size = new System.Drawing.Size(427, 116);
+            this.dgv_status.Size = new System.Drawing.Size(463, 116);
             this.dgv_status.TabIndex = 22;
             // 
             // dataGridViewTextBoxColumn2
@@ -189,7 +189,7 @@
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.Image = global::GAS.Properties.Resources.del;
-            this.button5.Location = new System.Drawing.Point(540, 412);
+            this.button5.Location = new System.Drawing.Point(576, 412);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(23, 23);
             this.button5.TabIndex = 21;
@@ -197,6 +197,7 @@
             // 
             // drv_targets
             // 
+            this.drv_targets.AllowUserToAddRows = false;
             this.drv_targets.AllowUserToDeleteRows = false;
             this.drv_targets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -211,15 +212,14 @@
             this.drv_targets.GridColor = System.Drawing.Color.White;
             this.drv_targets.Location = new System.Drawing.Point(136, 11);
             this.drv_targets.Name = "drv_targets";
-            this.drv_targets.ReadOnly = true;
-            this.drv_targets.Size = new System.Drawing.Size(427, 273);
+            this.drv_targets.Size = new System.Drawing.Size(463, 273);
             this.drv_targets.TabIndex = 16;
             // 
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Image = global::GAS.Properties.Resources.add;
-            this.button4.Location = new System.Drawing.Point(511, 412);
+            this.button4.Location = new System.Drawing.Point(547, 412);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(23, 23);
             this.button4.TabIndex = 20;
@@ -243,7 +243,7 @@
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button3.Image = global::GAS.Properties.Resources.stopall;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(346, 412);
+            this.button3.Location = new System.Drawing.Point(364, 412);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(70, 23);
             this.button3.TabIndex = 19;
@@ -256,7 +256,7 @@
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button2.Image = global::GAS.Properties.Resources.playall;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(270, 412);
+            this.button2.Location = new System.Drawing.Point(288, 412);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(70, 23);
             this.button2.TabIndex = 18;
@@ -268,7 +268,6 @@
             // 
             this.cell_State.HeaderText = "";
             this.cell_State.Name = "cell_State";
-            this.cell_State.ReadOnly = true;
             this.cell_State.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.cell_State.Width = 40;
             // 
@@ -277,31 +276,38 @@
             this.cell_IP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.cell_IP.HeaderText = "IP";
             this.cell_IP.Name = "cell_IP";
-            this.cell_IP.ReadOnly = true;
             // 
             // cell_Attack_Method
             // 
             this.cell_Attack_Method.HeaderText = "Attack Method";
+            this.cell_Attack_Method.Items.AddRange(new object[] {
+            "TCP",
+            "UDP",
+            "HTTP",
+            "ReCoil",
+            "SlowLOIC",
+            "RefRef",
+            "AhrDosme",
+            "SlowPost",
+            "Post",
+            "TMOF"});
             this.cell_Attack_Method.Name = "cell_Attack_Method";
-            this.cell_Attack_Method.ReadOnly = true;
-            this.cell_Attack_Method.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.cell_Attack_Method.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.cell_Attack_Method.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.cell_Attack_Method.Width = 75;
             // 
             // cell_admin
             // 
             this.cell_admin.HeaderText = "Play \\ Stop";
             this.cell_admin.Name = "cell_admin";
-            this.cell_admin.ReadOnly = true;
             this.cell_admin.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.cell_admin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.cell_admin.Width = 75;
+            this.cell_admin.Text = "Play \\ Stop";
             // 
             // frm_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 462);
+            this.ClientSize = new System.Drawing.Size(784, 462);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.MinimumSize = new System.Drawing.Size(753, 500);
