@@ -83,6 +83,16 @@ namespace GAS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ion1 {
+            get {
+                object obj = ResourceManager.GetObject("ion1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap loic {
             get {
                 object obj = ResourceManager.GetObject("loic", resourceCulture);
@@ -116,6 +126,16 @@ namespace GAS.Properties {
         internal static System.Drawing.Bitmap stopall {
             get {
                 object obj = ResourceManager.GetObject("stopall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tmp_bkgrnd {
+            get {
+                object obj = ResourceManager.GetObject("tmp_bkgrnd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.property_table = new System.Windows.Forms.PropertyGrid();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.pic_logo = new System.Windows.Forms.PictureBox();
+            this.status_null = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dgv_status = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,23 +39,24 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button5 = new System.Windows.Forms.Button();
             this.drv_targets = new System.Windows.Forms.DataGridView();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.cell_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.cell_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cell_Attack_Method = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cell_admin = new System.Windows.Forms.DataGridViewButtonColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).BeginInit();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.pic_logo = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_status)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.drv_targets)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).BeginInit();
             this.SuspendLayout();
             // 
             // property_table
@@ -65,29 +65,15 @@
             this.property_table.Location = new System.Drawing.Point(0, 0);
             this.property_table.Name = "property_table";
             this.property_table.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.property_table.Size = new System.Drawing.Size(174, 438);
+            this.property_table.Size = new System.Drawing.Size(197, 438);
             this.property_table.TabIndex = 2;
             // 
-            // statusStrip1
+            // status_null
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 440);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(784, 22);
-            this.statusStrip1.TabIndex = 9;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // pic_logo
-            // 
-            this.pic_logo.BackColor = System.Drawing.Color.Gray;
-            this.pic_logo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pic_logo.Image = global::GAS.Properties.Resources.loic;
-            this.pic_logo.InitialImage = null;
-            this.pic_logo.Location = new System.Drawing.Point(0, 0);
-            this.pic_logo.Name = "pic_logo";
-            this.pic_logo.Size = new System.Drawing.Size(130, 438);
-            this.pic_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pic_logo.TabIndex = 3;
-            this.pic_logo.TabStop = false;
+            this.status_null.Location = new System.Drawing.Point(0, 440);
+            this.status_null.Name = "status_null";
+            this.status_null.Size = new System.Drawing.Size(884, 22);
+            this.status_null.TabIndex = 9;
             // 
             // splitContainer1
             // 
@@ -110,12 +96,13 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.property_table);
-            this.splitContainer1.Size = new System.Drawing.Size(784, 440);
-            this.splitContainer1.SplitterDistance = 604;
+            this.splitContainer1.Size = new System.Drawing.Size(884, 440);
+            this.splitContainer1.SplitterDistance = 681;
             this.splitContainer1.TabIndex = 16;
             // 
             // dgv_status
             // 
+            this.dgv_status.AllowUserToAddRows = false;
             this.dgv_status.AllowUserToDeleteRows = false;
             this.dgv_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -130,10 +117,10 @@
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8});
             this.dgv_status.GridColor = System.Drawing.Color.White;
-            this.dgv_status.Location = new System.Drawing.Point(136, 290);
+            this.dgv_status.Location = new System.Drawing.Point(190, 290);
             this.dgv_status.Name = "dgv_status";
             this.dgv_status.ReadOnly = true;
-            this.dgv_status.Size = new System.Drawing.Size(463, 116);
+            this.dgv_status.Size = new System.Drawing.Size(486, 116);
             this.dgv_status.TabIndex = 22;
             // 
             // dataGridViewTextBoxColumn2
@@ -185,16 +172,6 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Image = global::GAS.Properties.Resources.del;
-            this.button5.Location = new System.Drawing.Point(576, 412);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(23, 23);
-            this.button5.TabIndex = 21;
-            this.button5.UseVisualStyleBackColor = true;
-            // 
             // drv_targets
             // 
             this.drv_targets.AllowUserToAddRows = false;
@@ -210,59 +187,10 @@
             this.cell_Attack_Method,
             this.cell_admin});
             this.drv_targets.GridColor = System.Drawing.Color.White;
-            this.drv_targets.Location = new System.Drawing.Point(136, 11);
+            this.drv_targets.Location = new System.Drawing.Point(190, 11);
             this.drv_targets.Name = "drv_targets";
-            this.drv_targets.Size = new System.Drawing.Size(463, 273);
+            this.drv_targets.Size = new System.Drawing.Size(486, 273);
             this.drv_targets.TabIndex = 16;
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Image = global::GAS.Properties.Resources.add;
-            this.button4.Location = new System.Drawing.Point(547, 412);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(23, 23);
-            this.button4.TabIndex = 20;
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Image = global::GAS.Properties.Resources.net;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(136, 412);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Hive Mind";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button3.Image = global::GAS.Properties.Resources.stopall;
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(364, 412);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(70, 23);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Stop All";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button2.Image = global::GAS.Properties.Resources.playall;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(288, 412);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 23);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "Start All";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // cell_State
             // 
@@ -303,25 +231,98 @@
             this.cell_admin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.cell_admin.Text = "Play \\ Stop";
             // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Image = global::GAS.Properties.Resources.del;
+            this.button5.Location = new System.Drawing.Point(653, 412);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(23, 23);
+            this.button5.TabIndex = 21;
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Image = global::GAS.Properties.Resources.add;
+            this.button4.Location = new System.Drawing.Point(624, 412);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(23, 23);
+            this.button4.TabIndex = 20;
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Image = global::GAS.Properties.Resources.net;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(190, 412);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Hive Mind";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.button3.Image = global::GAS.Properties.Resources.stopall;
+            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button3.Location = new System.Drawing.Point(402, 412);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(70, 23);
+            this.button3.TabIndex = 19;
+            this.button3.Text = "Stop All";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.button2.Image = global::GAS.Properties.Resources.playall;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(326, 412);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(70, 23);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "Start All";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // pic_logo
+            // 
+            this.pic_logo.BackColor = System.Drawing.Color.Gray;
+            this.pic_logo.BackgroundImage = global::GAS.Properties.Resources.tmp_bkgrnd;
+            this.pic_logo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pic_logo.Image = global::GAS.Properties.Resources.ion1;
+            this.pic_logo.InitialImage = null;
+            this.pic_logo.Location = new System.Drawing.Point(0, 0);
+            this.pic_logo.Name = "pic_logo";
+            this.pic_logo.Size = new System.Drawing.Size(184, 438);
+            this.pic_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pic_logo.TabIndex = 3;
+            this.pic_logo.TabStop = false;
+            // 
             // frm_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 462);
+            this.ClientSize = new System.Drawing.Size(884, 462);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.statusStrip1);
-            this.MinimumSize = new System.Drawing.Size(753, 500);
+            this.Controls.Add(this.status_null);
+            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "frm_main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAS: New GUI. applause, ladies and gentlemen!";
             this.Load += new System.EventHandler(this.frm_main_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_status)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.drv_targets)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,7 +332,7 @@
 
         private System.Windows.Forms.PropertyGrid property_table;
         private System.Windows.Forms.PictureBox pic_logo;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip status_null;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dgv_status;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;

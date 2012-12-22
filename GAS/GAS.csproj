@@ -105,6 +105,12 @@
   <ItemGroup>
     <None Include="res\playall.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\tmp_bkgrnd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\ion1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
