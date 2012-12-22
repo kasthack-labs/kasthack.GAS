@@ -83,6 +83,16 @@ namespace GAS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap favicon {
+            get {
+                object obj = ResourceManager.GetObject("favicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ion1 {
             get {
                 object obj = ResourceManager.GetObject("ion1", resourceCulture);
@@ -106,6 +116,26 @@ namespace GAS.Properties {
         internal static System.Drawing.Bitmap net {
             get {
                 object obj = ResourceManager.GetObject("net", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap New_logo {
+            get {
+                object obj = ResourceManager.GetObject("New_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap New_logo2 {
+            get {
+                object obj = ResourceManager.GetObject("New_logo2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

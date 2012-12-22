@@ -53,7 +53,7 @@ namespace GAS.TUI
             Console.WriteLine("###############################################");
             Console.WriteLine("#                                             #");
             Console.WriteLine("#  GAS 4 anon by http://github.com/kasthack   #");
-            Console.WriteLine("#                              fork by STAM   #");
+            Console.WriteLine("#                         fork by STAM  1.0   #");
             Console.WriteLine("###############################################");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Some notes:");

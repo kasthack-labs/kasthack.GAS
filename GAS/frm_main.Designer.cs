@@ -45,6 +45,7 @@
             this.cell_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cell_Attack_Method = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cell_admin = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btn_about = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -66,12 +67,12 @@
             this.property_table.Location = new System.Drawing.Point(0, 0);
             this.property_table.Name = "property_table";
             this.property_table.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.property_table.Size = new System.Drawing.Size(197, 438);
+            this.property_table.Size = new System.Drawing.Size(197, 468);
             this.property_table.TabIndex = 2;
             // 
             // status_null
             // 
-            this.status_null.Location = new System.Drawing.Point(0, 440);
+            this.status_null.Location = new System.Drawing.Point(0, 470);
             this.status_null.Name = "status_null";
             this.status_null.Size = new System.Drawing.Size(884, 22);
             this.status_null.TabIndex = 9;
@@ -97,7 +98,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.property_table);
-            this.splitContainer1.Size = new System.Drawing.Size(884, 440);
+            this.splitContainer1.Size = new System.Drawing.Size(884, 470);
             this.splitContainer1.SplitterDistance = 681;
             this.splitContainer1.TabIndex = 16;
             // 
@@ -118,7 +119,7 @@
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8});
             this.dgv_status.GridColor = System.Drawing.Color.White;
-            this.dgv_status.Location = new System.Drawing.Point(190, 290);
+            this.dgv_status.Location = new System.Drawing.Point(190, 320);
             this.dgv_status.Name = "dgv_status";
             this.dgv_status.ReadOnly = true;
             this.dgv_status.Size = new System.Drawing.Size(486, 116);
@@ -190,7 +191,7 @@
             this.drv_targets.GridColor = System.Drawing.Color.White;
             this.drv_targets.Location = new System.Drawing.Point(190, 11);
             this.drv_targets.Name = "drv_targets";
-            this.drv_targets.Size = new System.Drawing.Size(486, 273);
+            this.drv_targets.Size = new System.Drawing.Size(486, 303);
             this.drv_targets.TabIndex = 16;
             // 
             // cell_State
@@ -232,11 +233,23 @@
             this.cell_admin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.cell_admin.Text = "Play \\ Stop";
             // 
+            // btn_about
+            // 
+            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_about.Image = global::GAS.Properties.Resources.add;
+            this.btn_about.Location = new System.Drawing.Point(1, 470);
+            this.btn_about.Name = "btn_about";
+            this.btn_about.Size = new System.Drawing.Size(22, 22);
+            this.btn_about.TabIndex = 17;
+            this.btn_about.Text = "\r\n";
+            this.btn_about.UseVisualStyleBackColor = true;
+            this.btn_about.Click += new System.EventHandler(this.btn_about_Click);
+            // 
             // button5
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.Image = global::GAS.Properties.Resources.del;
-            this.button5.Location = new System.Drawing.Point(653, 412);
+            this.button5.Location = new System.Drawing.Point(653, 442);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(23, 23);
             this.button5.TabIndex = 21;
@@ -246,7 +259,7 @@
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Image = global::GAS.Properties.Resources.add;
-            this.button4.Location = new System.Drawing.Point(624, 412);
+            this.button4.Location = new System.Drawing.Point(624, 442);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(23, 23);
             this.button4.TabIndex = 20;
@@ -257,7 +270,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Image = global::GAS.Properties.Resources.net;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(190, 412);
+            this.button1.Location = new System.Drawing.Point(190, 442);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(82, 23);
             this.button1.TabIndex = 17;
@@ -270,7 +283,7 @@
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button3.Image = global::GAS.Properties.Resources.stopall;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(402, 412);
+            this.button3.Location = new System.Drawing.Point(440, 442);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(70, 23);
             this.button3.TabIndex = 19;
@@ -283,7 +296,7 @@
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button2.Image = global::GAS.Properties.Resources.playall;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(326, 412);
+            this.button2.Location = new System.Drawing.Point(364, 442);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(70, 23);
             this.button2.TabIndex = 18;
@@ -296,11 +309,11 @@
             this.pic_logo.BackColor = System.Drawing.Color.Gray;
             this.pic_logo.BackgroundImage = global::GAS.Properties.Resources.tmp_bkgrnd;
             this.pic_logo.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pic_logo.Image = global::GAS.Properties.Resources.ion1;
+            this.pic_logo.Image = global::GAS.Properties.Resources.New_logo2;
             this.pic_logo.InitialImage = null;
             this.pic_logo.Location = new System.Drawing.Point(0, 0);
             this.pic_logo.Name = "pic_logo";
-            this.pic_logo.Size = new System.Drawing.Size(184, 438);
+            this.pic_logo.Size = new System.Drawing.Size(184, 468);
             this.pic_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pic_logo.TabIndex = 3;
             this.pic_logo.TabStop = false;
@@ -309,11 +322,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 462);
+            this.ClientSize = new System.Drawing.Size(884, 492);
+            this.Controls.Add(this.btn_about);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.status_null);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(800, 500);
+            this.MinimumSize = new System.Drawing.Size(800, 530);
             this.Name = "frm_main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAS: New GUI. applause, ladies and gentlemen!";
@@ -354,5 +368,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cell_IP;
         private System.Windows.Forms.DataGridViewComboBoxColumn cell_Attack_Method;
         private System.Windows.Forms.DataGridViewButtonColumn cell_admin;
+        private System.Windows.Forms.Button btn_about;
     }
 }

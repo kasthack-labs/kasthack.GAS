@@ -9,21 +9,11 @@ using System.Windows.Forms;
 
 namespace GAS
 {
-    public partial class frm_main : Form
+    public partial class frm_about : Form
     {
-        public frm_main()
+        public frm_about()
         {
             InitializeComponent();
-        }
-
-        private void frm_main_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_about_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }
