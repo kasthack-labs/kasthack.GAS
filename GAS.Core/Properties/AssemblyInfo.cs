@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GAS.Core")]
 [assembly: AssemblyDescription("GAS DDoS Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("kasthack")]
+[assembly: AssemblyCompany("Kasthack")]
 [assembly: AssemblyProduct("GAS.Core")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("Copyright © Kasthack 2012")]
 [assembly: AssemblyTrademark("kasthack")]
 [assembly: AssemblyCulture("")]
 

