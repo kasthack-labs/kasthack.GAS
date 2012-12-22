@@ -35,8 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmmain.cs">
@@ -45,10 +47,19 @@
     <Compile Include="frmmain.Designer.cs">
       <DependentUpon>frmmain.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_main.Designer.cs">
+      <DependentUpon>frm_main.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmmain.resx">
       <DependentUpon>frmmain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_main.resx">
+      <DependentUpon>frm_main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,6 +89,21 @@
       <Project>{14E25EB2-BE99-4157-AA66-2B1606466927}</Project>
       <Name>GAS.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\del.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\net.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\stopall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\playall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
