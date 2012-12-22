@@ -63,7 +63,7 @@ namespace GAS.TUI
             Console.WriteLine("");
             Console.WriteLine("TO DO:");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("1. Сделать проверку на правильность ввода!\r\n                Я не смог :(");
+            Console.WriteLine("1. Сделать проверку на правильность ввода!\r\n2.Проверка языка системы.\r\n3.При русском языке - русский текст!");
             Console.ForegroundColor = ConsoleColor.Yellow; 
             Console.WriteLine("                                  [Press Enter]");
             Console.ForegroundColor = ConsoleColor.White; 
@@ -115,7 +115,8 @@ namespace GAS.TUI
              * не помню как создать проверку или бесконечное предложение ввести только число.
              * Можно и с помощью региксов.
               
-                }*/ 
+                }*/
+            #endregion
             Console.ForegroundColor = ConsoleColor.Yellow; 
             Console.WriteLine("3. Select attack type [ReCoil]:\r\n(UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post|TMOF)");
             Console.ForegroundColor = ConsoleColor.White; 
@@ -178,17 +179,17 @@ namespace GAS.TUI
                 }
                 catch { }
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("###############################################");
+                Console.WriteLine("------------------------------------------------");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Attacking...");
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("###############################################");
+                
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Press Enter stop attack and exit");
                 Console.ForegroundColor = ConsoleColor.Green;
             #endregion
             Console.ReadLine();
-            Console.WriteLine("Exiting, please wait");
+            Console.WriteLine("\r\n\r\n\r\n\r\n------------------------------------------------\r\nExiting, please wait...");
             t.Stop();
             Core.Stop();
             Console.Clear();

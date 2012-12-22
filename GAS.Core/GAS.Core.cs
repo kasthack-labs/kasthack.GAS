@@ -2,15 +2,11 @@
 using System.Net;
 
 /*
-     * Доработанная в плане дизайна консольная версия Газа для Украины(:D). 
-     * Что сделано:
-     * --Покрашено в цвета
-     * --Исправлен дизайнъ
-     * --Создана иконка :)
-     * Что не сделано:
-     * --Не сделана проверка на правильный ввод параметров по региксам. Сейчас вылетает с эксепшенами.
-     * --Определение языка системы.
-     * --Перевод на русский язык в рускоязычных системах.
+     
+ * Смотри код ниже с пометкой "by stam":
+ * Если ввести некоректный адрес, то напишет Wrong Host. Раньше вытекал с ошибкой. 
+ * Тут больше нчего не трогал.
+ * Хотя подправил иконку :)
      */
 
 namespace GAS.Core
@@ -72,9 +68,9 @@ namespace GAS.Core
                 catch {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Target = locolhaust;
-                    Console.WriteLine("Wrong HOST!");
-                    Console.ReadLine();
-                    Environment.Exit(666);
+                    Console.WriteLine("Wrong HOST!");   //by stam
+                    Console.ReadLine();                 //by stam
+                    Environment.Exit(666);              //by stam
                     throw new Exception("Wrong HOST!");
                     
                 }
