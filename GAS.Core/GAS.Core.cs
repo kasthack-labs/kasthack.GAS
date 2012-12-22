@@ -1,6 +1,18 @@
 ﻿using System;
 using System.Net;
 
+/*
+     * Доработанная в плане дизайна консольная версия Газа для Украины(:D). 
+     * Что сделано:
+     * --Покрашено в цвета
+     * --Исправлен дизайнъ
+     * --Создана иконка :)
+     * Что не сделано:
+     * --Не сделана проверка на правильный ввод параметров по региксам. Сейчас вылетает с эксепшенами.
+     * --Определение языка системы.
+     * --Перевод на русский язык в рускоязычных системах.
+     */
+
 namespace GAS.Core
 {
     public enum AttackMethod
@@ -58,8 +70,13 @@ namespace GAS.Core
                     return true;
                 }
                 catch {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Target = locolhaust;
-                    throw new Exception("Wrong HOST");
+                    Console.WriteLine("Wrong HOST!");
+                    Console.ReadLine();
+                    Environment.Exit(666);
+                    throw new Exception("Wrong HOST!");
+                    
                 }
             }
         }
