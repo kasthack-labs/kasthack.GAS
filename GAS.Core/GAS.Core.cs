@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Net;
 
-/*
-     
- * Смотри код ниже с пометкой "by stam":
- * Если ввести некоректный адрес, то напишет Wrong Host. Раньше вытекал с ошибкой. 
- * Тут больше нчего не трогал.
- * Хотя подправил иконку :)
-     */
-
 namespace GAS.Core
 {
     public enum AttackMethod
