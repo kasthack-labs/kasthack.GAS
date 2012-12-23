@@ -15,7 +15,7 @@ namespace GAS.TUI
         {
             int tmp_int_parse = 0;
             bool tmp_bool_parse = false;
-            try { Console.Title = "GAS for urkaine"; }
+            try { Console.Title = "[GAS] for urkaine :)"; }
             catch { }
             #region Detect oS
             string temp;
@@ -149,12 +149,12 @@ namespace GAS.TUI
             foreach (string s in Blacklist)
                 if (temp.ToLower().Contains(s))
                 {
-                    _e("U SUK COX");
+                    _e("[Restricted domain!]");
                     return false;
                 }
             bool IPOK = Core.LockOn(temp);
             if (!IPOK)
-                _e("Wrong Target!");
+                _e("[Wrong Target!]");
             return IPOK;
         }
         static void t_Elapsed(object sender, ElapsedEventArgs argZ)
