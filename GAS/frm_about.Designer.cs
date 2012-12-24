@@ -11,10 +11,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if ( disposing && ( components != null ) ) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,8 +24,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_about));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -51,7 +48,7 @@
             this.lbl_stm = new System.Windows.Forms.Label();
             this.lbl_kst = new System.Windows.Forms.Label();
             this.lbl_null1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.pictureBox1 ) ).BeginInit();
             this.gb_null3.SuspendLayout();
             this.gb_null4.SuspendLayout();
             this.panel.SuspendLayout();
@@ -77,7 +74,7 @@
             // lbl_logo
             // 
             this.lbl_logo.AutoSize = true;
-            this.lbl_logo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbl_logo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ( (byte)( 204 ) ));
             this.lbl_logo.Location = new System.Drawing.Point(249, 12);
             this.lbl_logo.Name = "lbl_logo";
             this.lbl_logo.Size = new System.Drawing.Size(267, 18);
@@ -231,8 +228,8 @@
             this.lbl_somenots.Size = new System.Drawing.Size(284, 84);
             this.lbl_somenots.TabIndex = 0;
             this.lbl_somenots.Text = "♦ GAS (Ground-based Antisatellite System) - OpenSource program, based on souce-co" +
-    "de of LOIC and IR LOIC. \r\n\r\n♦ License: OpenSource, Public Domain\r\n\r\n♦ Program Ty" +
-    "pe: Network testing";
+    "de of LOIC and IRC LOIC. \r\n\r\n♦ License: OpenSource, Public Domain\r\n\r\n♦ Program T" +
+    "ype: Network testing";
             // 
             // lbl_stm
             // 
@@ -248,9 +245,9 @@
             this.lbl_kst.AutoSize = true;
             this.lbl_kst.Location = new System.Drawing.Point(127, 35);
             this.lbl_kst.Name = "lbl_kst";
-            this.lbl_kst.Size = new System.Drawing.Size(119, 13);
+            this.lbl_kst.Size = new System.Drawing.Size(118, 13);
             this.lbl_kst.TabIndex = 0;
-            this.lbl_kst.Text = "♦ Main code: Kasthack";
+            this.lbl_kst.Text = "♦ Main code: kasthack";
             // 
             // lbl_null1
             // 
@@ -275,7 +272,7 @@
             this.Controls.Add(this.lbl_logo);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ( (System.Drawing.Icon)( resources.GetObject("$this.Icon") ) );
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frm_about";
@@ -284,7 +281,7 @@
             this.Text = "GAS :: About";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_about_FormClosing);
             this.Load += new System.EventHandler(this.frm_about_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.pictureBox1 ) ).EndInit();
             this.gb_null3.ResumeLayout(false);
             this.gb_null3.PerformLayout();
             this.gb_null4.ResumeLayout(false);

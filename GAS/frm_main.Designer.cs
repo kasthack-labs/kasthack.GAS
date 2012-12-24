@@ -11,23 +11,19 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if ( disposing && ( components != null ) ) {
                 components.Dispose();
             }
             base.Dispose(disposing);
         }
-
         #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_main));
             this.property_table = new System.Windows.Forms.PropertyGrid();
             this.status_null = new System.Windows.Forms.StatusStrip();
@@ -52,13 +48,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.pic_logo = new System.Windows.Forms.PictureBox();
             this.btn_about = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.splitContainer1 ) ).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_status)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drv_targets)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.dgv_status ) ).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.drv_targets ) ).BeginInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.pic_logo ) ).BeginInit();
             this.SuspendLayout();
             // 
             // property_table
@@ -106,8 +102,8 @@
             // 
             this.dgv_status.AllowUserToAddRows = false;
             this.dgv_status.AllowUserToDeleteRows = false;
-            this.dgv_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_status.Anchor = ( (System.Windows.Forms.AnchorStyles)( ( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.dgv_status.BackgroundColor = System.Drawing.Color.White;
             this.dgv_status.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_status.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -176,7 +172,7 @@
             // 
             // button5
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Anchor = ( (System.Windows.Forms.AnchorStyles)( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.button5.Image = global::GAS.Properties.Resources.del;
             this.button5.Location = new System.Drawing.Point(653, 442);
             this.button5.Name = "button5";
@@ -188,9 +184,9 @@
             // 
             this.drv_targets.AllowUserToAddRows = false;
             this.drv_targets.AllowUserToDeleteRows = false;
-            this.drv_targets.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.drv_targets.Anchor = ( (System.Windows.Forms.AnchorStyles)( ( ( ( System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom )
+            | System.Windows.Forms.AnchorStyles.Left )
+            | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.drv_targets.BackgroundColor = System.Drawing.Color.White;
             this.drv_targets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.drv_targets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -245,7 +241,7 @@
             // 
             // button4
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Anchor = ( (System.Windows.Forms.AnchorStyles)( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right ) ) );
             this.button4.Image = global::GAS.Properties.Resources.add;
             this.button4.Location = new System.Drawing.Point(624, 442);
             this.button4.Name = "button4";
@@ -255,7 +251,7 @@
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Anchor = ( (System.Windows.Forms.AnchorStyles)( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.button1.Image = global::GAS.Properties.Resources.net;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button1.Location = new System.Drawing.Point(190, 442);
@@ -309,7 +305,7 @@
             // 
             // btn_about
             // 
-            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_about.Anchor = ( (System.Windows.Forms.AnchorStyles)( ( System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left ) ) );
             this.btn_about.Image = global::GAS.Properties.Resources.inf;
             this.btn_about.Location = new System.Drawing.Point(1, 471);
             this.btn_about.Name = "btn_about";
@@ -327,7 +323,7 @@
             this.Controls.Add(this.btn_about);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.status_null);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ( (System.Drawing.Icon)( resources.GetObject("$this.Icon") ) );
             this.MinimumSize = new System.Drawing.Size(800, 530);
             this.Name = "frm_main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -336,18 +332,17 @@
             this.Load += new System.EventHandler(this.frm_main_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.splitContainer1 ) ).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_status)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drv_targets)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_logo)).EndInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.dgv_status ) ).EndInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.drv_targets ) ).EndInit();
+            ( (System.ComponentModel.ISupportInitialize)( this.pic_logo ) ).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
         private System.Windows.Forms.PropertyGrid property_table;
         private System.Windows.Forms.PictureBox pic_logo;
         private System.Windows.Forms.StatusStrip status_null;
