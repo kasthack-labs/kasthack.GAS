@@ -6,7 +6,7 @@ namespace GAS.Core
     /// <summary>
     /// this attack exploits pam open file limit 
     /// and causes "Too Many Open Files" error
-    /// i'm  not sure it wotks well
+    /// _i'_m  not sure it wotks well
     /// </summary>
     class TMOF : IAttacker
     {

@@ -51,7 +51,7 @@ namespace GAS.Core.Strings
         ///     \{#[ICS](:[a-zA-Z])?:[0-9]+:[0-9]+#\}
         /// Warning! string will NOT be validated
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="_input"></param>
         /// <returns></returns>
         public static unsafe FormattedStringGenerator Parse(string str) {
             int len = 0;
@@ -84,7 +84,7 @@ namespace GAS.Core.Strings
         /// pointer will point to closing } of expression
         /// </summary>
         /// <param name="_from">pointer to 1st char after opening {</param>
-        /// <param name="_outcount">returned value 4 read character count </param>
+        /// <param name="_outcount">returned value 4 read character _count </param>
         /// <param name="_rnd">randomizer</param>
         /// <returns>parsed expression</returns>
         //works
@@ -139,7 +139,7 @@ namespace GAS.Core.Strings
         /// Parses string as ExpressionTree
         /// </summary>
         /// <param name="_from">pointer to __start parsing</param>
-        /// <param name="_outcount">output to save move offset</param>
+        /// <param name="_outcount">__output to save move offset</param>
         /// <param name="_enc">encoding instanse for generated expressions</param>
         /// <param name="_rnd">randomizer instanse for generated expressions</param>
         /// <param name="_max_count">max string parse length</param>

@@ -35,6 +35,7 @@ namespace GAS.Core.Strings
             return new string(ch);
         }
         public static string RandomUserAgent() {
+            //slow. very slow
             String[] osversions = { "5.1", "6.0", "6.1" };
             String[] oslanguages = { "en-GB", "en-US", "es-ES", "pt-BR", "pt-PT", "sv-SE" };
             String version = osversions[random.Next(0, osversions.Length - 1)];
@@ -47,255 +48,257 @@ namespace GAS.Core.Strings
                 "; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17");
             return useragent;
         }
-        static string Matchev(Match m) {
+        static string Matchev(Match _m) {
             //slow. just for prototype
-            return new String(Enumerable.Repeat(' ', m.Length).ToArray());
+            return new String(Enumerable.Repeat(' ', _m.Length).ToArray());
         }
-        /*character functions*/
-        /*static char[] __random_string_gen(StringFormat f, int MinLen, int MaxLen)
-        {
-            int __cnt = random.Next(MinLen, MaxLen + 1),c_len=1;
-            bool urlencode = ((f & StringFormat.Urlencode) == StringFormat.Urlencode);
-            char[] _c =new char[ __cnt * ( urlencode? 3 : 1)];
-
-            for (int i = 0; i < __cnt; i++)
-            {
-                random.Next(random.Next(0,c_len);
-            }
-            return null;
-        }*/
-        public static int qintparse(char[] input) {
-            return qintparse(input, 0, input.Length);
+        public static int qintparse(char[] _input) {
+            return qintparse(_input, 0, _input.Length);
         }
-        public static int qintparse(char[] input, int from, int count) {
-            int sum = 0, cnt = 0;
-            bool pos = true;
-            if ( input[from] == '-' ) {
-                pos = false;
-                cnt++;
+        public static int qintparse(char[] _input, int _from, int _count) {
+            int __sum = 0, __cnt = 0;
+            bool __pos = true;
+            if ( _input[_from] == '-' ) {
+                __pos = false;
+                __cnt++;
             }
-            while ( cnt < count ) {
-                sum *= 10;
-                sum += ( (int)input[( cnt++ ) + from] ) - 48;
+            while ( __cnt < _count ) {
+                __sum *= 10;
+                __sum += ( (int)_input[( __cnt++ ) + _from] ) - 48;
             }
-            return pos ? sum : -sum;
+            return __pos ? __sum : -__sum;
         }
-        public static long qlongparse(char[] input) {
-            return qlongparse(input, 0, input.Length);
+        public static long qlongparse(char[] _input) {
+            return qlongparse(_input, 0, _input.Length);
         }
-        public static long qlongparse(char[] input, int from, int count) {
-            long sum = 0, cnt = 0;
-            bool pos = true;
-            if ( input[from] == '-' ) {
-                pos = false;
-                cnt++;
+        public static long qlongparse(char[] _input, int _from, int _count) {
+            long __sum = 0, __cnt = 0;
+            bool __pos = true;
+            if ( _input[_from] == '-' ) {
+                __pos = false;
+                __cnt++;
             }
-            while ( cnt < count ) {
-                sum *= 10;
-                sum += ( (int)input[( cnt++ ) + from] ) - 48;
+            while ( __cnt < _count ) {
+                __sum *= 10;
+                __sum += ( (int)_input[( __cnt++ ) + _from] ) - 48;
             }
-            return pos ? sum : -sum;
+            return __pos ? __sum : -__sum;
         }
-        public static unsafe int qintparse(char* input, int from, int count) {
-            int sum = 0;//, __cnt = 0;
-            input += from;
-            char* end = input + count;
-            bool pos = true;
-            if ( *input == '-' ) {
-                pos = false;
-                input++;
+        public static char[] int_to_hex_string(long _i) {
+            if ( _i == 0 ) return new char[] { '0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
             }
-            while ( input < end ) {
-                sum *= 10;
-                sum += ( (int)*input++ ) - 48;
-            }
-            return pos ? sum : -sum;
+            long __copy = _i;
+            while ( ( _i >>= 4 ) > 0 ) __sz++;
+            char[] __output = new char[__sz + 1];
+            __output[0] = '-';
+            do __output[__sz--] = _hex_chars[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
+            return __output;
         }
-        public static unsafe long qlongparse(char* input, int from, int count) {
-            long sum = 0;//, __cnt = 0;
-            input += from;
-            char* end = input + count;
-            bool pos = true;
-            if ( *input == '-' ) {
-                pos = false;
-                input++;
+        public static char[] int_to_dec_string(long _i) {
+            if ( _i == 0 ) return new char[] { '0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
             }
-            while ( input < end ) {
-                sum *= 10;
-                sum += ( (int)*input++ ) - 48;
-            }
-            return pos ? sum : -sum;
+            long __copy = _i;
+            while ( ( _i /= 10 ) > 0 ) __sz++;
+            char[] __output = new char[__sz + 1];
+            __output[0] = '-';
+            do __output[__sz--] = _hex_chars[__copy % 10]; while ( ( __copy /= 10 ) > 0 );
+            return __output;
         }
-        public static char[] int_to_hex_string(long i) {
-            if ( i == 0 ) return new char[] { '0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
+        public static char[] int_to_hex_string(int _i) {
+            if ( _i == 0 ) return new char[] { '0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
             }
-            long copy = i;
-            while ( ( i >>= 4 ) > 0 ) sz++;
-            char[] output = new char[sz + 1];
+            int __copy = _i;
+            while ( ( _i >>= 4 ) > 0 ) __sz++;
+            char[] __output = new char[__sz + 1];
+            __output[0] = '-';
+            do __output[__sz--] = _hex_chars[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
+            return __output;
+        }
+        public static char[] int_to_dec_string(int _i) {
+            if ( _i == 0 ) return new char[] { '0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
+            }
+            int __copy = _i;
+            while ( ( _i /= 10 ) > 0 ) __sz++;
+            char[] output = new char[__sz + 1];
             output[0] = '-';
-            do output[sz--] = _hex_chars[copy & 0x0fL]; while ( ( copy >>= 4 ) > 0 );
+            do output[__sz--] = _hex_chars[__copy % 10]; while ( ( __copy /= 10 ) > 0 );
             return output;
         }
-        public static char[] int_to_dec_string(long i) {
-            if ( i == 0 ) return new char[] { '0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
+        public static char[] random_ascii(int _min_len, int _max_len) {
+            return random_ascii(_min_len, _max_len, _ascii_chars, 0, _ascii_chars.Length - 1);
+        }
+        public static char[] random_ascii(int _min_len, int _max_len, char[] _source, int _startindex, int _maxindex) {
+            return random_ascii(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
+        }
+        public static char[] random_utf_urlencode_string(int _min_real_len, int _max_real_len) {
+            return random_utf_urlencode_string( random.Next(_min_real_len, _max_real_len));
+        }
+        /*real engine*/
+        public static char[] random_utf_urlencode_string(int _len) {
+            _len *= 6;
+            char[] __output = new char[_len];
+            ushort __rnd = 0;
+            char __pc = '%';
+            for ( int i = 0; i < _len; ) {
+                __rnd = (ushort)random.Next(1, 65535);
+                __output[i++] = __pc;
+                __output[i++] = _hex_chars[__rnd >> 12];
+                __output[i++] = _hex_chars[( __rnd >> 8 ) & 0xf];
+                __output[i++] = __pc;
+                __output[i++] = _hex_chars[( __rnd >> 4 ) & 0xf];
+                __output[i++] = _hex_chars[__rnd & 0xf];
             }
-            long copy = i;
-            while ( ( i /= 10 ) > 0 ) sz++;
-            char[] output = new char[sz + 1];
-            output[0] = '-';
-            do output[sz--] = _hex_chars[copy % 10]; while ( ( copy /= 10 ) > 0 );
-            return output;
+            return __output;
         }
-        public static char[] int_to_hex_string(int i) {
-            if ( i == 0 ) return new char[] { '0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
-            }
-            int copy = i;
-            while ( ( i >>= 4 ) > 0 ) sz++;
-            char[] output = new char[sz + 1];
-            output[0] = '-';
-            do output[sz--] = _hex_chars[copy & 0x0fL]; while ( ( copy >>= 4 ) > 0 );
-            return output;
-        }
-        public static char[] int_to_dec_string(int i) {
-            if ( i == 0 ) return new char[] { '0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
-            }
-            int copy = i;
-            while ( ( i /= 10 ) > 0 ) sz++;
-            char[] output = new char[sz + 1];
-            output[0] = '-';
-            do output[sz--] = _hex_chars[copy % 10]; while ( ( copy /= 10 ) > 0 );
-            return output;
-        }
-        public static char[] random_ascii(int min_len, int max_len) {
-            return random_ascii(min_len, max_len, _ascii_chars, 0, _ascii_chars.Length - 1);
-        }
-        public static char[] random_ascii(int min_len, int max_len, char[] source, int startindex, int maxindex) {
-            int rnd = random.Next(min_len, max_len + 1);
-            char[] output = new char[rnd];
-            for ( int i = 0; i < rnd; output[i++] = _ascii_chars[random.Next(startindex, maxindex + 1)] ) ;
-            return output;
-        }
-        public static char[] random_utf_urlencode_string(int min_real_len, int max_real_len) {
-            int len = random.Next(min_real_len, max_real_len) * 6;
-            char[] output = new char[len];
-            ushort rnd = 0;
-            for ( int i = 0; i < len; ) {
-                rnd = (ushort)random.Next(1, 65535);
-                output[i++] = '%';
-                output[i++] = _hex_chars[rnd >> 12];
-                output[i++] = _hex_chars[( rnd >> 8 ) & 0xf];
-                output[i++] = '%';
-                output[i++] = _hex_chars[( rnd >> 4 ) & 0xf];
-                output[i++] = _hex_chars[rnd & 0xf];
-            }
-            return output;
+        public static char[] random_ascii(int _len, char[] _source, int _startindex, int _maxindex) {
+            char[] __output = new char[_len];
+            for ( int i = 0; i < _len; __output[i++] = _source[random.Next(_startindex, _maxindex + 1)] ) ;
+            return __output;
         }
         /*same but with bytes*/
-        public static byte[] int_to_hex_string_bytes(long i) {
-            if ( i == 0 ) return new byte[] { (byte)'0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
+        public static byte[] int_to_hex_string_bytes(long _i) {
+            if ( _i == 0 ) return new byte[] { (byte)'0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
             }
-            long copy = i;
-            while ( ( i >>= 4 ) > 0 ) sz++;
-            byte[] output = new byte[sz + 1];
+            long __copy = _i;
+            while ( ( _i >>= 4 ) > 0 ) __sz++;
+            byte[] __output = new byte[__sz + 1];
+            __output[0] = (byte)'-';
+            do __output[__sz--] = _hex_chars_bytes[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
+            return __output;
+        }
+        public static byte[] int_to_dec_string_bytes(long _i) {
+            if ( _i == 0 ) return new byte[] { (byte)'0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
+            }
+            long __copy = _i;
+            while ( ( _i /= 10 ) > 0 ) __sz++;
+            byte[] output = new byte[__sz + 1];
             output[0] = (byte)'-';
-            do output[sz--] = _hex_chars_bytes[copy & 0x0fL]; while ( ( copy >>= 4 ) > 0 );
+            do output[__sz--] = (byte)( __copy % 10 + 48 ); while ( ( __copy /= 10 ) > 0 );
             return output;
         }
-        public static byte[] int_to_dec_string_bytes(long i) {
-            if ( i == 0 ) return new byte[] { (byte)'0' };
+        public static byte[] int_to_hex_string_bytes(int _i) {
+            if ( _i == 0 ) return new byte[] { (byte)'0' };
+            int __sz = 0;
+            if ( _i < 0 ) {
+                __sz++;
+                _i *= -1;
+            }
+            int __copy = _i;
+            while ( ( _i >>= 4 ) > 0 ) __sz++;
+            byte[] __output = new byte[__sz + 1];
+            __output[0] = (byte)'-';
+            do __output[__sz--] = _hex_chars_bytes[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
+            return __output;
+        }
+        public static byte[] int_to_dec_string_bytes(int _i) {
+            if ( _i == 0 ) return new byte[] { (byte)'0' };
             int sz = 0;
-            if ( i < 0 ) {
+            if ( _i < 0 ) {
                 sz++;
-                i *= -1;
+                _i *= -1;
             }
-            long copy = i;
-            while ( ( i /= 10 ) > 0 ) sz++;
-            byte[] output = new byte[sz + 1];
-            output[0] = (byte)'-';
-            do output[sz--] = (byte)( copy % 10 + 48 ); while ( ( copy /= 10 ) > 0 );
-            return output;
+            int __copy = _i;
+            while ( ( _i /= 10 ) > 0 ) sz++;
+            byte[] __output = new byte[sz + 1];
+            __output[0] = (byte)'-';
+            do __output[sz--] = (byte)( __copy % 10 + 48 ); while ( ( __copy /= 10 ) > 0 );
+            return __output;
         }
-        public static byte[] int_to_hex_string_bytes(int i) {
-            if ( i == 0 ) return new byte[] { (byte)'0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
+        public static byte[] random_ascii_bytes(int _min_len, int _max_len) {
+            return random_ascii_bytes(_min_len, _max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length - 1);
+        }
+        public static byte[] random_ascii_bytes(int _min_len, int _max_len, byte[] _source, int _startindex, int _maxindex) {
+            return random_ascii_bytes(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
+        }
+        public static byte[] random_utf_urlencode_string_bytes(int _min_real_len, int _max_real_len) {
+            return random_utf_urlencode_string_bytes(random.Next(_min_real_len, _max_real_len));
+        }
+        /*real generators*/
+        public static byte[] random_utf_urlencode_string_bytes(int _real_len) {
+            _real_len *= 6;
+            byte[] __output = new byte[_real_len];
+            ushort __rnd = 0;
+            byte __percent = (byte)'%';
+            for ( int __i = 0; __i < _real_len; ) {
+                __rnd = (ushort)random.Next(1, 65535);
+                __output[__i++] = __percent;
+                __output[__i++] = _hex_chars_bytes[__rnd >> 12];
+                __output[__i++] = _hex_chars_bytes[( __rnd >> 8 ) & 0xf];
+                __output[__i++] = __percent;
+                __output[__i++] = _hex_chars_bytes[( __rnd >> 4 ) & 0xf];
+                __output[__i++] = _hex_chars_bytes[__rnd & 0xf];
             }
-            int copy = i;
-            while ( ( i >>= 4 ) > 0 ) sz++;
-            byte[] output = new byte[sz + 1];
-            output[0] = (byte)'-';
-            do output[sz--] = _hex_chars_bytes[copy & 0x0fL]; while ( ( copy >>= 4 ) > 0 );
-            return output;
+            return __output;
         }
-        public static byte[] int_to_dec_string_bytes(int i) {
-            if ( i == 0 ) return new byte[] { (byte)'0' };
-            int sz = 0;
-            if ( i < 0 ) {
-                sz++;
-                i *= -1;
+        public static byte[] random_ascii_bytes(int _len, byte[] _source, int _startindex, int _maxindex) {
+            _maxindex++;
+            byte[] __output = new byte[_len];
+            for ( int __i = 0; __i < _len; __output[__i++] = _source[random.Next(_startindex, _maxindex + 1)] ) ;
+            return __output;
+        }
+        /*unsafe*/
+        public static unsafe int qintparse(char* _input, int _from, int _count) {
+            int __sum = 0;//, __cnt = 0;
+            _input += _from;
+            char* __end = _input + _count;
+            bool __pos = true;
+            if ( *_input == '-' ) {
+                __pos = false;
+                _input++;
             }
-            int copy = i;
-            while ( ( i /= 10 ) > 0 ) sz++;
-            byte[] output = new byte[sz + 1];
-            output[0] = (byte)'-';
-            do output[sz--] = (byte)( copy % 10 + 48 ); while ( ( copy /= 10 ) > 0 );
-            return output;
-        }
-        public static byte[] random_ascii_bytes(int min_len, int max_len) {
-            return random_ascii_bytes(min_len, max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length - 1);
-        }
-        public static byte[] random_ascii_bytes(int min_len, int max_len, byte[] source, int startindex, int maxindex) {
-            maxindex++;
-            int rnd = random.Next(min_len, max_len + 1);
-            byte[] output = new byte[rnd];
-            for ( int i = 0; i < rnd; output[i++] = source[random.Next(startindex, maxindex + 1)] ) ;
-            return output;
-        }
-        public static byte[] random_utf_urlencode_string_bytes(int min_real_len, int max_real_len) {
-            int len = random.Next(min_real_len, max_real_len) * 6;
-            byte[] output = new byte[len];
-            ushort rnd = 0;
-            byte percent = (byte)'%';
-            for ( int i = 0; i < len; ) {
-                rnd = (ushort)random.Next(1, 65535);
-                output[i++] = percent;
-                output[i++] = _hex_chars_bytes[rnd >> 12];
-                output[i++] = _hex_chars_bytes[( rnd >> 8 ) & 0xf];
-                output[i++] = percent;
-                output[i++] = _hex_chars_bytes[( rnd >> 4 ) & 0xf];
-                output[i++] = _hex_chars_bytes[rnd & 0xf];
+            while ( _input < __end ) {
+                __sum *= 10;
+                __sum += ( (int)*_input++ ) - 48;
             }
-            return output;
+            return __pos ? __sum : -__sum;
         }
-        public static unsafe int FindChar(char* _from, char* __end, char _c) {
+        public static unsafe long qlongparse(char* _input, int _from, int _count) {
+            long __sum = 0;//, __cnt = 0;
+            _input += _from;
+            char* __end = _input + _count;
+            bool __pos = true;
+            if ( *_input == '-' ) {
+                __pos = false;
+                _input++;
+            }
+            while ( _input < __end ) {
+                __sum *= 10;
+                __sum += ( (int)*_input++ ) - 48;
+            }
+            return __pos ? __sum : -__sum;
+        }
+        public static unsafe int FindChar(char* _from, char* _end, char _c) {
             int __cnt = 0;
-            while ( _from < __end && *_from != _c ) {
+            while ( _from < _end && *_from != _c ) {
                 __cnt++;
                 _from++;
             };
             return __cnt;
         }
+
     }
 }

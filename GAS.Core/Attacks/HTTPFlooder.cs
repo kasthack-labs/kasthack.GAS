@@ -64,7 +64,7 @@ namespace GAS.Core
             init = true;
         }
         private void bw_DoWork(object indexinthreads) {
-            while ( !init ) Thread.Sleep(100);//i know it's bad 
+            while ( !init ) Thread.Sleep(100);//_i know it's bad 
             int MY_INDEX_FOR_WORK = (int)indexinthreads;
             AsyncAttack(MY_INDEX_FOR_WORK);
         }

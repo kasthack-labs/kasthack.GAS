@@ -18,10 +18,10 @@ namespace GAS.ANDRO
         {
             base.OnCreate(bundle);
 
-            // Set our view from the "main" layout resource
+            // Set our view _from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            // Get our button from the layout resource,
+            // Get our button _from the layout resource,
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
 

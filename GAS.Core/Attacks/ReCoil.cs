@@ -24,7 +24,7 @@ namespace GAS.Core
     /// due to that the required size of the targeted file differs -.-
     /// Dataflow: {NET} --> {WINSOCK-Buffer} --> ClientSocket .. so we have to make sure the actual data exceeds
     /// the winsock-buffer + clientsocket-buffer, but we can ONLY change the latter.
-    /// _from what i could find on a brief search / test the winsock buffer for a 10/100 links lies around 16-18KB
+    /// _from what _i could find on a brief search / test the winsock buffer for a 10/100 links lies around 16-18KB
     /// where 1 GBit links have an underlying buffer around 64KB (size really does matter :P )
     /// 
     /// what to target?:
@@ -35,7 +35,7 @@ namespace GAS.Core
     /// 
     /// high-value targets / worst case szenario:
     /// as it seems the echo statement in php writes directly to the socket .. considering this it should be possible to
-    /// take down the back-__end infrastructure if the page does an early flush causing the congestation while still holding DB-conns etc.
+    /// take down the back-_end infrastructure if the page does an early flush causing the congestation while still holding DB-conns etc.
     /// </remarks>
     public class ReCoil : IAttacker
     {
