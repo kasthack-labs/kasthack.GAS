@@ -40,18 +40,18 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button5 = new System.Windows.Forms.Button();
             this.drv_targets = new System.Windows.Forms.DataGridView();
             this.cell_State = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.cell_IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cell_Attack_Method = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.cell_admin = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btn_about = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pic_logo = new System.Windows.Forms.PictureBox();
+            this.btn_about = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -174,6 +174,16 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
+            // button5
+            // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Image = global::GAS.Properties.Resources.del;
+            this.button5.Location = new System.Drawing.Point(653, 442);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(23, 23);
+            this.button5.TabIndex = 21;
+            this.button5.UseVisualStyleBackColor = true;
+            // 
             // drv_targets
             // 
             this.drv_targets.AllowUserToAddRows = false;
@@ -233,28 +243,6 @@
             this.cell_admin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.cell_admin.Text = "Play \\ Stop";
             // 
-            // btn_about
-            // 
-            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_about.Image = global::GAS.Properties.Resources.add;
-            this.btn_about.Location = new System.Drawing.Point(1, 470);
-            this.btn_about.Name = "btn_about";
-            this.btn_about.Size = new System.Drawing.Size(22, 22);
-            this.btn_about.TabIndex = 17;
-            this.btn_about.Text = "\r\n";
-            this.btn_about.UseVisualStyleBackColor = true;
-            this.btn_about.Click += new System.EventHandler(this.btn_about_Click);
-            // 
-            // button5
-            // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button5.Image = global::GAS.Properties.Resources.del;
-            this.button5.Location = new System.Drawing.Point(653, 442);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(23, 23);
-            this.button5.TabIndex = 21;
-            this.button5.UseVisualStyleBackColor = true;
-            // 
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -277,6 +265,7 @@
             this.button1.Text = "Hive Mind";
             this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button3
             // 
@@ -318,6 +307,18 @@
             this.pic_logo.TabIndex = 3;
             this.pic_logo.TabStop = false;
             // 
+            // btn_about
+            // 
+            this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_about.Image = global::GAS.Properties.Resources.inf;
+            this.btn_about.Location = new System.Drawing.Point(1, 471);
+            this.btn_about.Name = "btn_about";
+            this.btn_about.Size = new System.Drawing.Size(22, 22);
+            this.btn_about.TabIndex = 17;
+            this.btn_about.Text = "\r\n";
+            this.btn_about.UseVisualStyleBackColor = true;
+            this.btn_about.Click += new System.EventHandler(this.btn_about_Click);
+            // 
             // frm_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,6 +332,7 @@
             this.Name = "frm_main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAS: New GUI. applause, ladies and gentlemen!";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_main_FormClosing);
             this.Load += new System.EventHandler(this.frm_main_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

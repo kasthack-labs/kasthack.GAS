@@ -56,6 +56,12 @@
     <Compile Include="frm_about.Designer.cs">
       <DependentUpon>frm_about.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_hive_mind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_hive_mind.Designer.cs">
+      <DependentUpon>frm_hive_mind.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +75,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm_about.resx">
       <DependentUpon>frm_about.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_hive_mind.resx">
+      <DependentUpon>frm_hive_mind.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_main.resx">
       <DependentUpon>frm_main.cs</DependentUpon>
@@ -125,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="res\inf.png" />
     <None Include="Resources\New_logo2.png" />
     <None Include="Resources\New_logo.png" />
     <None Include="Resources\favicon.png" />
