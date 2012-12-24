@@ -16,21 +16,20 @@ namespace GAS
         public frm_hive_mind()
         {
             InitializeComponent();
-            this.Width = 0;
-            this.Height = 0;
+           // this.Width = 0;
+           // this.Height = 0;
            
         }
 
         private void frm_hive_mind_Load(object sender, EventArgs e)
         {
-           
-           
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(60);
+                this.Opacity = this.Opacity + 0.1;
+            }
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
-        }
+ /*
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -48,7 +47,7 @@ namespace GAS
             this.Height += diff;
             this.Location= new Point(this.Location.X- diff / 2,this.Location.Y - diff / 2);
         }
-
+*/
         private void frm_hive_mind_FormClosing(object sender, FormClosingEventArgs e)
         {
             for (int i = 0; i < 10; i++)
