@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS", "GAS\GAS.csproj", "{A284851D-F1AC-402A-A49F-8BB09BDB687D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS.Core", "GAS.Core\GAS.Core.csproj", "{14E25EB2-BE99-4157-AA66-2B1606466927}"
@@ -8,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS.TUI", "GAS.TUI\GAS.TUI.csproj", "{DC3168C0-BF20-4FE7-B60E-11F383B83D69}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBG.Solution", "DBG.Solution\DBG.Solution.csproj", "{66469E69-F3DD-4904-907C-3E21AAC9AD86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAS.ANDRO", "GAS.ANDRO\GAS.ANDRO.csproj", "{5876F4B0-C705-4806-9C85-93281205A39B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,20 @@ Global
 		{66469E69-F3DD-4904-907C-3E21AAC9AD86}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{66469E69-F3DD-4904-907C-3E21AAC9AD86}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{66469E69-F3DD-4904-907C-3E21AAC9AD86}.Release|x86.ActiveCfg = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{5876F4B0-C705-4806-9C85-93281205A39B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

