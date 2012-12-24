@@ -14,6 +14,40 @@ namespace GAS
         public frm_about()
         {
             InitializeComponent();
+
+            this.Width = 218;
+            this.Height = 0;
+            
+        }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            if (this.Height < 519)
+            {
+                rsz(8);
+                return;
+            }
+            //&& this.Width >=218
+            //  )    
+            if (this.Width < 600)
+            {
+                this.Width += 8;
+                return; 
+            }
+            timer1.Stop();
+            MessageBox.Show("");
+        }
+
+        private void frm_about_Load(object sender, EventArgs e)
+        {
+
+        }
+        void rsz(int diff)
+        {
+            // this.Width += diff;
+            this.Height += diff;
+            this.Location = new Point(this.Location.X - diff / 2,
+                this.Location.Y - diff / 2);
         }
     }
 }

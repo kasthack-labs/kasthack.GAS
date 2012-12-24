@@ -23,7 +23,14 @@ namespace GAS
 
         private void btn_about_Click(object sender, EventArgs e)
         {
-            
+            frm_about frmabout = new frm_about();
+            frmabout.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frm_hive_mind frmhm = new frm_hive_mind();
+            frmhm.ShowDialog();
         }
     }
 }

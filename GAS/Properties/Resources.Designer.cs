@@ -93,6 +93,16 @@ namespace GAS.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap inf {
+            get {
+                object obj = ResourceManager.GetObject("inf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ion1 {
             get {
                 object obj = ResourceManager.GetObject("ion1", resourceCulture);
