@@ -311,7 +311,7 @@
             // 
             this.btn_about.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_about.Image = global::GAS.Properties.Resources.inf;
-            this.btn_about.Location = new System.Drawing.Point(1, 470);
+            this.btn_about.Location = new System.Drawing.Point(1, 471);
             this.btn_about.Name = "btn_about";
             this.btn_about.Size = new System.Drawing.Size(22, 22);
             this.btn_about.TabIndex = 17;
