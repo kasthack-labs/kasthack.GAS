@@ -31,10 +31,14 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_hive_mind));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
+            this.tab_control = new System.Windows.Forms.TabControl();
+            this.tab_irc = new System.Windows.Forms.TabPage();
+            this.tab_rss = new System.Windows.Forms.TabPage();
+            this.gb_null1 = new System.Windows.Forms.GroupBox();
+            this.gb_null2 = new System.Windows.Forms.GroupBox();
+            this.tab_control.SuspendLayout();
+            this.tab_irc.SuspendLayout();
+            this.tab_rss.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -43,43 +47,63 @@
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // tabControl1
+            // tab_control
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(367, 314);
-            this.tabControl1.TabIndex = 0;
+            this.tab_control.Controls.Add(this.tab_irc);
+            this.tab_control.Controls.Add(this.tab_rss);
+            this.tab_control.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tab_control.Location = new System.Drawing.Point(0, 0);
+            this.tab_control.Name = "tab_control";
+            this.tab_control.SelectedIndex = 0;
+            this.tab_control.Size = new System.Drawing.Size(427, 314);
+            this.tab_control.TabIndex = 0;
             // 
-            // tabPage1
+            // tab_irc
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(359, 288);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tab_irc.Controls.Add(this.gb_null1);
+            this.tab_irc.Location = new System.Drawing.Point(4, 22);
+            this.tab_irc.Name = "tab_irc";
+            this.tab_irc.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_irc.Size = new System.Drawing.Size(419, 288);
+            this.tab_irc.TabIndex = 0;
+            this.tab_irc.Text = "IRC HM";
+            this.tab_irc.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tab_rss
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 74);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tab_rss.Controls.Add(this.gb_null2);
+            this.tab_rss.Location = new System.Drawing.Point(4, 22);
+            this.tab_rss.Name = "tab_rss";
+            this.tab_rss.Padding = new System.Windows.Forms.Padding(3);
+            this.tab_rss.Size = new System.Drawing.Size(419, 288);
+            this.tab_rss.TabIndex = 1;
+            this.tab_rss.Text = "RSS HM";
+            this.tab_rss.UseVisualStyleBackColor = true;
+            // 
+            // gb_null1
+            // 
+            this.gb_null1.Location = new System.Drawing.Point(8, 6);
+            this.gb_null1.Name = "gb_null1";
+            this.gb_null1.Size = new System.Drawing.Size(403, 274);
+            this.gb_null1.TabIndex = 0;
+            this.gb_null1.TabStop = false;
+            this.gb_null1.Text = "IRC Hive Mind:";
+            // 
+            // gb_null2
+            // 
+            this.gb_null2.Location = new System.Drawing.Point(8, 6);
+            this.gb_null2.Name = "gb_null2";
+            this.gb_null2.Size = new System.Drawing.Size(403, 276);
+            this.gb_null2.TabIndex = 0;
+            this.gb_null2.TabStop = false;
+            this.gb_null2.Text = "RSS Hive Mind:";
             // 
             // frm_hive_mind
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 314);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(427, 314);
+            this.Controls.Add(this.tab_control);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -88,8 +112,11 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GAS :: Hive Mind CP";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frm_hive_mind_FormClosing);
             this.Load += new System.EventHandler(this.frm_hive_mind_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.tab_control.ResumeLayout(false);
+            this.tab_irc.ResumeLayout(false);
+            this.tab_rss.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -97,8 +124,10 @@
         #endregion
 
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl tab_control;
+        private System.Windows.Forms.TabPage tab_irc;
+        private System.Windows.Forms.TabPage tab_rss;
+        private System.Windows.Forms.GroupBox gb_null1;
+        private System.Windows.Forms.GroupBox gb_null2;
     }
 }

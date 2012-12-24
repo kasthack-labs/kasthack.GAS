@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace GAS
 {
@@ -40,7 +41,7 @@ namespace GAS
 
         private void frm_about_Load(object sender, EventArgs e)
         {
-
+            
         }
         void rsz(int diff)
         {
@@ -48,6 +49,17 @@ namespace GAS
             this.Height += diff;
             this.Location = new Point(this.Location.X - diff / 2,
                 this.Location.Y - diff / 2);
+        }
+
+        private void frm_about_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(60);
+                this.Opacity = this.Opacity - 0.1;
+            }
+
+            
         }
     }
 }
