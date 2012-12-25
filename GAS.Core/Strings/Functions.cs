@@ -78,6 +78,7 @@ namespace GAS.Core.Strings
             }
             return __pos ? __sum : -__sum;
         }
+        /*to_strings*/
         public static char[] int_to_hex_string(long _i) {
             if ( _i == 0 ) return new char[] { '0' };
             int __sz = 0;
@@ -134,6 +135,7 @@ namespace GAS.Core.Strings
             do output[__sz--] = _hex_chars[__copy % 10]; while ( ( __copy /= 10 ) > 0 );
             return output;
         }
+        /*random strings*/
         public static char[] random_ascii(int _min_len, int _max_len) {
             return random_ascii(_min_len, _max_len, _ascii_chars, 0, _ascii_chars.Length - 1);
         }
@@ -294,8 +296,7 @@ namespace GAS.Core.Strings
             };
             return __cnt;
         }
-        
-        /*generators with pointers. Warning! NOT TESTED! POTENTIAL CRASH AND LOSS OFF DATA! IT'S NOT CAPSLOCK - IT'S HOLDEN SHIFT!*/
+        /*generators with pointers. Warning! NOT TESTED! POTENTIAL CRASH AND LOSS OFF DATA! IT'S NOT CAPSLOCK - IT'S АГСЛШТП SHIFT!*/
         public static unsafe void random_utf_urlencode_string_bytes_insert(byte* _ptr, int _real_len) {
             byte* __end = (_ptr+ _real_len * 6);
             ushort __rnd = 0;

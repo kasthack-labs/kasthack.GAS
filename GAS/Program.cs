@@ -10,7 +10,7 @@ namespace GAS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frm_main());
+            Application.Run(new frmmain());
         }
     }
 }
