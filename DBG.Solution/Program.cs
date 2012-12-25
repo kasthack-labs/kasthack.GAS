@@ -2,11 +2,32 @@
 using GAS.Core.Strings;
 using System;
 using System.Diagnostics;
+using System.Linq;
 namespace DBG.Solution
 {
     class Program
     {
-        static void Main(string[] args) {
+        static void Main(string[] _args) {
+            UnitTests();
+            //bug: int.MinValue, long.MaxValue
+            //non-std: to hex -
+            Console.ReadLine();
+        }
+        static void UnitTests() {
+            int[] __int_test_values = new int[] { 0, -1, 0, int.MaxValue, int.MinValue+1 };
+            long[] __long_test_values = __int_test_values.Select(a=>(long)a).ToArray();
+            var tr = new char[]{'0', 'O'};
+
+            foreach ( int __i in __int_test_values )
+                Debug.Assert(Functions.GetDecStringLength(__i) == __i.ToString().Length, "Bad length " + __i);
+            foreach ( int __i in __int_test_values )
+                Debug.Assert(new string(Functions.IntToDecString(__i)) == __i.ToString(), "Bad ToString " + __i);
+            foreach ( int __i in __int_test_values )
+                Debug.Assert(new string(Functions.IntToHexString(__i)).TrimStart(tr) == __i.ToString("x2").TrimStart(tr), "Bad ToString " + __i + " Real " + __i.ToString("x2").TrimStart(tr));
+
+        }
+        static void CheckTree() {
+
             while ( true ) {
                 try {
                     string ExpressionString = "";

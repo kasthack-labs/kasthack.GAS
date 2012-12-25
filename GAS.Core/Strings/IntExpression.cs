@@ -16,24 +16,24 @@ namespace GAS.Core.Strings
         /// </summary>
         /// <returns>string result</returns>
         public string GetString() {
-            return new string(Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
-                                    Functions.int_to_hex_string(rnd.Next(Min, Max + 1)));
+            return new string(Format == NumberFormat.Decimal ? Functions.IntToDecString(rnd.Next(Min, Max + 1)) :
+                                    Functions.IntToHexString(rnd.Next(Min, Max + 1)));
         }
         /// <summary>
         /// Get char array representation of expression execution result
         /// </summary>
         /// <returns>char[] result</returns>
         public char[] GetChars() {
-            return Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
-                                    Functions.int_to_hex_string(rnd.Next(Min, Max + 1));
+            return Format == NumberFormat.Decimal ? Functions.IntToDecString(rnd.Next(Min, Max + 1)) :
+                                    Functions.IntToHexString(rnd.Next(Min, Max + 1));
         }
         /// <summary>
         /// Get native representation of expression execution result
         /// </summary>
         /// <returns>ascii bytes</returns>
         public byte[] GetAsciiBytes() {
-            return Format == NumberFormat.Decimal ? Functions.int_to_dec_string_bytes(rnd.Next(Min, Max + 1)) :
-                                    Functions.int_to_hex_string_bytes(rnd.Next(Min, Max + 1));
+            return Format == NumberFormat.Decimal ? Functions.IntToDecStringBytes(rnd.Next(Min, Max + 1)) :
+                                    Functions.IntToHexStringBytes(rnd.Next(Min, Max + 1));
         }
         /// <summary>
         /// Get bytes of result encoded with encoding
@@ -41,8 +41,8 @@ namespace GAS.Core.Strings
         /// <param name="_enc">encoding for encoding, lol</param>
         /// <returns>bytes</returns>
         public byte[] GetEncodingBytes(Encoding enc) {
-            return enc.GetBytes(Format == NumberFormat.Decimal ? Functions.int_to_dec_string(rnd.Next(Min, Max + 1)) :
-                                   Functions.int_to_hex_string(rnd.Next(Min, Max + 1)));
+            return enc.GetBytes(Format == NumberFormat.Decimal ? Functions.IntToDecString(rnd.Next(Min, Max + 1)) :
+                                   Functions.IntToHexString(rnd.Next(Min, Max + 1)));
         }
         /// <summary>
         /// alias 4 GetString. 4 debugging

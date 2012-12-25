@@ -26,7 +26,7 @@ namespace GAS.Core.Strings
         public Functions() {
         }
         public static string RandomString() {
-            return new string(random_ascii(1, 8, _ascii_chars, 0, 61));
+            return new string(RandomASCII(1, 8, _ascii_chars, 0, 61));
         }
         public static string RandomUserAgent() {
             //slow. very slow
@@ -46,10 +46,10 @@ namespace GAS.Core.Strings
             //slow. just for prototype
             return new String(Enumerable.Repeat(' ', _m.Length).ToArray());
         }
-        public static int qintparse(char[] _input) {
-            return qintparse(_input, 0, _input.Length);
+        public static int QIntParse(char[] _input) {
+            return QIntParse(_input, 0, _input.Length);
         }
-        public static int qintparse(char[] _input, int _from, int _count) {
+        public static int QIntParse(char[] _input, int _from, int _count) {
             int __sum = 0, __cnt = 0;
             bool __pos = true;
             if ( _input[_from] == '-' ) {
@@ -62,10 +62,10 @@ namespace GAS.Core.Strings
             }
             return __pos ? __sum : -__sum;
         }
-        public static long qlongparse(char[] _input) {
-            return qlongparse(_input, 0, _input.Length);
+        public static long QLongParse(char[] _input) {
+            return QLongParse(_input, 0, _input.Length);
         }
-        public static long qlongparse(char[] _input, int _from, int _count) {
+        public static long QLongParse(char[] _input, int _from, int _count) {
             long __sum = 0, __cnt = 0;
             bool __pos = true;
             if ( _input[_from] == '-' ) {
@@ -79,7 +79,7 @@ namespace GAS.Core.Strings
             return __pos ? __sum : -__sum;
         }
         /*to_strings*/
-        public static char[] int_to_hex_string(long _i) {
+        public static char[] IntToHexString(long _i) {
             if ( _i == 0 ) return new char[] { '0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -93,7 +93,7 @@ namespace GAS.Core.Strings
             do __output[__sz--] = _hex_chars[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
             return __output;
         }
-        public static char[] int_to_dec_string(long _i) {
+        public static char[] IntToDecString(long _i) {
             if ( _i == 0 ) return new char[] { '0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -107,7 +107,7 @@ namespace GAS.Core.Strings
             do __output[__sz--] = _hex_chars[__copy % 10]; while ( ( __copy /= 10 ) > 0 );
             return __output;
         }
-        public static char[] int_to_hex_string(int _i) {
+        public static char[] IntToHexString(int _i) {
             if ( _i == 0 ) return new char[] { '0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -121,7 +121,7 @@ namespace GAS.Core.Strings
             do __output[__sz--] = _hex_chars[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
             return __output;
         }
-        public static char[] int_to_dec_string(int _i) {
+        public static char[] IntToDecString(int _i) {
             if ( _i == 0 ) return new char[] { '0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -136,17 +136,17 @@ namespace GAS.Core.Strings
             return output;
         }
         /*random strings*/
-        public static char[] random_ascii(int _min_len, int _max_len) {
-            return random_ascii(_min_len, _max_len, _ascii_chars, 0, _ascii_chars.Length - 1);
+        public static char[] RandomASCII(int _min_len, int _max_len) {
+            return RandomASCII(_min_len, _max_len, _ascii_chars, 0, _ascii_chars.Length - 1);
         }
-        public static char[] random_ascii(int _min_len, int _max_len, char[] _source, int _startindex, int _maxindex) {
-            return random_ascii(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
+        public static char[] RandomASCII(int _min_len, int _max_len, char[] _source, int _startindex, int _maxindex) {
+            return RandomASCII(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
         }
-        public static char[] random_utf_urlencode_string(int _min_real_len, int _max_real_len) {
-            return random_utf_urlencode_string( random.Next(_min_real_len, _max_real_len));
+        public static char[] RandomUTFURLEncodeString(int _min_real_len, int _max_real_len) {
+            return RandomUTFURLEncodeString( random.Next(_min_real_len, _max_real_len));
         }
         /*real engine*/
-        public static char[] random_utf_urlencode_string(int _len) {
+        public static char[] RandomUTFURLEncodeString(int _len) {
             _len *= 6;
             char[] __output = new char[_len];
             ushort __rnd = 0;
@@ -162,14 +162,14 @@ namespace GAS.Core.Strings
             }
             return __output;
         }
-        public static char[] random_ascii(int _len, char[] _source, int _startindex, int _maxindex) {
+        public static char[] RandomASCII(int _len, char[] _source, int _startindex, int _maxindex) {
             _maxindex++;
             char[] __output = new char[_len];
             for ( int i = 0; i < _len; __output[i++] = _source[random.Next(_startindex, _maxindex)] ) ;
             return __output;
         }
         /*same but with bytes*/
-        public static byte[] int_to_hex_string_bytes(long _i) {
+        public static byte[] IntToHexStringBytes(long _i) {
             if ( _i == 0 ) return new byte[] { (byte)'0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -183,7 +183,7 @@ namespace GAS.Core.Strings
             do __output[__sz--] = _hex_chars_bytes[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
             return __output;
         }
-        public static byte[] int_to_dec_string_bytes(long _i) {
+        public static byte[] IntToDecStringBytes(long _i) {
             if ( _i == 0 ) return new byte[] { (byte)'0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -197,7 +197,7 @@ namespace GAS.Core.Strings
             do output[__sz--] = (byte)( __copy % 10 + 48 ); while ( ( __copy /= 10 ) > 0 );
             return output;
         }
-        public static byte[] int_to_hex_string_bytes(int _i) {
+        public static byte[] IntToHexStringBytes(int _i) {
             if ( _i == 0 ) return new byte[] { (byte)'0' };
             int __sz = 0;
             if ( _i < 0 ) {
@@ -211,7 +211,7 @@ namespace GAS.Core.Strings
             do __output[__sz--] = _hex_chars_bytes[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
             return __output;
         }
-        public static byte[] int_to_dec_string_bytes(int _i) {
+        public static byte[] IntToDecStringBytes(int _i) {
             if ( _i == 0 ) return new byte[] { (byte)'0' };
             int sz = 0;
             if ( _i < 0 ) {
@@ -225,17 +225,18 @@ namespace GAS.Core.Strings
             do __output[sz--] = (byte)( __copy % 10 + 48 ); while ( ( __copy /= 10 ) > 0 );
             return __output;
         }
-        public static byte[] random_ascii_bytes(int _min_len, int _max_len) {
-            return random_ascii_bytes(_min_len, _max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length - 1);
+        /*random_strings*/
+        public static byte[] RandomASCIIBytes(int _min_len, int _max_len) {
+            return RandomASCIIBytes(_min_len, _max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length - 1);
         }
-        public static byte[] random_ascii_bytes(int _min_len, int _max_len, byte[] _source, int _startindex, int _maxindex) {
-            return random_ascii_bytes(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
+        public static byte[] RandomASCIIBytes(int _min_len, int _max_len, byte[] _source, int _startindex, int _maxindex) {
+            return RandomASCIIBytes(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
         }
-        public static byte[] random_utf_urlencode_string_bytes(int _min_real_len, int _max_real_len) {
-            return random_utf_urlencode_string_bytes(random.Next(_min_real_len, _max_real_len));
+        public static byte[] RandomUTFURLEncodeStringBytes(int _min_real_len, int _max_real_len) {
+            return RandomUTFURLEncodeStringBytes(random.Next(_min_real_len, _max_real_len));
         }
         /*real generators*/
-        public static byte[] random_utf_urlencode_string_bytes(int _real_len) {
+        public static byte[] RandomUTFURLEncodeStringBytes(int _real_len) {
             _real_len *= 6;
             byte[] __output = new byte[_real_len];
             ushort __rnd = 0;
@@ -251,14 +252,14 @@ namespace GAS.Core.Strings
             }
             return __output;
         }
-        public static byte[] random_ascii_bytes(int _len, byte[] _source, int _startindex, int _maxindex) {
+        public static byte[] RandomASCIIBytes(int _len, byte[] _source, int _startindex, int _maxindex) {
             _maxindex++;
             byte[] __output = new byte[_len];
             for ( int __i = 0; __i < _len; __output[__i++] = _source[random.Next(_startindex, _maxindex)] ) ;
             return __output;
         }
         /*unsafe*/
-        public static unsafe int qintparse(char* _input, int _from, int _count) {
+        public static unsafe int QIntParse(char* _input, int _from, int _count) {
             int __sum = 0;//, __cnt = 0;
             _input += _from;
             char* __end = _input + _count;
@@ -273,7 +274,7 @@ namespace GAS.Core.Strings
             }
             return __pos ? __sum : -__sum;
         }
-        public static unsafe long qlongparse(char* _input, int _from, int _count) {
+        public static unsafe long QLongParse(char* _input, int _from, int _count) {
             long __sum = 0;//, __cnt = 0;
             _input += _from;
             char* __end = _input + _count;
@@ -297,7 +298,7 @@ namespace GAS.Core.Strings
             return __cnt;
         }
         /*generators with pointers. Warning! NOT TESTED! POTENTIAL CRASH AND LOSS OFF DATA! IT'S NOT CAPSLOCK - IT'S АГСЛШТП SHIFT!*/
-        public static unsafe void random_utf_urlencode_string_bytes_insert(byte* _ptr, int _real_len) {
+        public static unsafe void RandomUTFURLEncodeStringBytesInsert(byte* _ptr, int _real_len) {
             byte* __end = (_ptr+ _real_len * 6);
             ushort __rnd = 0;
             byte __percent = (byte)'%';
@@ -311,12 +312,12 @@ namespace GAS.Core.Strings
                 *_ptr++ = _hex_chars_bytes[__rnd & 0xf];
             }
         }
-        public static unsafe void random_ascii_bytes(byte* _ptr, int _len, byte[] _source, int _startindex, int _maxindex) {
+        public static unsafe void RandomASCIIBytesInsert(byte* _ptr, int _len, byte[] _source, int _startindex, int _maxindex) {
             _maxindex++;
             byte* __end = ( _ptr + _len );
             while ( _ptr<__end) *_ptr++ = _source[random.Next(_startindex, _maxindex)];
         }
-        public static unsafe void random_utf_urlencode_string(char* _ptr, int _real_len) {
+        public static unsafe void RandomUTFURLEncodeStringInsert(char* _ptr, int _real_len) {
             char* __end = ( _ptr + _real_len * 6 );
             ushort __rnd = 0;
             char __pc = '%';
@@ -330,10 +331,36 @@ namespace GAS.Core.Strings
                 *_ptr++ = _hex_chars[__rnd & 0xf];
             }
         }
-        public static unsafe void random_ascii(char* _ptr, int _len, char[] _source, int _startindex, int _maxindex) {
+        public static unsafe void RandomASCIIInsert(char* _ptr, int _len, char[] _source, int _startindex, int _maxindex) {
             _maxindex++;
             char* __end = ( _ptr + _len );
             while ( _ptr < __end ) *_ptr++ = _source[random.Next(_startindex, _maxindex)];
         }
+        /*get_to_string_size*/
+        public static byte GetDecStringLength(int _i) {
+            byte __sz = 1;
+            if ( _i < 0 ) { __sz++; _i = -_i; }
+            while ( (_i /= 10) > 0 ) __sz++;
+            return __sz;
+        }
+        public static byte GetDecStringLength(long _i) {
+            byte __sz = 1;
+            if ( _i < 0 ) { __sz++; _i = -_i; }
+            while ( ( _i /= 10 ) > 0 ) __sz++;
+            return __sz;
+        }
+        public static byte GetHexStringLength(int _i) {
+            byte __sz = 1;
+            if ( _i < 0 ) { __sz++; _i = -_i; }
+            while ( ( _i >>= 4 ) > 0 ) __sz++;
+            return __sz;
+        }
+        public static byte GetHexStringLength(long _i) {
+            byte __sz = 1;
+            if ( _i < 0 ) { __sz++; _i = -_i; }
+            while ( ( _i >>= 4 ) > 0 ) __sz++;
+            return __sz;
+        }
+        /*to_string_insert*/        
     }
 }
