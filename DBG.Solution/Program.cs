@@ -8,9 +8,10 @@ namespace DBG.Solution
     class Program
     {
         static void Main(string[] _args) {
-            UnitTests();
+            //UnitTests();
             //bug: int.MinValue, long.MaxValue
             //non-std: to hex -
+            CheckTree();
             Console.ReadLine();
         }
         static void UnitTests() {
@@ -32,11 +33,15 @@ namespace DBG.Solution
                 try {
                     string ExpressionString = "";
                     Console.WriteLine("Type in formatted string");
-                    ExpressionString = Console.ReadLine();
-                    ExpressionString = String.IsNullOrEmpty(ExpressionString) ? "{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}" : ExpressionString;
+                        ExpressionString = Console.ReadLine();
+                        ExpressionString = String.IsNullOrEmpty(ExpressionString) ? 
+                            "{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}" 
+                            //"12{I:D:1:10}"
+                            : ExpressionString;
                     IExpression Expression = ExpressionParser.Parse(ExpressionString);
                     Console.WriteLine("Expression: {0}", ExpressionString);
-                    Console.WriteLine("Result: {0}", Expression);
+                    Console.WriteLine("Result: {0}", new String(Functions.GetT<char>(1, Functions.GetCharsF,
+                        ((FormattedStringGenerator)Expression).Expressions)));
                     Console.WriteLine("Enter loops");
                     int cnt = int.Parse(Console.ReadLine());
                     Console.WriteLine("Benching {0}", cnt);
@@ -44,7 +49,7 @@ namespace DBG.Solution
                     v.Start();
                     string s = "";
                     for ( int i = 0; i < cnt; i++ )
-                        s = String.Concat(Expression.EnumStrings());
+                        s = Expression.ToString();
                     v.Stop();
                     Console.WriteLine("Finished: {0}", v.Elapsed);
                 }

@@ -11,5 +11,7 @@ namespace GAS.Core
         byte[] GetEncodingBytes(Encoding enc);
         IEnumerable<byte[]> EnumAsciiBuffers();
         IEnumerable<string> EnumStrings();
+        unsafe void ComputeLen(ref int* outputdata);
+        int ComputeMaxLenForSize();
     }
 }

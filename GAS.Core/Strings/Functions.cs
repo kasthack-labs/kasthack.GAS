@@ -7,6 +7,9 @@ namespace GAS.Core.Strings
     {
         #region Variables
         static Random random = new Random();
+        public static Func<IExpression, char[]> GetCharsF = a => a.GetChars();
+        public static Func<IExpression, byte[]> GetCharsEF = null;
+        public static Func<IExpression, byte[]> GetBytesF = a => a.GetAsciiBytes();
         #region magic!
         //public jfl
         public static char[] _hex_chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -42,9 +45,35 @@ namespace GAS.Core.Strings
                 "; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17");
             return useragent;
         }
+        
         static string Matchev(Match _m) {
             //slow. just for prototype
             return new String(Enumerable.Repeat(' ', _m.Length).ToArray());
+        }
+        /*FuckingMagic*/
+        public static T[] GetT<T>(int _RepeatCount, Func<IExpression, T[]> _GetT, IExpression[] _Expressions) {
+            T[] __outbytes;
+            T[][] __tmp_bytes;
+            int __len = 0, __offset = 0, __tmp_sz = 0, __i = 0, __j = 0, __ex_l = _Expressions.Length, __tmp_bl = 0;
+
+            __tmp_bytes = new T[__ex_l * _RepeatCount][];
+            __tmp_bl = __tmp_bytes.Length;
+            for ( __j = 0; __j < _RepeatCount; __j++ ) {
+                for ( __i = 0; __i < __tmp_bl; __i++ ) {
+                    __tmp_bytes[__j * __ex_l + __i] = _GetT(_Expressions[__i]);
+                }
+            }
+            for ( __i = 0; __i < __tmp_bl; __len += __tmp_bytes[__i].Length, __i++ ) ;
+            __outbytes = new T[__len * _RepeatCount];
+            for ( __j = 0; __j < _RepeatCount; __j++ ) {
+                for ( __i = 0; __i < __tmp_bl; __i++ ) {
+                    __tmp_sz = __tmp_bytes[__j * __ex_l + __i].Length;
+                    Array.Copy(__tmp_bytes[__j * __ex_l + __i], 0, __outbytes, __offset, __tmp_sz);
+                    __tmp_bytes[__j * __ex_l + __i] = null;
+                    __offset += __tmp_sz;
+                }
+            }
+            return __outbytes;
         }
         public static int QIntParse(char[] _input) {
             return QIntParse(_input, 0, _input.Length);
@@ -361,6 +390,6 @@ namespace GAS.Core.Strings
             while ( ( _i >>= 4 ) > 0 ) __sz++;
             return __sz;
         }
-        /*to_string_insert*/        
-    }
+        /*to_string_insert*/
+        }
 }

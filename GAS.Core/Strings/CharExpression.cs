@@ -25,14 +25,17 @@ namespace GAS.Core.Strings
         public override string ToString() {
             return GetString();
         }
-
-
         public System.Collections.Generic.IEnumerable<byte[]> EnumAsciiBuffers() {
             return new byte[][] {GetAsciiBytes()};
         }
-
         public System.Collections.Generic.IEnumerable<string> EnumStrings() {
             return new string[] {GetString() };
+        }
+        public unsafe void ComputeLen(ref int* outputdata) {
+            *outputdata++ = 1;
+        }
+        public int ComputeMaxLenForSize() {
+            return 1;
         }
     }
 }

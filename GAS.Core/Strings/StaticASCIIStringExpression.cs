@@ -32,14 +32,17 @@ namespace GAS.Core.Strings
         public byte[] GetEncodingBytes(Encoding _enc) {
             return _enc.GetBytes(enc.GetChars(buf));
         }
-
-
         public System.Collections.Generic.IEnumerable<byte[]> EnumAsciiBuffers() {
             return new byte[][] { GetAsciiBytes() };
         }
-
         public System.Collections.Generic.IEnumerable<string> EnumStrings() {
             return new string[] { GetString() };
+        }
+        public unsafe void ComputeLen(ref int* outputdata) {
+            throw new System.NotImplementedException();
+        }
+        public int ComputeMaxLenForSize() {
+            return 1;
         }
     }
 }

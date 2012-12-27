@@ -11,24 +11,23 @@ namespace GAS.Core.Strings
         /// </summary>
         /// <returns>string result</returns>
         public string   GetString() {
-            //slow. for prototype only
-            return String.Concat(Expressions.Select(a => a.GetString()).ToArray());
+            if ( Expressions.Length == 1 )
+                return Expressions[0].GetString();
+            return new string(GetChars());
         }
         /// <summary>
         /// Get char array representation of expression execution result
         /// </summary>
         /// <returns>char[] result</returns>
         public char[] GetChars() {
-            //slow. for prototype only
-            return Expressions.SelectMany(a => a.GetChars()).ToArray();
+                return Functions.GetT<char>(1, Functions.GetCharsF, Expressions);
         }
         /// <summary>
         /// Get native representation of expression execution result
         /// </summary>
         /// <returns>ascii bytes</returns>
         public byte[] GetAsciiBytes() {
-            //slow. for prototype only
-            return Expressions.SelectMany(a => a.GetAsciiBytes()).ToArray();
+            return Functions.GetT<byte>(1, Functions.GetBytesF, Expressions);
         }
         /// <summary>
         /// Get bytes of result encoded with encoding
@@ -36,8 +35,7 @@ namespace GAS.Core.Strings
         /// <param name="_enc">encoding for encoding, lol</param>
         /// <returns>bytes</returns>
         public byte[] GetEncodingBytes(Encoding _enc) {
-            //slow. for prototype only
-            return Expressions.SelectMany(a => a.GetEncodingBytes(_enc)).ToArray();
+            return Functions.GetT<byte>(1, a => a.GetEncodingBytes(_enc), this.Expressions);
         }
         /// <summary>
         /// alias 4 GetString. 4 debugging
@@ -46,14 +44,20 @@ namespace GAS.Core.Strings
         public override string ToString() {
             return GetString();
         }
-
-
         public System.Collections.Generic.IEnumerable<byte[]> EnumAsciiBuffers() {
             return Expressions.SelectMany(a => a.EnumAsciiBuffers());
         }
-
         public System.Collections.Generic.IEnumerable<string> EnumStrings() {
             return Expressions.SelectMany(a => a.EnumStrings());
+        }
+        public unsafe void ComputeLen(ref int* outputdata) {
+            throw new NotImplementedException();
+        }
+        public int ComputeMaxLenForSize() {
+            int sum=0;
+            for ( int i = 0; i < Expressions.Length; i++ )
+                sum += Expressions[i].ComputeMaxLenForSize();
+            return sum;
         }
     }
 }

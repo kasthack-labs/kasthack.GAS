@@ -67,7 +67,7 @@ namespace GAS.Core.Strings
                 _rnd = new Random();
             _from += 3;
             RepeatExpression exp = new RepeatExpression(_rnd);
-            exp.Expressions = Parse(ref _from, out _outcount, _maxcount - 3, _enc, _rnd);
+            exp.Expressions = Parse(ref _from, out _outcount, _maxcount - 3, _enc, _rnd).Expressions;
             _from += 3;
             _outcount += 6;
             int __cnt = 0;
@@ -139,7 +139,7 @@ namespace GAS.Core.Strings
         /// Parses string as ExpressionTree
         /// </summary>
         /// <param name="_from">pointer to __start parsing</param>
-        /// <param name="_outcount">__output to save move offset</param>
+        /// <param name="_outcount">__output to save move __offset</param>
         /// <param name="_enc">encoding instanse for generated expressions</param>
         /// <param name="_rnd">randomizer instanse for generated expressions</param>
         /// <param name="_max_count">max string parse length</param>
