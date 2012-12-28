@@ -66,6 +66,7 @@
     <Compile Include="Strings\StaticASCIIStringExpression.cs" />
     <Compile Include="Strings\StringFormat.cs" />
     <Compile Include="Attacks\TMOF.cs" />
+    <Compile Include="Tools\FastRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GZIP_bombs\128mz.gz" />

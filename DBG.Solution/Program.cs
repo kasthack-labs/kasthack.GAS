@@ -12,7 +12,7 @@ namespace DBG.Solution
 			//bug: int.MinValue, long.MaxValue
 			//non-std: to hex -
 			CheckTree();
-			Console.ReadLine();
+			//Console.ReadLine();
 		}
 		static void UnitTests() {
 			int[] __int_test_values = new int[] { 0, -1, 0, int.MaxValue, int.MinValue + 1 };
@@ -26,7 +26,7 @@ namespace DBG.Solution
 				Debug.Assert(new string(Functions.IntToHexString(__i)).TrimStart(tr) == __i.ToString("x2").TrimStart(tr), "Bad ToString " + __i + " Real " + __i.ToString("x2").TrimStart(tr));
 		}
 		static void CheckTree() {
-			while ( true ) {
+			//while ( true ) {
 				try {
 					string ExpressionString = "";
 					IExpression Expression;
@@ -35,7 +35,7 @@ namespace DBG.Solution
 					byte[] s;
 					timer = new Stopwatch();
 					Console.WriteLine("Type in formatted string");
-					ExpressionString = Console.ReadLine();
+					//ExpressionString = Console.ReadLine();
 					ExpressionString = String.IsNullOrEmpty(ExpressionString) ? //77160 last
 						//"{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}":
 					"GET {R:{/{S:S:5:10}}:1:20} Http1.1\r\nHost: {R:{{S:a:1:10}.}:1:3}free.fr\r\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg" +
@@ -44,7 +44,7 @@ namespace DBG.Solution
 					ExpressionString;
 					Expression = ExpressionParser.Parse(ExpressionString);
 					Console.WriteLine("Expression: {0}{1}Result: {2}{1}Enter loops", ExpressionString, Environment.NewLine, new String(Functions.GetT<char>(1, Functions.GetCharsF, ( (FormattedStringGenerator)Expression ).Expressions)));
-					cnt = int.Parse(Console.ReadLine());
+					cnt = 2500000;//int.Parse(Console.ReadLine());
 					Console.WriteLine("Benching {0}", cnt);
 					timer.Start();
 					for ( int i = 0; i < cnt; i++ )
@@ -59,7 +59,7 @@ namespace DBG.Solution
 					Console.WriteLine(ex);
 					Console.ForegroundColor = fc;
 				}
-			}
+			//}
 		}
 	}
 }
