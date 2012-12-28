@@ -54,24 +54,20 @@ namespace GAS.Core.Strings
         public static T[] GetT<T>(int _RepeatCount, Func<IExpression, T[]> _GetT, IExpression[] _Expressions) {
             T[] __outbytes;
             T[][] __tmp_bytes;
-            int __len = 0, __offset = 0, __tmp_sz = 0, __i = 0, __j = 0, __ex_l = _Expressions.Length, __tmp_bl = 0;
-
+            int __offset = 0, __tmp_sz = 0, __i = 0, __j = 0, __ex_l = _Expressions.Length;
+            __ex_l = _Expressions.Length;
             __tmp_bytes = new T[__ex_l * _RepeatCount][];
-            __tmp_bl = __tmp_bytes.Length;
-            for ( __j = 0; __j < _RepeatCount; __j++ ) {
-                for ( __i = 0; __i < __tmp_bl; __i++ ) {
+            for ( __j = 0; __j < _RepeatCount; __j++ )
+                for ( __i = 0; __i < __ex_l; __i++ )
                     __tmp_bytes[__j * __ex_l + __i] = _GetT(_Expressions[__i]);
-                }
-            }
-            for ( __i = 0; __i < __tmp_bl; __len += __tmp_bytes[__i].Length, __i++ ) ;
-            __outbytes = new T[__len * _RepeatCount];
-            for ( __j = 0; __j < _RepeatCount; __j++ ) {
-                for ( __i = 0; __i < __tmp_bl; __i++ ) {
-                    __tmp_sz = __tmp_bytes[__j * __ex_l + __i].Length;
-                    Array.Copy(__tmp_bytes[__j * __ex_l + __i], 0, __outbytes, __offset, __tmp_sz);
-                    __tmp_bytes[__j * __ex_l + __i] = null;
-                    __offset += __tmp_sz;
-                }
+            __j = __tmp_bytes.Length;
+            for ( __i = 0; __i < __j; __tmp_sz += __tmp_bytes[__i].Length, __i++ ) ;
+            __outbytes = new T[__tmp_sz];
+            for ( __i = 0; __i < __j; __i++ ) {
+                __tmp_sz = __tmp_bytes[__i].Length;
+                Array.Copy(__tmp_bytes[__i], 0, __outbytes, __offset, __tmp_sz);
+                __tmp_bytes[__i] = null;
+                __offset += __tmp_sz;
             }
             return __outbytes;
         }

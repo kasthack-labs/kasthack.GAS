@@ -32,26 +32,30 @@ namespace DBG.Solution
             while ( true ) {
                 try {
                     string ExpressionString = "";
+                    IExpression Expression;
+                    int cnt;
+                    Stopwatch timer;
+                    byte[] s;
+
+                    timer = new Stopwatch();
+
                     Console.WriteLine("Type in formatted string");
                         ExpressionString = Console.ReadLine();
-                        ExpressionString = String.IsNullOrEmpty(ExpressionString) ? 
-                            "{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}" 
-                            //"12{I:D:1:10}"
-                            : ExpressionString;
-                    IExpression Expression = ExpressionParser.Parse(ExpressionString);
-                    Console.WriteLine("Expression: {0}", ExpressionString);
-                    Console.WriteLine("Result: {0}", new String(Functions.GetT<char>(1, Functions.GetCharsF,
-                        ((FormattedStringGenerator)Expression).Expressions)));
-                    Console.WriteLine("Enter loops");
-                    int cnt = int.Parse(Console.ReadLine());
+                        ExpressionString = String.IsNullOrEmpty(ExpressionString) ? //77160 last
+                            //"{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}":
+                            "GET {R:{/{S:S:5:10}}:1:20} Http1.1\r\nHost: {R:{{S:a:1:10}.}:1:3}free.fr\r\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg"+
+                            "\r\nAccept-Language: {S:a:2:2}\r\nAccept-Encoding: gzip, deflate\r\n"+
+                            "User-Agent: Mozilla/{I:D:1:5}.{I:D:1:9} (compatible; MSIE {I:D:1:10}.5; Windows NT {I:D:3:6}.0)\r\nConnection: Keep-Alive":
+                            ExpressionString;
+                    Expression = ExpressionParser.Parse(ExpressionString);
+                    Console.WriteLine("Expression: {0}{1}Result: {2}{1}Enter loops", ExpressionString, Environment.NewLine, new String(Functions.GetT<char>(1, Functions.GetCharsF, ( (FormattedStringGenerator)Expression ).Expressions)));
+                    cnt = int.Parse(Console.ReadLine());
                     Console.WriteLine("Benching {0}", cnt);
-                    var v = new Stopwatch();
-                    v.Start();
-                    string s = "";
+                    timer.Start();
                     for ( int i = 0; i < cnt; i++ )
-                        s = Expression.ToString();
-                    v.Stop();
-                    Console.WriteLine("Finished: {0}", v.Elapsed);
+                        s = Expression.GetAsciiBytes();
+                    timer.Stop();
+                    Console.WriteLine("Finished: {0}", timer.Elapsed);
                 }
                 catch ( Exception ex ) {
                     var bc = Console.BackgroundColor;

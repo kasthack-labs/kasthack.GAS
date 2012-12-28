@@ -20,13 +20,17 @@ namespace GAS.Core.Strings
         /// </summary>
         /// <returns>char[] result</returns>
         public char[] GetChars() {
-                return Functions.GetT<char>(1, Functions.GetCharsF, Expressions);
+            if ( Expressions.Length == 1 )
+                return Expressions[0].GetChars();
+            return Functions.GetT<char>(1, Functions.GetCharsF, Expressions);
         }
         /// <summary>
         /// Get native representation of expression execution result
         /// </summary>
         /// <returns>ascii bytes</returns>
         public byte[] GetAsciiBytes() {
+            if ( Expressions.Length == 1 )
+                return Expressions[0].GetAsciiBytes();
             return Functions.GetT<byte>(1, Functions.GetBytesF, Expressions);
         }
         /// <summary>
