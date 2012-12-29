@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpNeatLib.Maths;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 namespace GAS.Core.Strings
@@ -6,7 +7,7 @@ namespace GAS.Core.Strings
 	public class Functions
 	{
 		#region Variables
-		static Random random = new Random();
+		public static FastRandom random = new FastRandom();
 		public static Func<IExpression, char[]> GetCharsF = a => a.GetChars();
 		public static Func<IExpression, byte[]> GetCharsEF = null;
 		public static Func<IExpression, byte[]> GetBytesF = a => a.GetAsciiBytes();
@@ -24,10 +25,15 @@ namespace GAS.Core.Strings
 		public static byte[] _hex_chars_bytes = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 97, 98, 99, 100, 101, 102, };
 		public static ushort[] _offsets = { 0, 0, 33, 48, 65, 97 };
 		public static ushort[] _lengs = { 65535, 32, 32, 10, 26, 26 };
+		static char ___c = '-';
+		static byte ___b = (byte)'-';
+		static char[] ___zca = new char[] { '0' };
+		static byte[] ___zba = new byte[] { (byte)'0' };
 		#endregion
 		#endregion
 		public Functions() {
 		}
+		#region Legacy
 		public static string RandomString() {
 			return new string(RandomASCII(1, 8, _ascii_chars, 0, 61));
 		}
@@ -49,97 +55,14 @@ namespace GAS.Core.Strings
 			//slow. just for prototype
 			return new String(Enumerable.Repeat(' ', _m.Length).ToArray());
 		}
-		/*FuckingMagic*/
-		public static T[] GetT<T>(int _RepeatCount, Func<IExpression, T[]> _GetT, IExpression[] _Expressions) {
-			T[] __outbytes;
-			T[][] __tmp_bytes;
-			int __offset = 0, __tmp_sz = 0, __i = 0, __j = 0, __ex_l = _Expressions.Length;
-			__ex_l = _Expressions.Length;
-			__tmp_bytes = new T[__ex_l * _RepeatCount][];
-			for ( __j = 0; __j < _RepeatCount; __j++ )
-				for ( __i = 0; __i < __ex_l; __i++ )
-					__tmp_bytes[__j * __ex_l + __i] = _GetT(_Expressions[__i]);
-			__j = __tmp_bytes.Length;
-			for ( __i = 0; __i < __j; __tmp_sz += __tmp_bytes[__i].Length, __i++ ) ;
-			__outbytes = new T[__tmp_sz];
-			for ( __i = 0; __i < __j; __i++ ) {
-				__tmp_sz = __tmp_bytes[__i].Length;
-				Array.Copy(__tmp_bytes[__i], 0, __outbytes, __offset, __tmp_sz);
-				__tmp_bytes[__i] = null;
-				__offset += __tmp_sz;
-			}
-			return __outbytes;
-		}
+		#endregion
+		#region Shit(wrappers 4 wrappers
+		/*parsers*/
 		public static int QIntParse(char[] _input) {
 			return QIntParse(_input, 0, _input.Length);
 		}
-		public static unsafe int QIntParse(char[] _input, int _from, int _count) {
-			fixed ( char* __input = _input )
-				return QIntParse(__input + _from, _count); 
-		}
 		public static long QLongParse(char[] _input) {
 			return QLongParse(_input, 0, _input.Length);
-		}
-		public static unsafe long QLongParse(char[] _input, int _from, int _count) {
-			fixed ( char* __input = _input )
-				return QLongParse(__input + _from, _count); 
-		}
-		/*to_strings*/
-		public static char[] IntToHexString(long _i) {
-			if ( _i == 0 ) return new char[] { '0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			long __copy = _i;
-			while ( ( _i >>= 4 ) > 0 ) __sz++;
-			char[] __output = new char[__sz + 1];
-			__output[0] = '-';
-			do __output[__sz--] = _hex_chars[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
-			return __output;
-		}
-		public static char[] IntToDecString(long _i) {
-			if ( _i == 0 ) return new char[] { '0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			long __copy = _i;
-			while ( ( _i /= 10 ) > 0 ) __sz++;
-			char[] __output = new char[__sz + 1];
-			__output[0] = '-';
-			do __output[__sz--] = _hex_chars[__copy % 10]; while ( ( __copy /= 10 ) > 0 );
-			return __output;
-		}
-		public static char[] IntToHexString(int _i) {
-			if ( _i == 0 ) return new char[] { '0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			int __copy = _i;
-			while ( ( _i >>= 4 ) > 0 ) __sz++;
-			char[] __output = new char[__sz + 1];
-			__output[0] = '-';
-			do __output[__sz--] = _hex_chars[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
-			return __output;
-		}
-		public static char[] IntToDecString(int _i) {
-			if ( _i == 0 ) return new char[] { '0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			int __copy = _i;
-			while ( ( _i /= 10 ) > 0 ) __sz++;
-			char[] output = new char[__sz + 1];
-			output[0] = '-';
-			do output[__sz--] = _hex_chars[__copy % 10]; while ( ( __copy /= 10 ) > 0 );
-			return output;
 		}
 		/*random strings*/
 		public static char[] RandomASCII(int _min_len, int _max_len) {
@@ -150,6 +73,64 @@ namespace GAS.Core.Strings
 		}
 		public static char[] RandomUTFURLEncodeString(int _min_real_len, int _max_real_len) {
 			return RandomUTFURLEncodeString(random.Next(_min_real_len, _max_real_len));
+		}
+		/*random_strings*/
+		public static byte[] RandomASCIIBytes(int _min_len, int _max_len) {
+			return RandomASCIIBytes(_min_len, _max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length - 1);
+		}
+		public static byte[] RandomASCIIBytes(int _min_len, int _max_len, byte[] _source, int _startindex, int _maxindex) {
+			return RandomASCIIBytes(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
+		}
+		public static byte[] RandomUTFURLEncodeStringBytes(int _min_real_len, int _max_real_len) {
+			return RandomUTFURLEncodeStringBytes(random.Next(_min_real_len, _max_real_len));
+		}
+		#endregion
+		#region unsafe Wrappers
+		/*parsers*/
+		public static unsafe long QLongParse(char[] _input, int _from, int _count) {
+			fixed ( char* __input = _input )
+				return QLongParse(__input + _from, _count); 
+		}
+		public static unsafe int QIntParse(char[] _input, int _from, int _count) {
+			fixed ( char* __input = _input )
+				return QIntParse(__input + _from, _count); 
+		}
+		/*to_strings*/
+		public static unsafe char[] IntToHexString(long _i) {
+			if ( _i == 0 ) return ___zca;
+			byte __sz = GetHexStringLength(_i);
+			char[] __output = new char[__sz];
+			fixed ( char* __out_arr = __output )
+				fixed ( char* __src_arr = _hex_chars )
+					IntToHexStringInsert(__out_arr, __src_arr, _i, __sz);
+			return __output;
+		}
+		public static unsafe char[] IntToDecString(long _i) {
+			if ( _i == 0 ) return ___zca;
+			byte __sz = GetDecStringLength(_i);
+			char[] __output = new char[__sz];
+			fixed ( char* __out_arr = __output )
+				fixed ( char* __src_arr = _hex_chars )
+					IntToDecStringInsert(__out_arr, _i, __sz);
+			return __output;
+		}
+		public static unsafe char[] IntToHexString(int _i) {
+			if ( _i == 0 ) return ___zca;
+			byte __sz = GetHexStringLength(_i);
+			char[] __output = new char[__sz];
+			fixed ( char* __out_arr = __output )
+				fixed ( char* __src_arr = _hex_chars )
+						IntToHexStringInsert(__out_arr, __src_arr, _i, __sz);
+			return __output;
+		}
+		public static unsafe char[] IntToDecString(int _i) {
+			if ( _i == 0 ) return ___zca;
+			byte __sz = GetDecStringLength(_i);
+			char[] __output = new char[__sz];
+			fixed ( char* __out_arr = __output )
+				fixed ( char* __src_arr = _hex_chars )
+						IntToDecStringInsert(__out_arr, _i, __sz);
+			return __output;
 		}
 		/*real engine*/
 		public static unsafe char[] RandomUTFURLEncodeString(int _len) {
@@ -166,71 +147,41 @@ namespace GAS.Core.Strings
 			return __output;
 		}
 		/*same but with bytes*/
-		public static byte[] IntToHexStringBytes(long _i) {
-			if ( _i == 0 ) return new byte[] { (byte)'0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			long __copy = _i;
-			while ( ( _i >>= 4 ) > 0 ) __sz++;
-			byte[] __output = new byte[__sz + 1];
-			__output[0] = (byte)'-';
-			do __output[__sz--] = _hex_chars_bytes[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
+		public static unsafe byte[] IntToHexStringBytes(long _i) {
+			if ( _i == 0 ) return ___zba;
+			byte __sz = GetHexStringLength(_i);
+			byte[] __output = new byte[__sz];
+			fixed ( byte* __out_arr = __output )
+				fixed ( byte* __src_arr = _hex_chars_bytes )
+					IntToHexStringBytesInsert(__out_arr, __src_arr, _i, __sz);
 			return __output;
 		}
-		public static byte[] IntToDecStringBytes(long _i) {
-			if ( _i == 0 ) return new byte[] { (byte)'0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			long __copy = _i;
-			while ( ( _i /= 10 ) > 0 ) __sz++;
-			byte[] output = new byte[__sz + 1];
-			output[0] = (byte)'-';
-			do output[__sz--] = (byte)( __copy % 10 + 48 ); while ( ( __copy /= 10 ) > 0 );
-			return output;
-		}
-		public static byte[] IntToHexStringBytes(int _i) {
-			if ( _i == 0 ) return new byte[] { (byte)'0' };
-			int __sz = 0;
-			if ( _i < 0 ) {
-				__sz++;
-				_i *= -1;
-			}
-			int __copy = _i;
-			while ( ( _i >>= 4 ) > 0 ) __sz++;
-			byte[] __output = new byte[__sz + 1];
-			__output[0] = (byte)'-';
-			do __output[__sz--] = _hex_chars_bytes[__copy & 0x0fL]; while ( ( __copy >>= 4 ) > 0 );
+		public static unsafe byte[] IntToDecStringBytes(long _i) {
+			if ( _i == 0 ) return ___zba;
+			byte __sz = GetDecStringLength(_i);
+			byte[] __output = new byte[__sz];
+			fixed ( byte* __out_arr = __output )
+				fixed ( byte* __src_arr = _hex_chars_bytes )
+					IntToDecStringBytesInsert(__out_arr, _i, __sz);
 			return __output;
 		}
-		public static byte[] IntToDecStringBytes(int _i) {
-			if ( _i == 0 ) return new byte[] { (byte)'0' };
-			int sz = 0;
-			if ( _i < 0 ) {
-				sz++;
-				_i *= -1;
-			}
-			int __copy = _i;
-			while ( ( _i /= 10 ) > 0 ) sz++;
-			byte[] __output = new byte[sz + 1];
-			__output[0] = (byte)'-';
-			do __output[sz--] = (byte)( __copy % 10 + 48 ); while ( ( __copy /= 10 ) > 0 );
+		public static unsafe byte[] IntToHexStringBytes(int _i) {
+			if ( _i == 0 ) return ___zba;
+			byte __sz = GetHexStringLength(_i);
+			byte[] __output = new byte[__sz];
+			fixed ( byte* __out_arr = __output )
+				fixed ( byte* __src_arr = _hex_chars_bytes )
+					IntToHexStringBytesInsert(__out_arr, __src_arr, _i, __sz);
 			return __output;
 		}
-		/*random_strings*/
-		public static byte[] RandomASCIIBytes(int _min_len, int _max_len) {
-			return RandomASCIIBytes(_min_len, _max_len, _ascii_chars_bytes, 0, _ascii_chars_bytes.Length - 1);
-		}
-		public static byte[] RandomASCIIBytes(int _min_len, int _max_len, byte[] _source, int _startindex, int _maxindex) {
-			return RandomASCIIBytes(random.Next(_min_len, _max_len + 1), _source, _startindex, _maxindex);
-		}
-		public static byte[] RandomUTFURLEncodeStringBytes(int _min_real_len, int _max_real_len) {
-			return RandomUTFURLEncodeStringBytes(random.Next(_min_real_len, _max_real_len));
+		public static unsafe byte[] IntToDecStringBytes(int _i) {
+			if ( _i == 0 ) return ___zba;
+			byte __sz = GetDecStringLength(_i);
+			byte[] __output = new byte[__sz];
+			fixed ( byte* __out_arr = __output )
+				fixed ( byte* __src_arr = _hex_chars_bytes )
+					IntToDecStringBytesInsert(__out_arr, _i, __sz);
+			return __output;
 		}
 		/*real generators*/
 		public static unsafe byte[] RandomUTFURLEncodeStringBytes(int _real_len) {
@@ -246,7 +197,9 @@ namespace GAS.Core.Strings
 					RandomASCIIBytesInsert(__out_pointer, _len, __source + _startindex, _maxindex - _startindex);
 			return __output;
 		}
-		/*unsafe*/
+		#endregion
+		#region Real Generators
+		/*parsers*/
 		public static unsafe int QIntParse(char* _input, int _count) {
 			int __sum = 0;//, __cnt = 0;
 			char* __end = _input + _count;
@@ -283,7 +236,7 @@ namespace GAS.Core.Strings
 			};
 			return __cnt;
 		}
-		/*generators with pointers. Warning! NOT TESTED! POTENTIAL CRASH AND LOSS OFF DATA! IT'S NOT CAPSLOCK - IT'S АГСЛШТП SHIFT!*/
+		/*generators with pointers*/
 		public static unsafe void RandomUTFURLEncodeStringBytesInsert(byte* _ptr, int _real_len) {
 			byte* __end = ( _ptr + _real_len * 6 );
 			ushort __rnd = 0;
@@ -342,7 +295,7 @@ namespace GAS.Core.Strings
 		public static byte GetHexStringLength(int _i) {
 			byte __sz = 1;
 			if ( _i < 0 ) { __sz++; _i = -_i; }
-			while ( ( _i >>= 4 ) > 0 ) __sz++;
+			while ( ( _i >>= 4 ) != 0 ) __sz++;
 			return __sz;
 		}
 		public static byte GetHexStringLength(long _i) {
@@ -351,6 +304,76 @@ namespace GAS.Core.Strings
 			while ( ( _i >>= 4 ) > 0 ) __sz++;
 			return __sz;
 		}
-		/*to_string_insert*/
+		/*to_strings*/
+		public static unsafe void IntToHexStringBytesInsert(byte* _outarr, byte* _source_arr, int _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___b;
+			_outarr += _sz;
+			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+		}
+		public static unsafe void IntToHexStringBytesInsert(byte* _outarr, byte* _source_arr, long _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___b;
+			_outarr += _sz;
+			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+		}
+		public static unsafe void IntToHexStringInsert(char* _outarr, char* _source_arr, long _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___c;
+			_outarr += _sz;
+			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+		}
+		public static unsafe void IntToHexStringInsert(char* _outarr, char* _source_arr, int _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___c;
+			_outarr += _sz;
+			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+		}
+		public static unsafe void IntToDecStringBytesInsert(byte* _outarr, long _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___b;
+			_outarr += _sz;
+			do *_outarr-- = (byte)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+		}
+		public static unsafe void IntToDecStringBytesInsert(byte* _outarr, int _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___b;
+			_outarr += _sz;
+			do *_outarr-- = (byte)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+		}
+		public static unsafe void IntToDecStringInsert(char* _outarr, long _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___c;
+			_outarr += _sz;
+			do *_outarr-- = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+		}
+		public static unsafe void IntToDecStringInsert(char* _outarr, int _i, byte _sz) {
+			if ( _i < 0 ) _i = -_i;
+			*_outarr = ___c;
+			_outarr += _sz;
+			do *_outarr-- = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+		}
+		/*FuckingMagic*/
+		public static T[] GetT<T>(int _RepeatCount, Func<IExpression, T[]> _GetT, IExpression[] _Expressions) {
+			T[] __outbytes;
+			T[][] __tmp_bytes;
+			int __offset = 0, __tmp_sz = 0, __i = 0, __j = 0, __ex_l = _Expressions.Length;
+			__ex_l = _Expressions.Length;
+			__tmp_bytes = new T[__ex_l * _RepeatCount][];
+			for ( __j = 0; __j < _RepeatCount; __j++ )
+				for ( __i = 0; __i < __ex_l; __i++ )
+					__tmp_bytes[__j * __ex_l + __i] = _GetT(_Expressions[__i]);
+			__j = __tmp_bytes.Length;
+			for ( __i = 0; __i < __j; __tmp_sz += __tmp_bytes[__i].Length, __i++ ) ;
+			__outbytes = new T[__tmp_sz];
+			for ( __i = 0; __i < __j; __i++ ) {
+				__tmp_sz = __tmp_bytes[__i].Length;
+				Array.Copy(__tmp_bytes[__i], 0, __outbytes, __offset, __tmp_sz);
+				__tmp_bytes[__i] = null;
+				__offset += __tmp_sz;
+			}
+			return __outbytes;
+		}
+		#endregion
 	}
 }

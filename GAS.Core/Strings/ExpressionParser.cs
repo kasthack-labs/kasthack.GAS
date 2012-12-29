@@ -65,16 +65,16 @@ namespace GAS.Core.Strings
 			if ( _rnd == null )
 				_rnd = new Random();
 			_from += 3;
-			RepeatExpression exp = new RepeatExpression(_rnd);
+			RepeatExpression exp = new RepeatExpression();
 			exp.Expressions = Parse(ref _from, out _outcount, _maxcount - 3, _enc, _rnd).Expressions;
 			_from += 3;
 			_outcount += 6;
 			int __cnt = 0;
 			__cnt = Functions.FindChar(_from, (char*)( _from + _maxcount - _outcount ), ':');
-			exp.Min = Functions.QIntParse(_from, 0, __cnt);
+			exp.Min = Functions.QIntParse(_from, __cnt);
 			_from += __cnt + 1;
 			__cnt = Functions.FindChar(_from, (char*)( _from + _maxcount - _outcount ), '}');
-			exp.Max = Functions.QIntParse(_from, 0, __cnt);
+			exp.Max = Functions.QIntParse(_from, __cnt);
 			_from += __cnt;
 			return exp;
 		}
@@ -97,7 +97,7 @@ namespace GAS.Core.Strings
 			int __cnt = 0;
 			char* __end = _from + _max_count;
 			_outcount = 0;
-			IntExpression exp = new IntExpression(_rnd);
+			IntExpression exp = new IntExpression();
 			#endregion
 			#region Parse Format
 			switch ( *( _from += 2 ) )//skip expression type+separator
@@ -119,14 +119,14 @@ namespace GAS.Core.Strings
 			//get min value length
 			__cnt = Functions.FindChar(_from, __end, ':');
 			//parse min length
-			exp.Min = Functions.QIntParse(_from, 0, __cnt);
+			exp.Min = Functions.QIntParse(_from, __cnt);
 			_from += __cnt + 1;//skip separator
 			_outcount += __cnt + 1;//add skip 4 min
 			#endregion
 			#region Parse Max
 			//same for max
 			__cnt = Functions.FindChar(_from, __end, '}');
-			exp.Max = Functions.QIntParse(_from, 0, __cnt);
+			exp.Max = Functions.QIntParse(_from, __cnt);
 			_from += __cnt;
 			_outcount += __cnt;
 			//skip closing bracket
@@ -193,7 +193,7 @@ namespace GAS.Core.Strings
 			int __cnt = 0;
 			char* __end = _from + _max_count;
 			_outcount = 0;
-			var exp = new StringExpression(_rnd);
+			var exp = new StringExpression();
 			#endregion
 			#region Parse Format
 			switch ( *( _from += 2 ) ) {
@@ -230,14 +230,14 @@ namespace GAS.Core.Strings
 			//get min value length
 			__cnt = Functions.FindChar(_from, __end, ':');
 			//parse min length
-			exp.Min = Functions.QIntParse(_from, 0, __cnt);
+			exp.Min = Functions.QIntParse(_from, __cnt);
 			_from += __cnt + 1;//skip separator
 			_outcount += __cnt + 1;//add skip 4 min
 			#endregion
 			#region Parse Max
 			//same for max
 			__cnt = Functions.FindChar(_from, __end, '}');
-			exp.Max = Functions.QIntParse(_from, 0, __cnt);
+			exp.Max = Functions.QIntParse(_from, __cnt);
 			_from += __cnt;
 			_outcount += __cnt;
 			//skip closing bracket
@@ -254,7 +254,7 @@ namespace GAS.Core.Strings
 				_rnd = new Random();
 			int __cnt = 0;
 			char* __end = _from + _max_count;
-			var exp = new CharExpression(_rnd);
+			var exp = new CharExpression();
 			#endregion
 			_from += 2;//skip format+separator
 			_outcount = 2;//total move
@@ -262,14 +262,14 @@ namespace GAS.Core.Strings
 			//get min value length
 			__cnt = Functions.FindChar(_from, __end, ':');
 			//parse min length
-			exp.Min = Functions.QIntParse(_from, 0, __cnt);
+			exp.Min = Functions.QIntParse(_from, __cnt);
 			_from += __cnt + 1;//skip separator
 			_outcount += __cnt + 1;//add skip 4 min
 			#endregion
 			#region Parse Max
 			//same for max
 			__cnt = Functions.FindChar(_from, __end, '}');
-			exp.Max = Functions.QIntParse(_from, 0, __cnt);
+			exp.Max = Functions.QIntParse(_from, __cnt);
 			_from += __cnt;
 			_outcount += __cnt;
 			//skip closing bracket

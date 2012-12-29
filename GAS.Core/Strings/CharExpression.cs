@@ -4,23 +4,37 @@ namespace GAS.Core.Strings
 {
     public class CharExpression : IExpression
     {
-        Random rnd;
-        public int Min, Max;
+		int _Min, _Max;
+		public int Min {
+			get {
+				return _Min;
+			}
+			set {
+				_Min = value + 1;
+			}
+		}
+		public int Max {
+			get {
+				return _Max;
+			}
+			set {
+				_Max = value + 1;
+			}
+		}
         [System.Diagnostics.DebuggerNonUserCode]
-        public CharExpression(Random _rnd = null) {
-            rnd = _rnd != null ? rnd : new Random();
+        public CharExpression() {
         }
         public byte[] GetAsciiBytes() {
-            return new byte[] { (byte)rnd.Next(Min, Max) };
+            return new byte[] { (byte)Functions.random.Next(_Min, _Max) };
         }
         public char[] GetChars() {
-            return new char[] { (char)rnd.Next(Min, Max + 1) };
+			return new char[] { (char)Functions.random.Next(_Min, _Max) };
         }
         public byte[] GetEncodingBytes(Encoding enc) {
-            return enc.GetBytes(new char[] { (char)rnd.Next(Min, Max + 1) });
+			return enc.GetBytes(new char[] { (char)Functions.random.Next(_Min, _Max) });
         }
         public string GetString() {
-            return ( (char)rnd.Next(Min, Max + 1) ).ToString();
+			return ( (char)Functions.random.Next(_Min, _Max) ).ToString();
         }
         public override string ToString() {
             return GetString();
