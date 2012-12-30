@@ -53,7 +53,7 @@ GAS is opensource stress-test tool originally based on IRC-LOIC(github.com/newer
 			Result example
 				gfdfyhtueyrstgdfggfr
 ###Mutiple generator invocation
-		//2+ level expressions are **VERY SLOW**.
+		//2+ level expressions are  **VERY SLOW**.(fixed in fca92cd0d52380e39e1a7a255914d4da297488e0)
 		Validator Regex(broken): \{R:\{.*\}:[0-9]+:[0-9]+\}
 		String format: {R:{expressions}:min_count:_max_count} 
 			Example
