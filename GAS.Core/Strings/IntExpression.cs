@@ -81,15 +81,25 @@ namespace GAS.Core.Strings
 			return 3;// 1 -cached value,  2 - __len,3 - cached value nuller,
 			//bad idea but __i have nothin better
 		}
-
-
 		public unsafe void GetAsciiBytesInsert(ref int* _Size, ref byte* _OutputBuffer) {
 			if ( Format == NumberFormat.Decimal ) {
 				Functions.IntToDecStringBytesInsert(_OutputBuffer, *_Size++, (byte)*_Size++);
 				_OutputBuffer -= *_Size++;
 				return;
 			}
-			_Size++;
+			fixed (byte* __hex_pointer = Functions._hex_chars_bytes)
+				Functions.IntToHexStringBytesInsert(_OutputBuffer, __hex_pointer, *_Size++, (byte)*_Size++);
+			_OutputBuffer -= *_Size++;
+		}
+		public unsafe void GetAsciiInsert(ref int* _Size, ref char* _OutputBuffer) {
+			if ( Format == NumberFormat.Decimal ) {
+				Functions.IntToDecStringInsert(_OutputBuffer, *_Size++, (byte)*_Size++);
+				_OutputBuffer -= *_Size++;
+				return;
+			}
+			fixed ( char* __hex_pointer = Functions._hex_chars )
+				Functions.IntToHexStringInsert(_OutputBuffer, __hex_pointer, *_Size++, (byte)*_Size++);
+			_OutputBuffer -= *_Size++;
 		}
 	}
 }

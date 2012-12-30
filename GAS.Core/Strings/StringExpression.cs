@@ -171,5 +171,38 @@ namespace GAS.Core.Strings
 			}
 			_OutputBuffer += __len;
 		}
+		public unsafe void GetAsciiInsert(ref int* _Size, ref char* _OutputBuffer) {
+			int __len = *_Size++;
+			fixed ( char* __chars = Functions._ascii_chars )
+				switch ( Format ) {
+					case StringFormat.Decimal:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars, 9);
+						break;
+					case StringFormat.Hexadecimal:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars, 15);
+						break;
+					case StringFormat.Letters:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars + 10, 51);
+						break;
+					case StringFormat.LowerCase:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars + 10, 25);
+						break;
+					case StringFormat.Random:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars, 93);
+						break;
+					case StringFormat.Std:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars, 61);
+						break;
+					case StringFormat.UpperCase:
+						Functions.RandomASCIIInsert(_OutputBuffer, __len, __chars + 36, 25);
+						break;
+					case StringFormat.Urlencode:
+						Functions.RandomUTFURLEncodeStringInsert(_OutputBuffer, __len / 6);
+						break;
+					default:
+						throw new ArgumentException("Bad string format");
+				}
+			_OutputBuffer += __len;
+		}
 	}
 }

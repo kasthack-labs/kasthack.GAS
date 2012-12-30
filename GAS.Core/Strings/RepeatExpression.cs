@@ -31,21 +31,83 @@ namespace GAS.Core.Strings
 		public byte[] GetAsciiBytes() {
 			return GetAsciiBytes(Functions.random.Next(_Min, _Max));
 		}
-		public byte[] GetAsciiBytes(int _RepeatCount) {
-			return Functions.GetT<byte>(_RepeatCount, Functions.GetBytesF, Expressions);
+		public unsafe byte[] GetAsciiBytes(int _RepeatCount) {
+			if ( _RepeatCount == 0 )
+				return new byte[] { };
+			if ( Expressions.Length == 1 && _RepeatCount==1)
+				return Expressions[0].GetAsciiBytes();
+			byte* __b;
+			byte[] __buffer;
+			int __outsize = 0;
+			int __size_len = CompLen() * _RepeatCount + 2;
+			int* __s;
+			int[] __size_buf = new int[__size_len];//buffer 4 sizes
+			long __rcount = 0;
+			//get generation data
+			fixed ( int* __szb = __size_buf ) {
+				__s = __szb;
+				ComputeLen(ref __s);
+				__rcount = __s - __szb;
+			}
+			//compute output length
+			for ( int __i = 0; __i < __rcount; __outsize += __size_buf[__i++] ) ;
+			__buffer = new byte[__outsize];
+			//gen!
+			fixed ( int* __szb = __size_buf ) {
+				fixed ( byte* __outb = __buffer ) {
+					__s = __szb;
+					__b = __outb;
+					GetAsciiBytesInsert(ref __s, ref __b);
+				}
+			}
+			return __buffer;
 		}
 		public char[] GetChars() {
 			return GetChars(Functions.random.Next(_Min, _Max));
 		}
-		public char[] GetChars(int _RepeatCount) {
+		public unsafe char[] GetChars(int _RepeatCount) {
 			//same as get ascii bytes but with chars
-			return Functions.GetT<char>(_RepeatCount, Functions.GetCharsF, Expressions);
+			if ( _RepeatCount == 0 )
+				return new char[] { };
+			if ( Expressions.Length == 1 && _RepeatCount == 1 )
+				return Expressions[0].GetChars();
+			char* __b;
+			char[] __buffer;
+			int __outsize = 0;
+			int __size_len = CompLen() * _RepeatCount + 2;
+			int* __s;
+			int[] __size_buf = new int[__size_len];//buffer 4 sizes
+			long __rcount = 0;
+			//get generation data
+			fixed ( int* __szb = __size_buf ) {
+				__s = __szb;
+				ComputeLen(ref __s);
+				__rcount = __s - __szb;
+			}
+			//compute output length
+			for ( int __i = 0; __i < __rcount; __outsize += __size_buf[__i++] ) ;
+			__buffer = new char[__outsize];
+			//gen!
+			fixed ( int* __szb = __size_buf ) {
+				fixed ( char* __outb = __buffer ) {
+					__s = __szb;
+					__b = __outb;
+					GetAsciiInsert(ref __s, ref __b);
+				}
+			}
+			return __buffer;
 		}
 		public byte[] GetEncodingBytes(Encoding _enc) {
 			return GetEncodingBytes(_enc, Functions.random.Next(_Min, _Max));
 		}
-		public byte[] GetEncodingBytes(Encoding _enc, int _RepeatCount) {
+		public unsafe byte[] GetEncodingBytes(Encoding _enc, int _RepeatCount) {
 			return Functions.GetT<byte>(_RepeatCount, a => a.GetEncodingBytes(_enc), this.Expressions);
+		}
+		int CompLen() {
+			int __sum = 0, __len = Expressions.Length;
+			for ( int __i = 0; __i < __len; __i++ )
+				__sum += Expressions[__i].ComputeMaxLenForSize();
+			return __sum;
 		}
 		public override string ToString() {
 			return GetString();
@@ -79,6 +141,13 @@ namespace GAS.Core.Strings
 			for (int __j =0;__j<__rpt;__j++)
 				for ( int __i = 0; __i < __len; __i++ )
 					Expressions[__i].GetAsciiBytesInsert(ref _Size, ref _OutputBuffer);
+		}
+		public unsafe void GetAsciiInsert(ref int* _Size, ref char* _OutputBuffer) {
+			int __len = Expressions.Length, __rpt = *_Size++;
+			_Size++;
+			for ( int __j = 0; __j < __rpt; __j++ )
+				for ( int __i = 0; __i < __len; __i++ )
+					Expressions[__i].GetAsciiInsert(ref _Size, ref _OutputBuffer);
 		}
 	}
 }

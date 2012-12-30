@@ -55,5 +55,9 @@ namespace GAS.Core.Strings
 			*_OutputBuffer++ = (byte)Functions.random.Next(_Min, _Max);
 			_Size++;
 		}
+		public unsafe void GetAsciiInsert(ref int* _Size, ref char* _OutputBuffer) {
+			*_OutputBuffer++ = (char)Functions.random.Next(_Min, _Max);
+			_Size++;
+		}
 	}
 }

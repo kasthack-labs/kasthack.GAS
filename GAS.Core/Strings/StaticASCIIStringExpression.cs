@@ -51,5 +51,19 @@ namespace GAS.Core.Strings
 			Marshal.Copy(buf, 0, __p, *_Size);
 			_OutputBuffer += *_Size++;
 		}
+		public unsafe void GetAsciiInsert(ref int* _Size, ref char* _OutputBuffer) {
+			byte* __start, __end;
+			//IntPtr __p = new IntPtr(_OutputBuffer);
+			//Marshal.Copy(
+			//buf, 0, __p, *_Size);
+			//_OutputBuffer += *_Size++;
+			fixed ( byte* __buf = buf ) {
+				__start = __buf;
+				__end = __buf + *_Size++;
+				do
+					*_OutputBuffer++ = (char)*__start++;
+				while ( __start < __end );
+			}
+		}
 	}
 }
