@@ -5,7 +5,23 @@ namespace GAS.Core.Strings
 	public class StringExpression : IExpression
 	{
 		public StringFormat Format;
-		public int Min, Max;
+		int _Min, _Max;
+		public int Min {
+			get {
+				return _Min;
+			}
+			set {
+				_Min = value + 1;
+			}
+		}
+		public int Max {
+			get {
+				return _Max;
+			}
+			set {
+				_Max = value + 1;
+			}
+		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public StringExpression() {
 		}
@@ -117,10 +133,43 @@ namespace GAS.Core.Strings
 			return new string[] { GetString() };
 		}
 		public unsafe void ComputeLen(ref int* outputdata) {
-			throw new NotImplementedException();
+			*outputdata++ = Functions.random.Next(_Min, _Max) * ( Format == StringFormat.Urlencode ? 6 : 1 );
 		}
 		public int ComputeMaxLenForSize() {
 			return 1;
+		}
+		public unsafe void GetAsciiBytesInsert(ref int* _Size, ref byte* _OutputBuffer) {
+			int __len = *_Size++;
+			fixed(byte* __chars = Functions._ascii_chars_bytes)
+			switch ( Format ) {
+				case StringFormat.Decimal:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars, 9);
+					break;
+				case StringFormat.Hexadecimal:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars, 15);
+					break;
+				case StringFormat.Letters:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars+ 10, 51);
+					break;
+				case StringFormat.LowerCase:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars+ 10, 25);
+					break;
+				case StringFormat.Random:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars, 93);
+					break;
+				case StringFormat.Std:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars, 61);
+					break;
+				case StringFormat.UpperCase:
+					Functions.RandomASCIIBytesInsert(_OutputBuffer, __len, __chars+ 36, 25);
+					break;
+				case StringFormat.Urlencode:
+					Functions.RandomUTFURLEncodeStringBytesInsert(_OutputBuffer, __len / 6);
+					break;
+				default:
+					throw new ArgumentException("Bad string format");
+			}
+			_OutputBuffer += __len;
 		}
 	}
 }

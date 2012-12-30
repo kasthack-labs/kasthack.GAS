@@ -51,5 +51,9 @@ namespace GAS.Core.Strings
         public int ComputeMaxLenForSize() {
             return 1;
         }
-    }
+		public unsafe void GetAsciiBytesInsert(ref int* _Size, ref byte* _OutputBuffer) {
+			*_OutputBuffer++ = (byte)Functions.random.Next(_Min, _Max);
+			_Size++;
+		}
+	}
 }

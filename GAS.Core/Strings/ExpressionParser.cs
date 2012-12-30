@@ -56,17 +56,15 @@ namespace GAS.Core.Strings
 			int len = 0;
 			fixed ( char* _p = str ) {
 				char* p = _p;
-				return Parse(ref p, out len, str.Length, new ASCIIEncoding(), new Random());
+				return Parse(ref p, out len, str.Length, new ASCIIEncoding());
 			}
 		}
-		public static unsafe RepeatExpression ParseRepeatE(ref char* _from, out int _outcount, int _maxcount, Random _rnd = null, ASCIIEncoding _enc = null) {
+		public static unsafe RepeatExpression ParseRepeatE(ref char* _from, out int _outcount, int _maxcount, ASCIIEncoding _enc = null) {
 			if ( _enc == null )
 				_enc = new ASCIIEncoding();
-			if ( _rnd == null )
-				_rnd = new Random();
 			_from += 3;
 			RepeatExpression exp = new RepeatExpression();
-			exp.Expressions = Parse(ref _from, out _outcount, _maxcount - 3, _enc, _rnd).Expressions;
+			exp.Expressions = Parse(ref _from, out _outcount, _maxcount - 3, _enc).Expressions;
 			_from += 3;
 			_outcount += 6;
 			int __cnt = 0;
@@ -87,13 +85,11 @@ namespace GAS.Core.Strings
 		/// <param name="_rnd">randomizer</param>
 		/// <returns>parsed expression</returns>
 		//works
-		public static unsafe IntExpression ParseIntE(ref char* _from, out int _outcount, int _max_count, Random _rnd = null) {
+		public static unsafe IntExpression ParseIntE(ref char* _from, out int _outcount, int _max_count) {
 			/*
 			* TODO: add string validation
 			*/
 			#region Variables
-			if ( _rnd == null )
-				_rnd = new Random();
 			int __cnt = 0;
 			char* __end = _from + _max_count;
 			_outcount = 0;
@@ -144,14 +140,12 @@ namespace GAS.Core.Strings
 		/// <param name="_max_count">max string parse length</param>
 		/// <returns>expression tree</returns>
 		//works
-		public unsafe static FormattedStringGenerator Parse(ref char* _from, out int _outcount, int _max_count, ASCIIEncoding _enc = null, Random _rnd = null) {
+		public unsafe static FormattedStringGenerator Parse(ref char* _from, out int _outcount, int _max_count, ASCIIEncoding _enc = null) {
 			#region Variables
 			List<IExpression> __exprs = new List<IExpression>();
 			char* __start = _from,
 			 __end = _from + _max_count;
 			int __cnt = 0;
-			if ( _rnd == null )
-				_rnd = new Random();
 			if ( _enc == null )
 				_enc = new ASCIIEncoding();
 			_outcount = 0;
@@ -161,12 +155,11 @@ namespace GAS.Core.Strings
 				if ( *_from == '}' ) break;
 				if ( *_from == '{' ) {
 					#region Add prev string
-					if ( --_from >= __start ) {
+					if ( --_from >= __start )
 						__exprs.Add(new StaticASCIIStringExpression(new string(__start, 0, (int)( _from + 1 - __start )), _enc));
-					}
 					_from++;
 					#endregion
-					__exprs.Add(ExpresionSelect(ref _from, out __cnt, (int)( __end - _from ), _rnd, _enc));
+					__exprs.Add(ExpresionSelect(ref _from, out __cnt, (int)( __end - _from ), _enc));
 					_outcount += __cnt;
 					__start = _from + 1;
 				}
@@ -183,13 +176,11 @@ namespace GAS.Core.Strings
 			#endregion
 			return new FormattedStringGenerator() { Expressions = __exprs.ToArray() };
 		}
-		public static unsafe StringExpression ParseStringE(ref char* _from, out int _outcount, int _max_count, Random _rnd = null) {
+		public static unsafe StringExpression ParseStringE(ref char* _from, out int _outcount, int _max_count) {
 			/*
 			* TODO: add string validation
 			*/
 			#region Variables
-			if ( _rnd == null )
-				_rnd = new Random();
 			int __cnt = 0;
 			char* __end = _from + _max_count;
 			_outcount = 0;
@@ -245,13 +236,11 @@ namespace GAS.Core.Strings
 			#endregion
 			return exp;
 		}
-		public static unsafe CharExpression ParseCharE(ref char* _from, out int _outcount, int _max_count, Random _rnd = null) {
+		public static unsafe CharExpression ParseCharE(ref char* _from, out int _outcount, int _max_count) {
 			/*
 			* TODO: add string validation
 			*/
 			#region Variables
-			if ( _rnd == null )
-				_rnd = new Random();
 			int __cnt = 0;
 			char* __end = _from + _max_count;
 			var exp = new CharExpression();
@@ -277,27 +266,25 @@ namespace GAS.Core.Strings
 			#endregion
 			return exp;
 		}
-		internal static unsafe IExpression ExpresionSelect(ref char* _from, out int _outcount, int _max_count, Random _rnd = null, ASCIIEncoding _enc = null) {
+		internal static unsafe IExpression ExpresionSelect(ref char* _from, out int _outcount, int _max_count, ASCIIEncoding _enc = null) {
 			if ( _enc == null )
 				_enc = new ASCIIEncoding();
-			if ( _rnd == null )
-				_rnd = new Random();
 			_outcount = 0;
 			_max_count--;
 			IExpression expr;
 			#region Parse
 			switch ( *++_from ) {
 				case 'I':
-					expr = ParseIntE(ref _from, out _outcount, _max_count, _rnd);//works
+					expr = ParseIntE(ref _from, out _outcount, _max_count);//works
 					break;
 				case 'C':
-					expr = ParseCharE(ref _from, out _outcount, _max_count, _rnd);
+					expr = ParseCharE(ref _from, out _outcount, _max_count);
 					break;
 				case 'S':
-					expr = ParseStringE(ref _from, out _outcount, _max_count, _rnd);
+					expr = ParseStringE(ref _from, out _outcount, _max_count);
 					break;
 				case 'R':
-					expr = ParseRepeatE(ref _from, out _outcount, _max_count, _rnd, _enc);//works
+					expr = ParseRepeatE(ref _from, out _outcount, _max_count, _enc);//works
 					break;
 				default:
 					throw new FormatException("Not supported expression");

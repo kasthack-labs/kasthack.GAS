@@ -12,5 +12,6 @@ namespace GAS.Core
 		IEnumerable<string> EnumStrings();
 		unsafe void ComputeLen(ref int* outputdata);
 		int ComputeMaxLenForSize();
+		unsafe void GetAsciiBytesInsert(ref int* Size, ref byte* OutputBuffer);
 	}
 }

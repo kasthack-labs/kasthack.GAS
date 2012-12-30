@@ -71,11 +71,25 @@ namespace GAS.Core.Strings
 		public System.Collections.Generic.IEnumerable<string> EnumStrings() {
 			return new string[] { GetString() };
 		}
-		public unsafe void ComputeLen(ref int* outputdata) {
-			throw new NotImplementedException();
+		public unsafe void ComputeLen(ref int* _outputdata) {
+			int __value = Functions.random.Next(_Min, _Max);
+			*_outputdata++ = __value;
+			*_outputdata++ = Format == NumberFormat.Decimal ? Functions.GetDecStringLength(__value) : Functions.GetHexStringLength(__value);
+			*_outputdata++ = -__value;
 		}
 		public int ComputeMaxLenForSize() {
-			return 1;
+			return 3;// 1 -cached value,  2 - __len,3 - cached value nuller,
+			//bad idea but __i have nothin better
+		}
+
+
+		public unsafe void GetAsciiBytesInsert(ref int* _Size, ref byte* _OutputBuffer) {
+			if ( Format == NumberFormat.Decimal ) {
+				Functions.IntToDecStringBytesInsert(_OutputBuffer, *_Size++, (byte)*_Size++);
+				_OutputBuffer -= *_Size++;
+				return;
+			}
+			_Size++;
 		}
 	}
 }

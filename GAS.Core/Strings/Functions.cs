@@ -309,49 +309,49 @@ namespace GAS.Core.Strings
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___b;
 			_outarr += _sz;
-			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+			do *--_outarr = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
 		}
 		public static unsafe void IntToHexStringBytesInsert(byte* _outarr, byte* _source_arr, long _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___b;
 			_outarr += _sz;
-			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+			do *--_outarr = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
 		}
 		public static unsafe void IntToHexStringInsert(char* _outarr, char* _source_arr, long _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___c;
 			_outarr += _sz;
-			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+			do *--_outarr = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
 		}
 		public static unsafe void IntToHexStringInsert(char* _outarr, char* _source_arr, int _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___c;
 			_outarr += _sz;
-			do *_outarr-- = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
+			do *--_outarr = *( _source_arr + ( _i & 0x0f ) ); while ( ( _i >>= 4 ) != 0 );
 		}
 		public static unsafe void IntToDecStringBytesInsert(byte* _outarr, long _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___b;
 			_outarr += _sz;
-			do *_outarr-- = (byte)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+			do *--_outarr = (byte)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
 		}
 		public static unsafe void IntToDecStringBytesInsert(byte* _outarr, int _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___b;
 			_outarr += _sz;
-			do *_outarr-- = (byte)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+			do *--_outarr = (byte)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
 		}
 		public static unsafe void IntToDecStringInsert(char* _outarr, long _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___c;
 			_outarr += _sz;
-			do *_outarr-- = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+			do *--_outarr = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
 		}
 		public static unsafe void IntToDecStringInsert(char* _outarr, int _i, byte _sz) {
 			if ( _i < 0 ) _i = -_i;
 			*_outarr = ___c;
 			_outarr += _sz;
-			do *_outarr-- = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
+			do *--_outarr = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
 		}
 		/*FuckingMagic*/
 		public static T[] GetT<T>(int _RepeatCount, Func<IExpression, T[]> _GetT, IExpression[] _Expressions) {

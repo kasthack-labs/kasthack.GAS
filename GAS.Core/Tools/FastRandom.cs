@@ -113,8 +113,9 @@ namespace SharpNeatLib.Maths
 		/// <param name="upperBound"></param>
 		/// <returns></returns>
 		public int Next(int upperBound) {
-			if ( upperBound < 0 )
-				throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=0");
+			//no check 4 better performance
+			//if ( upperBound < 0 )
+			//	throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=0");
 
 			uint t = ( x ^ ( x << 11 ) );
 			x = y; y = z; z = w;
@@ -132,8 +133,9 @@ namespace SharpNeatLib.Maths
 		/// <param name="upperBound"></param>
 		/// <returns></returns>
 		public int Next(int lowerBound, int upperBound) {
-			if ( lowerBound > upperBound )
-				throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=lowerBound");
+			//no check 4 better performance
+			//if ( lowerBound > upperBound )
+			//	throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=lowerBound");
 
 			uint t = ( x ^ ( x << 11 ) );
 			x = y; y = z; z = w;
@@ -223,7 +225,7 @@ namespace SharpNeatLib.Maths
 		//		/// this results in about a x2 speedup on an AMD Athlon. Thus performance may vary wildly on different CPUs
 		//		/// depending on the number of execution units available.
 		//		/// 
-		//		/// Another significant speedup is obtained by setting the 4 bytes by indexing pDWord (e.g. pDWord[i++]=w)
+		//		/// Another significant speedup is obtained by setting the 4 bytes by indexing pDWord (e.g. pDWord[__i++]=w)
 		//		/// instead of adjusting it dereferencing it (e.g. *pDWord++=w).
 		//		/// 
 		//		/// Note that this routine requires the unsafe compilation flag to be specified and so is commented out by default.
@@ -239,15 +241,15 @@ namespace SharpNeatLib.Maths
 		//			fixed(byte* pByte0 = buffer)
 		//			{
 		//				uint* pDWord = (uint*)pByte0;
-		//				for(int i=0, len=buffer.Length>>2; i < len; i+=2) 
+		//				for(int __i=0, __len=buffer.Length>>2; __i < __len; __i+=2) 
 		//				{
 		//					uint t=(x^(x<<11));
 		//					x=y; y=z; z=w;
-		//					pDWord[i] = w = (w^(w>>19))^(t^(t>>8));
+		//					pDWord[__i] = w = (w^(w>>19))^(t^(t>>8));
 		//
 		//					t=(x^(x<<11));
 		//					x=y; y=z; z=w;
-		//					pDWord[i+1] = w = (w^(w>>19))^(t^(t>>8));
+		//					pDWord[__i+1] = w = (w^(w>>19))^(t^(t>>8));
 		//				}
 		//			}
 		//

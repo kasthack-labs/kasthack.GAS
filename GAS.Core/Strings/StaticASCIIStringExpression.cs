@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System;
+using System.Runtime.InteropServices;
 namespace GAS.Core.Strings
 {
     public class StaticASCIIStringExpression : IExpression
@@ -39,10 +41,15 @@ namespace GAS.Core.Strings
             return new string[] { GetString() };
         }
         public unsafe void ComputeLen(ref int* outputdata) {
-            throw new System.NotImplementedException();
+			*outputdata++ = buf.Length;
         }
         public int ComputeMaxLenForSize() {
             return 1;
         }
-    }
+		public unsafe void GetAsciiBytesInsert(ref int* _Size, ref byte* _OutputBuffer) {
+			IntPtr __p = new IntPtr(_OutputBuffer);
+			Marshal.Copy(buf, 0, __p, *_Size);
+			_OutputBuffer += *_Size++;
+		}
+	}
 }

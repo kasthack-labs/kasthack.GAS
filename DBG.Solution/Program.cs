@@ -3,6 +3,7 @@ using GAS.Core.Strings;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 namespace DBG.Solution
 {
 	class Program
@@ -12,7 +13,18 @@ namespace DBG.Solution
 			//bug: int.MinValue, long.MaxValue
 			//non-std: to hex -
 			CheckTree();
-			//Console.ReadLine();
+			//CheckPointers();
+			Console.ReadLine();
+		}
+		static void CheckPointers() {
+			FormattedStringGenerator Expression = ExpressionParser.Parse(
+				"{R:{{S:a:5:10}={S:a:1:4}}:1:15}"
+				//{S:a:5:10}={S:a:1:4}"
+				);
+				//"GET {R:{/{S:S:5:10}}:1:20} Http1.1\r\nHost: {R:{{S:a:1:10}.}:1:3}free.fr\r\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg" +
+					//"\r\nAccept-Language: {S:a:2:2}\r\nAccept-Encoding: gzip, deflate\r\n" +
+					//"User-Agent: Mozilla/{I:D:1:5}.{I:D:1:9} (compatible; MSIE {I:D:1:10}.5; Windows NT {I:D:3:6}.0)\r\nConnection: Keep-Alive");
+			//Console.WriteLine(new ASCIIEncoding().GetString(Expression._GetPointedBytes()));
 		}
 		static void UnitTests() {
 			int[] __int_test_values = new int[] { 0, -1, 0, int.MaxValue, int.MinValue + 1 };
@@ -36,7 +48,7 @@ namespace DBG.Solution
 					timer = new Stopwatch();
 					Console.WriteLine("Type in formatted string");
 					//ExpressionString = Console.ReadLine();
-					ExpressionString = String.IsNullOrEmpty(ExpressionString) ? //77160 last
+					ExpressionString = String.IsNullOrEmpty(ExpressionString) ? //77860 last
 						//"{R:{{S:a:5:10}={S:a:1:4}&}:0:2}{S:a:5:10}={S:a:1:4}":
 					"GET {R:{/{S:S:5:10}}:1:20} Http1.1\r\nHost: {R:{{S:a:1:10}.}:1:3}free.fr\r\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg" +
 					"\r\nAccept-Language: {S:a:2:2}\r\nAccept-Encoding: gzip, deflate\r\n" +
