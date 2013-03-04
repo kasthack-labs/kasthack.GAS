@@ -31,8 +31,6 @@ namespace GAS.Core.Strings
 		static byte[] ___zba = new byte[] { (byte)'0' };
 		#endregion
 		#endregion
-		public Functions() {
-		}
 		#region Legacy
 		public static string RandomString() {
 			return new string(RandomASCII(1, 8, _ascii_chars, 0, 61));

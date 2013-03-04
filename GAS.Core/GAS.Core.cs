@@ -2,18 +2,6 @@
 using System.Net;
 namespace GAS.Core
 {
-	public enum AttackMethod
-	{
-		TCP,
-		UDP,
-		HTTP,
-		ReCoil,
-		SlowLOIC,
-		RefRef,
-		AhrDosme,
-		Post,
-		TMOF
-	}
 	public class Manager
 	{
 		#region Attack info

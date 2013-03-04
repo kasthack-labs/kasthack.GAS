@@ -15,11 +15,11 @@ namespace GAS.Core
         bool init = false;
         private Thread[] WorkingThreads;
         volatile int msockets = int.MaxValue;
-        public TMOF(string ip, int port, int threadcount, int max_sockets_on_attacker) {
-            this.Target = ip;
-            this.Port = port;
-            this.ThreadCount = threadcount;
-            this.msockets = max_sockets_on_attacker;
+        public TMOF(string _target, int _port, int _threadcount, int _max_sockets_on_attacker) {
+            this.Target = _target;
+            this.Port = _port;
+            this.ThreadCount = _threadcount;
+            this.msockets = _max_sockets_on_attacker;
             WorkingThreads = new Thread[ThreadCount];
         }
         public override void Start() {

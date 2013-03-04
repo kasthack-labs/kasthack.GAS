@@ -25,7 +25,10 @@ namespace GAS.TUI
 						try {
 							System.Diagnostics.Process.Start("ulimit", "-n999999");
 						}
-						catch { }
+						catch 
+						{
+							_e("Failed to run ulimit");
+						}
 					}
 				}
 			#endregion
@@ -33,11 +36,7 @@ namespace GAS.TUI
 			Console.ForegroundColor = ConsoleColor.Cyan;
 			Console.WriteLine("###############################################" +
 			Environment.NewLine +
-			"#   #" +
-			Environment.NewLine +
 			"# GAS 4 anon by http://github.com/kasthack #" +
-			Environment.NewLine +
-			"#  fork by STAM 1.0 #" +
 			Environment.NewLine +
 			"###############################################");
 			#endregion

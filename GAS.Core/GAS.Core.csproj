@@ -40,6 +40,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttackInformation\AttackInfo.cs" />
+    <Compile Include="AttackInformation\AttackMethod.cs" />
+    <Compile Include="AttackInformation\AttackParam.cs" />
     <Compile Include="Strings\ExpressionParser.cs" />
     <Compile Include="Strings\FormattedStringGenerator.cs" />
     <Compile Include="Strings\RepeatExpression.cs" />
@@ -52,7 +55,7 @@
     <Compile Include="Strings\IntExpression.cs" />
     <Compile Include="Attacks\PostAttacks.cs" />
     <Compile Include="Attacks\HTTPFlooder.cs" />
-    <Compile Include="IAttacker.cs" />
+    <Compile Include="AttackInformation\IAttacker.cs" />
     <Compile Include="Attacks\PacketFlood.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -61,7 +64,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Attacks\ReCoil.cs" />
-    <Compile Include="rSocket.cs" />
+    <Compile Include="Tools\rSocket.cs" />
     <Compile Include="Attacks\SlowLoic.cs" />
     <Compile Include="Strings\StaticASCIIStringExpression.cs" />
     <Compile Include="Strings\StringFormat.cs" />
