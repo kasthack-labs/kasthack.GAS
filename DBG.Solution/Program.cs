@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using SharpNeatLib.Maths;
 namespace DBG.Solution
 {
 	class Program
@@ -12,11 +13,21 @@ namespace DBG.Solution
 			//UnitTests();
 			//bug: int.MinValue, long.MaxValue
 			//non-std: to hex -
-			CheckTree();
+			//CheckTree();
 			//CheckPointers();
-			Console.ReadLine();
+            RndBench(50, 1024 * 1024 * 128);
+            //10000 loops/0.5M per loop
+
+            //Console.ReadLine();
 		}
-		static void CheckPointers() {
+        static void RndBench( int count,int size ) {
+            FastRandom r = new FastRandom();
+            byte[] bytes = new byte[size];
+            for ( int i = 0; i < count; i++ ) {
+                r.NextBytes(bytes);
+            }
+        }
+        static void CheckPointers() {
 			FormattedStringGenerator Expression = ExpressionParser.Parse(
 				"{R:{{S:a:5:10}={S:a:1:4}}:1:15}"
 				//{S:a:5:10}={S:a:1:4}"

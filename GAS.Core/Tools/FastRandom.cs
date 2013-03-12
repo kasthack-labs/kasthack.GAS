@@ -61,9 +61,7 @@ namespace SharpNeatLib.Maths
 		}
 
 		#endregion
-
 		#region Public Methods [Reinitialisation]
-
 		/// <summary>
 		/// Reinitialises using an int value as a seed.
 		/// </summary>
@@ -77,11 +75,8 @@ namespace SharpNeatLib.Maths
 			z = Z;
 			w = W;
 		}
-
 		#endregion
-
 		#region Public Methods [System.Random functionally equivalent methods]
-
 		/// <summary>
 		/// Generates a random int over the range 0 to int.MaxValue-1.
 		/// MaxValue is not generated in order to remain functionally equivalent to System.Random.Next().
@@ -106,7 +101,6 @@ namespace SharpNeatLib.Maths
 				return Next();
 			return (int)rtn;
 		}
-
 		/// <summary>
 		/// Generates a random int over the range 0 to upperBound-1, and not including upperBound.
 		/// </summary>
@@ -116,15 +110,12 @@ namespace SharpNeatLib.Maths
 			//no check 4 better performance
 			//if ( upperBound < 0 )
 			//	throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=0");
-
 			uint t = ( x ^ ( x << 11 ) );
 			x = y; y = z; z = w;
-
 			// The explicit int cast before the first multiplication gives better performance.
 			// See comments in NextDouble.
 			return (int)( ( REAL_UNIT_INT * (int)( 0x7FFFFFFF & ( w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) ) ) ) ) * upperBound );
 		}
-
 		/// <summary>
 		/// Generates a random int over the range lowerBound to upperBound-1, and not including upperBound.
 		/// upperBound must be >= lowerBound. lowerBound may be negative.
@@ -136,10 +127,8 @@ namespace SharpNeatLib.Maths
 			//no check 4 better performance
 			//if ( lowerBound > upperBound )
 			//	throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=lowerBound");
-
 			uint t = ( x ^ ( x << 11 ) );
 			x = y; y = z; z = w;
-
 			// The explicit int cast before the first multiplication gives better performance.
 			// See comments in NextDouble.
 			int range = upperBound - lowerBound;
@@ -147,12 +136,10 @@ namespace SharpNeatLib.Maths
 				// We also must use all 32 bits of precision, instead of the normal 31, which again is slower.	
 				return lowerBound + (int)( ( REAL_UNIT_UINT * (double)( w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) ) ) ) * (double)( (long)upperBound - (long)lowerBound ) );
 			}
-
 			// 31 bits of precision will suffice if range<=int.MaxValue. This allows us to cast to an int and gain
 			// a little more performance.
 			return lowerBound + (int)( ( REAL_UNIT_INT * (double)(int)( 0x7FFFFFFF & ( w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) ) ) ) ) * (double)range );
 		}
-
 		/// <summary>
 		/// Generates a random double. Values returned are from 0.0 up to but not including 1.0.
 		/// </summary>
@@ -160,7 +147,6 @@ namespace SharpNeatLib.Maths
 		public double NextDouble() {
 			uint t = ( x ^ ( x << 11 ) );
 			x = y; y = z; z = w;
-
 			// Here we can gain a 2x speed improvement by generating a value that can be cast to 
 			// an int instead of the more easily available uint. If we then explicitly cast to an 
 			// int the compiler will then cast the int to a double to perform the multiplication, 
@@ -172,33 +158,32 @@ namespace SharpNeatLib.Maths
 			// System.Random.
 			return ( REAL_UNIT_INT * (int)( 0x7FFFFFFF & ( w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) ) ) ) );
 		}
-
-
 		/// <summary>
 		/// Fills the provided byte array with random bytes.
 		/// This method is functionally equivalent to System.Random.NextBytes(). 
 		/// </summary>
 		/// <param name="buffer"></param>
-		public void NextBytes(byte[] buffer) {
+		public unsafe void NextBytes(byte[] buffer) {
 			// Fill up the bulk of the buffer in chunks of 4 bytes at a time.
 			uint x = this.x, y = this.y, z = this.z, w = this.w;
 			int i = 0;
 			uint t;
-			for ( int bound = buffer.Length - 3; i < bound; ) {
-				// Generate 4 bytes. 
-				// Increased performance is achieved by generating 4 random bytes per loop.
-				// Also note that no mask needs to be applied to zero out the higher order bytes before
-				// casting because the cast ignores thos bytes. Thanks to Stefan Troschьtz for pointing this out.
-				t = ( x ^ ( x << 11 ) );
-				x = y; y = z; z = w;
-				w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) );
-
-				buffer[i++] = (byte)w;
-				buffer[i++] = (byte)( w >> 8 );
-				buffer[i++] = (byte)( w >> 16 );
-				buffer[i++] = (byte)( w >> 24 );
-			}
-
+            //unsafe optimization by kasthack
+            //2x speedup
+            if ( buffer.Length > 3 ) {
+                fixed ( byte* bptr = buffer ) {
+                    uint* iptr = (uint*)bptr;
+                    uint* endptr = iptr + buffer.Length / 4;
+                    do {
+                        t = ( x ^ ( x << 11 ) );
+                        x = y; y = z; z = w;
+                        w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) );
+                        *iptr = w;
+                    }
+                    while ( ++iptr < endptr );
+                    i = buffer.Length - buffer.Length % 4;
+                }
+            }
 			// Fill up any remaining bytes in the buffer.
 			if ( i < buffer.Length ) {
 				// Generate 4 bytes.
@@ -255,11 +240,8 @@ namespace SharpNeatLib.Maths
 		//
 		//			this.x=x; this.y=y; this.z=z; this.w=w;
 		//		}
-
 		#endregion
-
 		#region Public Methods [Methods not present on System.Random]
-
 		/// <summary>
 		/// Generates a uint. Values returned are over the full range of a uint, 
 		/// uint.MinValue to uint.MaxValue, inclusive.
@@ -274,7 +256,6 @@ namespace SharpNeatLib.Maths
 			x = y; y = z; z = w;
 			return ( w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) ) );
 		}
-
 		/// <summary>
 		/// Generates a random int over the range 0 to int.MaxValue, inclusive. 
 		/// This method differs from Next() only in that the range is 0 to int.MaxValue
@@ -289,13 +270,10 @@ namespace SharpNeatLib.Maths
 			x = y; y = z; z = w;
 			return (int)( 0x7FFFFFFF & ( w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) ) ) );
 		}
-
-
 		// Buffer 32 bits in bitBuffer, return 1 at a time, keep track of how many have been returned
 		// with bitBufferIdx.
 		uint bitBuffer;
 		uint bitMask = 1;
-
 		/// <summary>
 		/// Generates a single random bit.
 		/// This method's performance is improved by generating 32 bits in one operation and storing them
@@ -316,7 +294,6 @@ namespace SharpNeatLib.Maths
 
 			return ( bitBuffer & ( bitMask >>= 1 ) ) == 0;
 		}
-
 		#endregion
 	}
 }
