@@ -241,7 +241,7 @@ namespace GAS.Core.Strings
 			byte __pc = (byte)'%';
 			fixed ( byte* __hex_chars = _hex_chars_bytes ) {
 				while ( _ptr < __end ) {
-					__rnd = (ushort)random.Next(65535);
+                    __rnd = (ushort)random.Next(65535);
 					*_ptr++ = __pc;
 					*_ptr++ = *( __hex_chars + ( __rnd >> 12 ) );
 					*_ptr++ = *( __hex_chars + ( ( __rnd >> 8 ) & 0xf ) );
@@ -262,7 +262,7 @@ namespace GAS.Core.Strings
 			char __pc = '%';
 			fixed ( char* __hex_chars = _hex_chars ) {
 				while ( _ptr < __end ) {
-					__rnd = (ushort)random.Next( 65535);
+					__rnd = (ushort)random.Next(65535);
 					*_ptr++ = __pc;
 					*_ptr++ = *(__hex_chars+(__rnd >> 12));
 					*_ptr++ = *(__hex_chars+(( __rnd >> 8 ) & 0xf));
@@ -275,7 +275,8 @@ namespace GAS.Core.Strings
 		public static unsafe void RandomASCIIInsert(char* _ptr, int _len, char* _source, int _maxindex) {
 			_maxindex++;
 			char* __end = ( _ptr + _len );
-			while ( _ptr < __end ) *_ptr++ = *( _source + random.Next(_maxindex) );
+			while ( _ptr < __end )
+                *_ptr++ = *( _source + random.Next(_maxindex) );
 		}
 		/*get_to_string_size*/
 		public static byte GetDecStringLength(int _i) {

@@ -15,12 +15,36 @@ namespace DBG.Solution
 			//non-std: to hex -
 			//CheckTree();
 			//CheckPointers();
-            RndBench(50, 1024 * 1024 * 128);
-            //10000 loops/0.5M per loop
+            int G = 1024 * 1024 * 1024;
+            Stopwatch s = new Stopwatch();
+            int R =5;
+            int[] sizes = new int[] {
+                256,
+                1024,
+                8 * 1024,
+                16 * 1024,
+                1024 * 32,
+                1024 * 64,
+                1024 * 512,
+                1024 * 768,
+                1024 * 1024,
+                1024 * 1536,
+                1024 * 1024*2,
+                1024 * 1024 * 128
+            };
+            foreach ( int SZ in sizes ) {
+                Console.WriteLine("Benching {0}G by {1} bytes ", R, SZ);
+                s.Start();
+                RndBench(G / SZ * R, SZ);
+                s.Stop();
+                Console.WriteLine("Elapsed: {0} for {1}G by {2} bytes ", s.Elapsed, R, SZ);
+                s.Reset();
+            }
+            //100000 loops/0.5M per loop
 
             //Console.ReadLine();
 		}
-        static void RndBench( int count,int size ) {
+        static void RndBench( int count, int size ) {
             FastRandom r = new FastRandom();
             byte[] bytes = new byte[size];
             for ( int i = 0; i < count; i++ ) {
