@@ -1,4 +1,5 @@
-﻿using SharpNeatLib.Maths;
+﻿//#define POINTERS
+using SharpNeatLib.Maths;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -239,16 +240,27 @@ namespace GAS.Core.Strings
 			byte* __end = ( _ptr + _real_len * 6 );
 			ushort __rnd = 0;
 			byte __pc = (byte)'%';
+            
+            uint bfr=0;
+            byte havenums = 0;
 			fixed ( byte* __hex_chars = _hex_chars_bytes ) {
 				while ( _ptr < __end ) {
-                    __rnd = (ushort)random.Next(65535);
-					*_ptr++ = __pc;
-					*_ptr++ = *( __hex_chars + ( __rnd >> 12 ) );
-					*_ptr++ = *( __hex_chars + ( ( __rnd >> 8 ) & 0xf ) );
-					*_ptr++ = __pc;
-					*_ptr++ = *( __hex_chars + ( ( __rnd >> 4 ) & 0xf ) );
-					*_ptr++ = *( __hex_chars + ( __rnd & 0xf ) );
-				}
+                    //using temp uint to prevent unnecessary random generating
+                    __rnd = (ushort)bfr;
+                    if ( havenums--== 0 ) {
+                        bfr = random.NextUInt();
+                        havenums = 1;
+                        __rnd = (ushort)(bfr>>16);
+                    }
+                    //indexing to use out-of-order optimizations
+                    *(_ptr+1) = __pc;
+                    *(_ptr+4) = __pc;
+                    *(_ptr+2) = *( __hex_chars + ( __rnd & 0xf ) );
+                    *(_ptr+3) = *( __hex_chars + ( ( __rnd >> 4 ) & 0xf ) );
+                    *(_ptr+5) = *( __hex_chars + ( ( __rnd >> 8 ) & 0xf ) );
+                    *(_ptr+6) = *( __hex_chars + ( ( __rnd >> 12 ) & 0xf ) );
+                    _ptr += 6;
+                }
 			}
 		}
 		public static unsafe void RandomASCIIBytesInsert(byte* _ptr, int _len, byte* _source, int _maxindex) {
@@ -260,15 +272,26 @@ namespace GAS.Core.Strings
 			char* __end = ( _ptr + _real_len * 6 );
 			ushort __rnd = 0;
 			char __pc = '%';
+
+            uint bfr = 0;
+            byte havenums = 0;
 			fixed ( char* __hex_chars = _hex_chars ) {
-				while ( _ptr < __end ) {
-					__rnd = (ushort)random.Next(65535);
-					*_ptr++ = __pc;
-					*_ptr++ = *(__hex_chars+(__rnd >> 12));
-					*_ptr++ = *(__hex_chars+(( __rnd >> 8 ) & 0xf));
-					*_ptr++ = __pc;
-					*_ptr++ = *(__hex_chars+(( __rnd >> 4 ) & 0xf));
-					*_ptr++ = *(__hex_chars+(__rnd & 0xf));
+                while ( _ptr < __end ) {
+                    //using temp uint to prevent unnecessary random generating
+                    __rnd = (ushort)bfr;
+                    if ( havenums-- == 0 ) {
+                        bfr = random.NextUInt();
+                        havenums = 1;
+                        __rnd = (ushort)( bfr >> 16 );
+                    }
+                    //indexing to use out-of-order optimizations
+                    *( _ptr + 1 ) = __pc;
+                    *( _ptr + 4 ) = __pc;
+                    *( _ptr + 2 ) = *( __hex_chars + ( __rnd & 0xf ) );
+                    *( _ptr + 3 ) = *( __hex_chars + ( ( __rnd >> 4 ) & 0xf ) );
+                    *( _ptr + 5 ) = *( __hex_chars + ( ( __rnd >> 8 ) & 0xf ) );
+                    *( _ptr + 6 ) = *( __hex_chars + ( ( __rnd >> 12 ) & 0xf ) );
+                    _ptr += 6;
 				}
 			}
 		}
@@ -351,27 +374,6 @@ namespace GAS.Core.Strings
 			*_outarr = ___c;
 			_outarr += _sz;
 			do *--_outarr = (char)( _i % 10 + 48 ); while ( ( _i /= 10 ) != 0 );
-		}
-		/*FuckingMagic*/
-		public static T[] GetT<T>(int _RepeatCount, Func<IExpression, T[]> _GetT, IExpression[] _Expressions) {
-			T[] __outbytes;
-			T[][] __tmp_bytes;
-			int __offset = 0, __tmp_sz = 0, __i = 0, __j = 0, __ex_l = _Expressions.Length;
-			__ex_l = _Expressions.Length;
-			__tmp_bytes = new T[__ex_l * _RepeatCount][];
-			for ( __j = 0; __j < _RepeatCount; __j++ )
-				for ( __i = 0; __i < __ex_l; __i++ )
-					__tmp_bytes[__j * __ex_l + __i] = _GetT(_Expressions[__i]);
-			__j = __tmp_bytes.Length;
-			for ( __i = 0; __i < __j; __tmp_sz += __tmp_bytes[__i].Length, __i++ ) ;
-			__outbytes = new T[__tmp_sz];
-			for ( __i = 0; __i < __j; __i++ ) {
-				__tmp_sz = __tmp_bytes[__i].Length;
-				Array.Copy(__tmp_bytes[__i], 0, __outbytes, __offset, __tmp_sz);
-				__tmp_bytes[__i] = null;
-				__offset += __tmp_sz;
-			}
-			return __outbytes;
 		}
 		#endregion
 	}

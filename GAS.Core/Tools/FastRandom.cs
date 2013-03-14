@@ -57,7 +57,6 @@ namespace SharpNeatLib.Maths {
         public FastRandom( int seed ) {
             Reinitialise(seed);
         }
-
         #endregion
         #region Public Methods [Reinitialisation]
         /// <summary>
@@ -172,9 +171,8 @@ namespace SharpNeatLib.Maths {
                 fixed ( byte* bptr = buffer ) {
                     uint* iptr = (uint*)bptr;
                     uint* endptr = iptr + buffer.Length / 4;
-//#if WHILE
-                    do 
-                    {
+                    //#if WHILE
+                    do {
                         t = ( x ^ ( x << 11 ) );
                         x = y; y = z; z = w;
                         w = ( w ^ ( w >> 19 ) ) ^ ( t ^ ( t >> 8 ) );

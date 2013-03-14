@@ -15,9 +15,28 @@ namespace DBG.Solution
 			//non-std: to hex -
 			//CheckTree();
 			//CheckPointers();
+            //MemBEnch();
+            //Console.ReadLine();
+            UTFTest();
+		}
+        static unsafe void UTFTest() {
+            int len = 32;
+            int cnt = 10000000;
+            byte[] bytes = new byte[len * 6];
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            fixed(byte* ptr = bytes)
+            {
+                for ( int i = 0; i < cnt; i++ )
+                    Functions.RandomUTFURLEncodeStringBytesInsert(ptr, len);
+            }
+            s.Stop();
+            Console.WriteLine(s.Elapsed);
+        }
+        static void MemBEnch() {
             int G = 1024 * 1024 * 1024;
             Stopwatch s = new Stopwatch();
-            int R =5;
+            int R = 5;
             int[] sizes = new int[] {
                 256,
                 1024,
@@ -42,8 +61,8 @@ namespace DBG.Solution
             }
             //100000 loops/0.5M per loop
 
-            //Console.ReadLine();
-		}
+            
+        }
         static void RndBench( int count, int size ) {
             FastRandom r = new FastRandom();
             byte[] bytes = new byte[size];
