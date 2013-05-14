@@ -36,10 +36,10 @@ namespace GAS.Core
 		/// <returns></returns>
 		IEnumerable<string> EnumStrings();
 		/// <summary>
-		/// Compute length for *Insert functions
+		/// Compute length for *Insert functions. Equals to byte length 4 ascii
 		/// </summary>
 		/// <param name="outputdata">pointer 4 storage</param>
-		unsafe void ComputeLen(ref int* outputdata);
+		unsafe void ComputeStringLength(ref int* outputdata);
 		/// <summary>
 		/// Get max space 4 ComputeLen
 		/// </summary>

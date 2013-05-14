@@ -71,7 +71,7 @@ namespace GAS.Core.Strings
 		public System.Collections.Generic.IEnumerable<string> EnumStrings() {
 			return new string[] { GetString() };
 		}
-		public unsafe void ComputeLen(ref int* _outputdata) {
+		public unsafe void ComputeStringLength(ref int* _outputdata) {
 			int __value = Functions.random.Next(_Min, _Max);
 			*_outputdata++ = __value;
 			*_outputdata++ = Format == NumberFormat.Decimal ? Functions.GetDecStringLength(__value) : Functions.GetHexStringLength(__value);

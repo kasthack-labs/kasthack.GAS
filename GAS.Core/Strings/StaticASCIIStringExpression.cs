@@ -40,7 +40,7 @@ namespace GAS.Core.Strings
         public System.Collections.Generic.IEnumerable<string> EnumStrings() {
             return new string[] { GetString() };
         }
-        public unsafe void ComputeLen(ref int* outputdata) {
+        public unsafe void ComputeStringLength(ref int* outputdata) {
 			*outputdata++ = buf.Length;
         }
         public int ComputeMaxLenForSize() {

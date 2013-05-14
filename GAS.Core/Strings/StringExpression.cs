@@ -132,7 +132,7 @@ namespace GAS.Core.Strings
 		public System.Collections.Generic.IEnumerable<string> EnumStrings() {
 			return new string[] { GetString() };
 		}
-		public unsafe void ComputeLen(ref int* outputdata) {
+		public unsafe void ComputeStringLength(ref int* outputdata) {
 			*outputdata++ = Functions.random.Next(_Min, _Max) * ( Format == StringFormat.Urlencode ? 6 : 1 );
 		}
 		public int ComputeMaxLenForSize() {

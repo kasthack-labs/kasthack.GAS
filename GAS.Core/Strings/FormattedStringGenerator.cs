@@ -31,7 +31,7 @@ namespace GAS.Core.Strings
 			//get generation data
 			fixed ( int* __szb = __size_buf ) {
 				__s = __szb;
-				ComputeLen(ref __s);
+				ComputeStringLength(ref __s);
 				__rcount = __s - __szb;
 			}
 			//compute output length
@@ -58,11 +58,14 @@ namespace GAS.Core.Strings
 		}*/
 		/// <summary>
 		/// Get bytes of result encoded with encoding
+		/// DON'T USE IT.
 		/// </summary>
 		/// <param name="_enc">encoding for encoding, lol</param>
 		/// <returns>bytes</returns>
 		public byte[] GetEncodingBytes(Encoding _enc) {
-			return Functions.GetT<byte>(1, a => a.GetEncodingBytes(_enc), this.Expressions);
+			return this.Expressions.SelectMany( a => a.GetEncodingBytes( _enc ) ).ToArray();
+			//return Functions.GetT<byte>(1, a => a.GetEncodingBytes(_enc), this.Expressions);
+
 		}
 		/// <summary>
 		/// alias 4 GetString. 4 debugging
@@ -77,10 +80,10 @@ namespace GAS.Core.Strings
 		public System.Collections.Generic.IEnumerable<string> EnumStrings() {
 			return Expressions.SelectMany(a => a.EnumStrings());
 		}
-		public unsafe void ComputeLen(ref int* _outputdata) {
+		public unsafe void ComputeStringLength(ref int* _outputdata) {
 			int __len = Expressions.Length;
 			for ( int __i = 0; __i < __len; __i++ )
-				Expressions[__i].ComputeLen(ref _outputdata);
+				Expressions[__i].ComputeStringLength(ref _outputdata);
 		}
 		public int ComputeMaxLenForSize() {
 			int __sum = 0, __len = Expressions.Length;
@@ -100,7 +103,7 @@ namespace GAS.Core.Strings
 			//get generation data
 			fixed ( int* __szb = __size_buf ) {
 				__s = __szb;
-				ComputeLen(ref __s);
+				ComputeStringLength(ref __s);
 				__rcount = __s - __szb;
 			}
 			//compute output length

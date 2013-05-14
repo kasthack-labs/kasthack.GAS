@@ -109,7 +109,7 @@ namespace DBG.Solution
 					"User-Agent: Mozilla/{I:D:1:5}.{I:D:1:9} (compatible; MSIE {I:D:1:10}.5; Windows NT {I:D:3:6}.0)\r\nConnection: Keep-Alive" :
 					ExpressionString;
 					Expression = ExpressionParser.Parse(ExpressionString);
-					Console.WriteLine("Expression: {0}{1}Result: {2}{1}Enter loops", ExpressionString, Environment.NewLine, new String(Functions.GetT<char>(1, Functions.GetCharsF, ( (FormattedStringGenerator)Expression ).Expressions)));
+					//Console.WriteLine("Expression: {0}{1}Result: {2}{1}Enter loops", ExpressionString, Environment.NewLine, new String(Functions.GetT<char>(1, Functions.GetCharsF, ( (FormattedStringGenerator)Expression ).Expressions)));
 					cnt = 2500000;//int.Parse(Console.ReadLine());
 					Console.WriteLine("Benching {0}", cnt);
 					timer.Start();

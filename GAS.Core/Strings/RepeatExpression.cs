@@ -46,7 +46,7 @@ namespace GAS.Core.Strings
 			//get generation data
 			fixed ( int* __szb = __size_buf ) {
 				__s = __szb;
-				ComputeLen(ref __s);
+				ComputeStringLength(ref __s);
 				__rcount = __s - __szb;
 			}
 			//compute output length
@@ -81,7 +81,7 @@ namespace GAS.Core.Strings
 			//get generation data
 			fixed ( int* __szb = __size_buf ) {
 				__s = __szb;
-				ComputeLen(ref __s);
+				ComputeStringLength(ref __s);
 				__rcount = __s - __szb;
 			}
 			//compute output length
@@ -101,7 +101,8 @@ namespace GAS.Core.Strings
 			return GetEncodingBytes(_enc, Functions.random.Next(_Min, _Max));
 		}
 		public unsafe byte[] GetEncodingBytes(Encoding _enc, int _RepeatCount) {
-			return Functions.GetT<byte>(_RepeatCount, a => a.GetEncodingBytes(_enc), this.Expressions);
+			//return Functions.GetT<byte>(_RepeatCount, a => a.GetEncodingBytes(_enc), this.Expressions);
+			return this.Expressions.SelectMany( a => a.GetEncodingBytes( _enc ) ).ToArray();
 		}
 		int CompLen() {
 			int __sum = 0, __len = Expressions.Length;
@@ -121,13 +122,13 @@ namespace GAS.Core.Strings
 			 a => Expressions.SelectMany(b => b.EnumStrings())
 			);
 		}
-		public unsafe void ComputeLen(ref int* _outputdata) {
+		public unsafe void ComputeStringLength(ref int* _outputdata) {
 			int __len = Expressions.Length, __value = Functions.random.Next(_Min, _Max);
 			*_outputdata++ = __value;
 			*_outputdata++ = -__value;
 			for (int __j=0;__j<__value;__j++)
 				for ( int __i = 0; __i < __len; __i++ )
-					Expressions[__i].ComputeLen(ref _outputdata);
+					Expressions[__i].ComputeStringLength(ref _outputdata);
 		}
 		public int ComputeMaxLenForSize() {
 			int __sum = 0,__len=Expressions.Length;
