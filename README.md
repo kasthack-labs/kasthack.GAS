@@ -1,6 +1,6 @@
 #GAS
-GAS is opensource stress-test tool originally based on IRC-LOIC(github.com/neweracracker/loic)
-Some features may be broken. If you want to perform TCP/UDP flood try net_flooder(github.com/kasthack/net_flooder)
+GAS is opensource stress-test tool originally based on <a href="github.com/neweracracker/loic">IRC-LOIC</a>
+Some features may be broken. If you want to perform TCP/UDP flood try <a href="github.com/kasthack/net_flooder">net_flooder</a>
 #TODO
 1. Rewrite attack methods using async IO
 2. Add support of setting any http field: host/cookie/referrer/etc
