@@ -1,8 +1,6 @@
 ﻿
-namespace GAS.Core
-{
-    public abstract class IAttacker
-    {
+namespace GAS.Core {
+    public abstract class IAttacker {
         public enum ReqState { Ready, Connecting, Requesting, Downloading, Completed, Failed };
         public ReqState[] States = new ReqState[] { ReqState.Ready };
         public volatile int ThreadCount;//{ get; set; }

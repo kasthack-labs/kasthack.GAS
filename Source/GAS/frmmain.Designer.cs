@@ -1,6 +1,6 @@
 ﻿namespace GAS
 {
-	partial class frmmain
+	partial class Frmmain
 	{
 		/// <summary>
 		/// Требуется переменная конструктора.
@@ -696,7 +696,7 @@
 			this.ForeColor = System.Drawing.Color.LightBlue;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.MaximizeBox = false;
-			this.Name = "frmmain";
+			this.Name = "Frmmain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "GAS. U ll feel it just after it\'ll be turned off";
 			this.groupBox1.ResumeLayout(false);

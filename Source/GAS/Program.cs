@@ -8,7 +8,7 @@ namespace GAS
 		static void Main() {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new frmmain());
+			Application.Run(new Frmmain());
 		}
 	}
 }

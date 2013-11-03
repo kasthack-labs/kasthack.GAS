@@ -37,22 +37,19 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastRandom">
+      <HintPath>..\..\Lib\FastRandom.dll</HintPath>
+    </Reference>
+    <Reference Include="RandomStringGenerator">
+      <HintPath>..\..\Lib\RandomStringGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttackInformation\AttackInfo.cs" />
     <Compile Include="AttackInformation\AttackMethod.cs" />
     <Compile Include="AttackInformation\AttackParam.cs" />
-    <Compile Include="Strings\ExpressionParser.cs" />
-    <Compile Include="Strings\FormattedStringGenerator.cs" />
-    <Compile Include="Strings\RepeatExpression.cs" />
-    <Compile Include="Strings\StringExpression.cs" />
-    <Compile Include="Strings\CharExpression.cs" />
-    <Compile Include="Strings\NumberFormat.cs" />
-    <Compile Include="Strings\Functions.cs" />
     <Compile Include="GAS.Core.cs" />
-    <Compile Include="Strings\IExpression.cs" />
-    <Compile Include="Strings\IntExpression.cs" />
     <Compile Include="Attacks\PostAttacks.cs" />
     <Compile Include="Attacks\HTTPFlooder.cs" />
     <Compile Include="AttackInformation\IAttacker.cs" />
@@ -64,12 +61,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Attacks\ReCoil.cs" />
+    <Compile Include="Tools\Misc.cs" />
     <Compile Include="Tools\rSocket.cs" />
     <Compile Include="Attacks\SlowLoic.cs" />
-    <Compile Include="Strings\StaticASCIIStringExpression.cs" />
-    <Compile Include="Strings\StringFormat.cs" />
     <Compile Include="Attacks\TMOF.cs" />
-    <Compile Include="Tools\FastRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GZIP_bombs\128mz.gz" />
