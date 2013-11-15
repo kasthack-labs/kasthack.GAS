@@ -9,9 +9,7 @@
             Failed
         };
 
-        public ReqState[] States = new ReqState[] {
-            ReqState.Ready
-        };
+        public ReqState[] States = { ReqState.Ready };
         public volatile int ThreadCount; //{ get; set; }
         public volatile int Delay; // { get; set; }
         public volatile int Port; // { get; set; }

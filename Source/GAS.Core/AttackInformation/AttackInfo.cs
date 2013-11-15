@@ -17,7 +17,7 @@ namespace GAS.Core.AttackInformation {
         /// </summary>
         public ulong MaxRead = 0;
         /// <summary>
-        /// Max packets to send. 0 = Infinity
+        /// Max packets to send.
         /// </summary>
         public ulong MaxWrite = ulong.MaxValue;
         /// <summary>

