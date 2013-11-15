@@ -389,9 +389,9 @@
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(309, 79);
 			this.label4.TabIndex = 1;
-			this.label4.Text = "WTF:\r\n* keys\r\n** Limits\r\n***allowed attacks *** allow stop\r\n*** allo" +
-			"w no sign  *** max attacks\r\n***allow plugins  ***" +
-			" allow start\r\n\t\r\n\t";
+			this.label4.Text = @"WTF:\_rng\n* keys\_rng\n** Limits\_rng\n***allowed attacks *** allow stop\_rng\n*** allo" +
+			@"w no sign  *** max attacks\_rng\n***allow plugins  ***" +
+			@" allow start\_rng\n\t\_rng\n\t";
 			// 
 			// frm_hive_mind
 			// 

@@ -122,7 +122,7 @@
 			this.txtTargetIP.Size = new System.Drawing.Size(319, 20);
 			this.txtTargetIP.TabIndex = 3;
 			this.txtTargetIP.Text = "http://kremlin.ru";
-			this.TTip.SetToolTip(this.txtTargetIP, "If you know your target\'s IP, enter the IP here and click \"Lock on\"");
+			this.TTip.SetToolTip(this.txtTargetIP, "If you know your target\'workingSocket IP, enter the IP here and click \"Lock on\"");
 			// 
 			// label1
 			// 
@@ -160,7 +160,7 @@
 			this.lbRequested.Size = new System.Drawing.Size(101, 27);
 			this.lbRequested.TabIndex = 23;
 			this.lbRequested.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.TTip.SetToolTip(this.lbRequested, "How many times (in total) a download has been requested");
+			this.TTip.SetToolTip(this.lbRequested, "How many times (in total) sender download has been requested");
 			// 
 			// label22
 			// 
@@ -187,7 +187,7 @@
 			this.lbDownloaded.Size = new System.Drawing.Size(101, 27);
 			this.lbDownloaded.TabIndex = 20;
 			this.lbDownloaded.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.TTip.SetToolTip(this.lbDownloaded, "How many times (in total) that a download has been initiated");
+			this.TTip.SetToolTip(this.lbDownloaded, "How many times (in total) that sender download has been initiated");
 			// 
 			// lbDownloading
 			// 
@@ -321,7 +321,7 @@
 			this.chkResp.Size = new System.Drawing.Size(88, 17);
 			this.chkResp.TabIndex = 7;
 			this.chkResp.Text = "Wait for reply";
-			this.TTip.SetToolTip(this.chkResp, "Don\'t disconnect before the server\'s started to answer");
+			this.TTip.SetToolTip(this.chkResp, "Don\'t disconnect before the server\'workingSocket started to answer");
 			this.chkResp.UseVisualStyleBackColor = true;
 			// 
 			// txtData

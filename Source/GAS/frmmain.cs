@@ -57,8 +57,8 @@ namespace GAS {
             this._core.UseGZIP = chkUsegZip.Checked;
             this._core.Delay = tbSpeed.Value;
             this._core.WaitForResponse = chkResp.Checked;
-            this._core.AppendRANDOMChars = chkMsgRandom.Checked;
-            this._core.AppendRANDOMCharsUrl = chkRandom.Checked;
+            this._core.AppendRandomChars = chkMsgRandom.Checked;
+            this._core.AppendRandomCharsUrl = chkRandom.Checked;
             this._core.Data = txtData.Text;
             #endregion
             cmdAttack.Text = @"Stop Attack";

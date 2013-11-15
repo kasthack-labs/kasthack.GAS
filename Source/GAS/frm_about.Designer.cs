@@ -123,7 +123,7 @@
 			this.gb_null3.Size = new System.Drawing.Size(376, 153);
 			this.gb_null3.TabIndex = 5;
 			this.gb_null3.TabStop = false;
-			this.gb_null3.Text = "User\'s Info:";
+			this.gb_null3.Text = "User\'workingSocket Info:";
 			// 
 			// lbl_os
 			// 
@@ -225,7 +225,7 @@
 			this.lbl_somenots.Size = new System.Drawing.Size(284, 84);
 			this.lbl_somenots.TabIndex = 0;
 			this.lbl_somenots.Text = "♦ GAS (Ground-based Antisatellite System) - OpenSource program, based on souce-co" +
-			"de of LOIC and IRC LOIC. \r\n\r\n♦ License: OpenSource, Public Domain\r\n\r\n♦ Program T" +
+			@"de of LOIC and IRC LOIC. \_rng\n\_rng\n♦ License: OpenSource, Public Domain\_rng\n\_rng\n♦ Program T" +
 			"ype: Network testing";
 			// 
 			// lbl_stm

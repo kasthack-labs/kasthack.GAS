@@ -1,9 +1,32 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
 
 namespace GAS.Core.AttackInformation {
-    [Serializable]
     public class AttackInfo {
-        public AttackParam[] Params;
-        string AttackName { get; set; }
+        /// <summary>
+        /// Attack Target
+        /// </summary>
+        public IPEndPoint Target;
+        /// <summary>
+        /// Protocol
+        /// </summary>
+        public ProtocolType Protocol;
+        /// <summary>
+        /// Max packets to receive.
+        /// </summary>
+        public ulong MaxRead = 0;
+        /// <summary>
+        /// Max packets to send. 0 = Infinity
+        /// </summary>
+        public ulong MaxWrite = ulong.MaxValue;
+        /// <summary>
+        /// Data generator for sending
+        /// </summary>
+        public Func<byte[], int> Randomizer;
+        /// <summary>
+        /// Send/Read buffer size. Default is ok.
+        /// </summary>
+        public int bufferSize = 50000;
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Timers;
 using GAS.Core.AttackInformation;
+using kasthack.Tools;
 
 namespace GAS.TUI {
     public static class Program {
@@ -12,123 +13,97 @@ namespace GAS.TUI {
         public static void Main() {
             int tmpIntParse;
             bool tmpBoolParse;
+            const int cv = 47;
+            var sharps = new string('#', cv);
+            var dashes = new string('-', cv);
             try { Console.Title = @"[GAS] for urkaine :)"; }
             catch ( Exception ) { }
-            #region Detect oS
             string temp;
             if ( Environment.OSVersion.Platform.ToString().ToLower().Contains( "unix" ) )
-                if ( Environment.UserName != "root" )
-                    Console.Error.WriteLine( "You are using Linux/Mac OS and you are not root.\r\nIf you want to use ReCoil/SlowLoic attack you must run \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\"" );
-                else {
-                    Console.WriteLine( @"Is file open limit unlocked?
-If attack will not give any effect run ""ulimit -n<ShreadCount>*<SocketCount>*2+5000"" as root" );
-                    Console.WriteLine( @"Do you want to run ""ulimit -n999999""? [true] (true|false)" );
-                    if ( bool.Parse(( temp = Console.ReadLine() ) == "" ? "true" : temp ) ) {
-                        try {
-                            System.Diagnostics.Process.Start( "ulimit", "-n999999" );
-                        }
-                        catch {
-                            _e( "Failed to run ulimit" );
-                        }
-                    }
-                }
-            #endregion
-            #region Info
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine( @"###############################################" +
-            Environment.NewLine +
-            @"# GAS by http://github.com/kasthack #" +
-            Environment.NewLine +
-            @"###############################################" );
-            #endregion
-            while ( !GetHost() ) { }
+                UnixUlimitPrompt();
+            ConTools.WriteMessage( String.Join(Environment.NewLine, sharps, @"# GAS by http://github.com/kasthack #", sharps ) );
+            while( !GetHost() ) { }
             #region GetParam
-            if ( _q( String.Format( "Subsite is {0}, do you want to change it? [n] (y/n)", Core.Subsite ) ).Trim().ToLower() == "y" )
-                Core.Subsite = Console.ReadLine();
-            while ( !int.TryParse( ( temp = _q( "Enter port[80]:" ) ) == "" ? "80" : temp, out tmpIntParse ) )
-                _e( "Bad port" );
-            Core.Port = tmpIntParse;
+            if (bool.Parse(
+                ConTools.ReadLine(
+                    String.Format(
+                        "Subsite is {0}, do you want to change it? (true/false)",
+                        Core.Subsite),
+                    false)
+                )
+            )
+                Core.Subsite = ConTools.ReadLine("Enter subsite", "/");
+            Core.Port = ConTools.ReadInt("Enter port", 80);
             var mt = typeof( AttackMethod );
-            Core.Method = (AttackMethod) Enum.Parse( mt, ( temp = _q( String.Format( "Select attack type [ReCoil]:\r\n({0})", String.Join( "|", Enum.GetNames( mt ) ) ) ) ) == "" ? "ReCoil" : temp );
-            while ( !int.TryParse( ( temp = _q( "Enter thread count [50]:" ) ) == "" ? "50" : temp, out tmpIntParse ) )
-                Core.Threads = tmpIntParse;
-            while ( !int.TryParse( ( temp = _q( "Enter sockets per thread [50]" ) ) == "" ? "50" : temp, out tmpIntParse ) )
-                Core.Spt = tmpIntParse;
-            while ( !int.TryParse( ( temp = _q( "Enter delay [0]:" ) ) == "" ? "0" : temp, out tmpIntParse ) )
-                Core.Delay = tmpIntParse;
-            while ( !int.TryParse( ( temp = _q( "Enter timeout[30]:" ) ) == "" ? "30" : temp, out tmpIntParse ) )
-                Core.Timeout = tmpIntParse;
+            Core.Method = (AttackMethod) Enum.Parse(
+                    mt,
+                    ConTools.ReadLine( 
+                        String.Format(
+                            "Select attack type ({0})",
+                            String.Join(
+                                "|",
+                                Enum.GetNames( mt )
+                            )
+                        ),
+                        AttackMethod.ReCoil
+                    )
+                );
+            Core.Threads = ConTools.ReadInt("Enter thread count", Environment.ProcessorCount);
+            Core.Spt = ConTools.ReadInt("Enter sockets per thread", 50);
+            Core.Delay = ConTools.ReadInt("Enter delay", 0);
+            Core.Timeout = ConTools.ReadInt("Enter timeout", 30);
             while ( !bool.TryParse( ( temp = _q( "USE Get [true]:" ) ) == "" ? "true" : temp, out tmpBoolParse ) )
-                Core.UseGet = tmpBoolParse;
-            while ( !bool.TryParse( ( temp = _q( "USE GZIP [true]:" ) ) == "" ? "true" : temp, out tmpBoolParse ) )
-                Core.UseGZIP = tmpBoolParse;
-            while ( !bool.TryParse( ( temp = _q( "Wait For Response [false]:" ) ) == "" ? "false" : temp, out tmpBoolParse ) )
-                Core.WaitForResponse = tmpBoolParse;
-            while ( !bool.TryParse( ( temp = _q( "Append RANDOM Chars [true]:" ) ) == "" ? "true" : temp, out tmpBoolParse ) )
-                Core.AppendRANDOMChars = tmpBoolParse;
-            while ( !bool.TryParse( ( temp = _q( "Append RANDOM Chars 2 Url [true]:" ) ) == "" ? "true" : temp, out tmpBoolParse ) )
-                Core.AppendRANDOMCharsUrl = tmpBoolParse;
+            Core.UseGet = tmpBoolParse;
+            Core.UseGZIP = bool.Parse(ConTools.ReadLine("USE GZIP", true));
+            Core.WaitForResponse = bool.Parse(ConTools.ReadLine("Wait For Response", false));
+            Core.AppendRandomChars = bool.Parse(ConTools.ReadLine("Append RANDOM Chars", true));
+            Core.AppendRandomCharsUrl = bool.Parse(ConTools.ReadLine("Append RANDOM Chars To Url", true));
             Console.WriteLine( @"Starting attack..." );
-            #endregion
-            #region Start and stop
             Core.Start();
             _d = DateTime.Now;
             Console.Clear();
-            var t = new Timer {
-                Interval = 500
-            };
+            var t = new Timer { Interval = 500 };
             t.Elapsed += t_Elapsed;
             t.Start();
-            //attack started
             #region Cool UI
             Console.SetCursorPosition( 0, 0 );
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine( @"------------------------------------------------" );
-            Console.ForegroundColor = ConsoleColor.Green;
+            ConTools.WriteMessage(dashes);
             try {
                 Console.SetCursorPosition( 0, 6 );
             }
             catch { }
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine( @"------------------------------------------------" );
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine( @"Attacking..." );
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine( @"Press Enter stop attack and exit" );
+            ConTools.WriteMessage(dashes);
+            ConTools.WriteMessage( @"Attacking..." );
+            _e(@"Press Enter stop attack and exit" );
             Console.ForegroundColor = ConsoleColor.Green;
             #endregion
             Console.ReadLine();
-            Console.WriteLine( @"
-
-
-
-------------------------------------------------
-Exiting, please wait..." );
+            ConTools.WriteMessage( dashes+"\r\nExiting, please wait..." );
             t.Stop();
             Core.Stop();
             Console.Clear();
             #endregion
         }
-        static string _q( string q ) {
-            var con_c = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            string s = "";
-            Console.Write( @"{0}. {1}{2}>", _num++, q, Environment.NewLine );
-            Console.ForegroundColor = con_c;
-            s = Console.ReadLine();
-            return s;
+
+        private static void UnixUlimitPrompt() {
+            if ( Environment.UserName != "root" )
+                Console.Error.WriteLine( @"You are using Linux/Mac OS and you are not root." +
+                                            "If you want to use ReCoil/SlowLoic attack you must" +
+                                            " runs \"ulimit -n<ShreadCount>*<SocketCount>*2+5000\"" );
+            else {
+                Console.WriteLine(  @"Is file open limit unlocked? If attack willnot give any effect runs"+
+                                        @"""ulimit -n<ShreadCount>*<SocketCount>*2+5000"" as root" );
+                if ( !bool.Parse( ConTools.ReadLine( @"Do you want to runs ""ulimit -n999999""? (true|false)", true ) ) )return;
+                try { System.Diagnostics.Process.Start( "ulimit", "-n999999" ); }
+                catch { ConTools.WriteError( "Failed to runs ulimit" ); }
+            }
         }
-        static void _e( string e ) {
-            var conC = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine( e );
-            Console.ForegroundColor = conC;
-        }
+        static string _q( string q ) { return ConTools.ReadLine(q);}
+        static void _e( string e ) { ConTools.WriteError(e); }
         static bool GetHost() {
             var temp = _q( "Select target [www.example.com]:" );
             temp = ( temp == "" ? "www.example.com" : temp );
-            if ( Blacklist.Any(s => temp.ToLower().Contains( s )) ) {
+            if ( Blacklist.Any( s => temp.ToLower().Contains( s ) ) ) {
                 _e( "[Restricted domain!]" );
                 return false;
             }
@@ -141,11 +116,11 @@ Exiting, please wait..." );
             var w = Console.WindowWidth;
             var e = new char[ w ];
             int ind;
-            for ( var i = 0; i < w; e[ i++ ] = ' ' ) {}
+            for ( var i = 0; i < w; e[ i++ ] = ' ' ) { }
             try {
                 Console.SetCursorPosition( 0, 3 );
             }
-            catch (Exception) { }
+            catch ( Exception ) { }
             Console.WriteLine( e );
             Console.WriteLine( e );
             try {
