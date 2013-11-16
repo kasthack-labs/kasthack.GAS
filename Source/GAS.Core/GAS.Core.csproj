@@ -10,10 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GAS.Core</RootNamespace>
     <AssemblyName>GAS.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,9 +51,11 @@
     <Compile Include="AttackInformation\AttackMethodInfo.cs" />
     <Compile Include="AttackInformation\AttackMethod.cs" />
     <Compile Include="AttackInformation\AttackParam.cs" />
+    <Compile Include="AttackInformation\HttpAttackParams.cs" />
     <Compile Include="Attacks\AsyncFlooder.cs" />
     <Compile Include="AttackInformation\AttackInfo.cs" />
     <Compile Include="Attacks\AsyncFlooderWrapper.cs" />
+    <Compile Include="Attacks\AwesomeHttpFlooder.cs" />
     <Compile Include="GAS.Core.cs" />
     <Compile Include="Attacks\PostAttacks.cs" />
     <Compile Include="Attacks\HTTPFlooder.cs" />

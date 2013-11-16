@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
+using GAS.Core;
 using GAS.Core.AttackInformation;
 
 namespace GAS {
     public partial class Frmmain : Form {
-        readonly Core.Manager _core = new Core.Manager();
+        readonly Manager _core = new Manager();
         #region Flags
         bool _ipok, _attacking;
         #endregion

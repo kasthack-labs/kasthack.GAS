@@ -2,18 +2,18 @@
 using System.Net;
 using System.Net.Sockets;
 using GAS.Core.AttackInformation;
+using RandomStringGenerator.Helpers;
 
 namespace GAS.Core.Attacks {
     public class AsyncFlooderWrapper:IAttacker {
-        private AsyncFlooder _flooder;
-        private static Lazy<FastRandom.FastRandom> _rng = new Lazy<FastRandom.FastRandom>();  
+        private AsyncFlooder _flooder; 
         public AsyncFlooderWrapper(IPEndPoint target, ProtocolType protocol, int threadCount) {
             _flooder = new AsyncFlooder(
                 new AttackInfo() {
                     Target = target,
                     Protocol = protocol,
-                    Randomizer = (a) => {
-                        _rng.Value.NextBytes( a );
+                    Randomizer = (a,b) => {
+                        Generators.Random.NextBytes( a );
                         return a.Length;
                     }
                 },

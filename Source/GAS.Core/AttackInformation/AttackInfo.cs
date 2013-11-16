@@ -22,8 +22,10 @@ namespace GAS.Core.AttackInformation {
         public ulong MaxWrite = ulong.MaxValue;
         /// <summary>
         /// Data generator for sending
+        /// first parameter - buffer
+        /// second - thread identifer
         /// </summary>
-        public Func<byte[], int> Randomizer;
+        public Func<byte[], int, int> Randomizer;
         /// <summary>
         /// Send/Read buffer size. Default is ok.
         /// </summary>

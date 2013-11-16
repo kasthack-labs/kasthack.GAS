@@ -41,7 +41,10 @@ namespace GAS.Core.Attacks {
             this._connectArgs = new SocketAsyncEventArgs[ this.ThreadCount ];
             this._fConn = ( a, b ) => this.LoopExec( (Socket) a, b, this.ConnectedWorker, this.SentWorker, this.ReceivedWorker );
             this._fSend = ( a, b ) => this.LoopExec( (Socket) a, b, this.SentWorker, this.ReceivedWorker );
-            this._fRecv = ( a, b ) => this.LoopExec( (Socket) a, b, this.ReceivedWorker );
+            this._fRecv = ( a, b ) => {
+                if ( b.BytesTransferred == 0 ){ this._fConn( a, b ); return; }
+                this.LoopExec( (Socket) a, b, this.ReceivedWorker );
+            };
             this._recvArgs = new SocketAsyncEventArgs[ this.ThreadCount ];
             this._recvLast = new ulong[ this.ThreadCount ];
             this._sendArgs = new SocketAsyncEventArgs[ this.ThreadCount ];
@@ -163,7 +166,7 @@ namespace GAS.Core.Attacks {
         
         private void RefreshSendData( int i ) {
             var b = this._buffers[ i ];
-            this._sendArgs[ i ].SetBuffer( b, 0, Info.Randomizer( b ) );
+            this._sendArgs[ i ].SetBuffer( b, 0, Info.Randomizer( b, i ) );
         }
 
         private Socket CreateSocket() {

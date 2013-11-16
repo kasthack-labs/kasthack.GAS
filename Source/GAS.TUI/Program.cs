@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Timers;
+using GAS.Core;
 using GAS.Core.AttackInformation;
 using kasthack.Tools;
 
@@ -8,7 +9,7 @@ namespace GAS.TUI {
     public static class Program {
         static DateTime _d;
         static readonly string[] Blacklist = { "epicm.org", "localhost", "127.0.0", "192.168." };
-        static readonly Core.Manager Core = new Core.Manager();
+        static readonly Manager Core = new Manager();
         static int _num = 1;
         public static void Main() {
             int tmpIntParse;
@@ -32,7 +33,7 @@ namespace GAS.TUI {
                     false)
                 )
             )
-                Core.Subsite = ConTools.ReadLine("Enter subsite", "/");
+            Core.Subsite = ConTools.ReadLine("Enter subsite", "/");
             Core.Port = ConTools.ReadInt("Enter port", 80);
             var mt = typeof( AttackMethod );
             Core.Method = (AttackMethod) Enum.Parse(
