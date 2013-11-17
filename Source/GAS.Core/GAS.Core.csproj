@@ -56,7 +56,7 @@
     <Compile Include="AttackInformation\AttackInfo.cs" />
     <Compile Include="Attacks\AsyncFlooderWrapper.cs" />
     <Compile Include="Attacks\AwesomeHttpFlooder.cs" />
-    <Compile Include="GAS.Core.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Attacks\PostAttacks.cs" />
     <Compile Include="Attacks\HTTPFlooder.cs" />
     <Compile Include="AttackInformation\IAttacker.cs" />

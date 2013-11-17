@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Timers;
+//using GAS.Core;
+//using GAS.Core.AttackInformation;
 using GAS.Core;
 using GAS.Core.AttackInformation;
 using kasthack.Tools;
@@ -12,7 +14,6 @@ namespace GAS.TUI {
         static readonly Manager Core = new Manager();
         static int _num = 1;
         public static void Main() {
-            int tmpIntParse;
             bool tmpBoolParse;
             const int cv = 47;
             var sharps = new string('#', cv);
@@ -102,7 +103,7 @@ namespace GAS.TUI {
         static string _q( string q ) { return ConTools.ReadLine(q);}
         static void _e( string e ) { ConTools.WriteError(e); }
         static bool GetHost() {
-            var temp = _q( "Select target [www.example.com]:" );
+            var temp = _q( "Select target [www.example.com]" );
             temp = ( temp == "" ? "www.example.com" : temp );
             if ( Blacklist.Any( s => temp.ToLower().Contains( s ) ) ) {
                 _e( "[Restricted domain!]" );

