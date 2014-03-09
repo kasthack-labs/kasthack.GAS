@@ -189,10 +189,13 @@ namespace GAS.Core.Attacks {
                         if ( !await this.SendHeaders( stream, token ) ) return;
                         if ( !( this.Active && t.Connected ) ) return;
                         if ( !await this.SendBody( stream, token ) ) return;
+                        await stream.FlushAsync();
                         if ( !( this.Active && t.Connected ) ) return;
                         if ( !await this.ReceiveResponse( stream, token ) ) return;
                         if ( !( this.Active && t.Connected ) ) return;
+                        stream.Close();
                     }
+                    t.Close();
                 }
             }
             catch {
