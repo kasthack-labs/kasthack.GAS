@@ -4,7 +4,7 @@ namespace GAS.Core.Tools {
     internal static class Misc {
         internal static string RS() {
             return new string(
-                Generators.RandomASCII(
+                Generators.RandomAscii(
                     4,
                     10 ) );
         }

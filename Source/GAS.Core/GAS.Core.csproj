@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GAS.Core</RootNamespace>
     <AssemblyName>GAS.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,9 +43,6 @@
     <Reference Include="FastRandom">
       <HintPath>..\..\Lib\FastRandom.dll</HintPath>
     </Reference>
-    <Reference Include="RandomStringGenerator">
-      <HintPath>..\..\Lib\RandomStringGenerator.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +53,7 @@
     <Compile Include="Attacks\AsyncFlooder.cs" />
     <Compile Include="AttackInformation\AttackInfo.cs" />
     <Compile Include="Attacks\AsyncFlooderWrapper.cs" />
+    <Compile Include="Attacks\AsyncHttpFlooder.cs" />
     <Compile Include="Attacks\AwesomeHttpFlooder.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Attacks\PostAttacks.cs" />
@@ -86,6 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\RandomStringGenerator\Source\RandomStringGenerator.csproj">
+      <Project>{d389c0c4-d9f2-42bd-9ba4-8a507ff673f2}</Project>
+      <Name>RandomStringGenerator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

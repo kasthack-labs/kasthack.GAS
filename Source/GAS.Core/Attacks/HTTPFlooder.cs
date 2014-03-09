@@ -10,8 +10,6 @@ using GAS.Core.Tools;
 namespace GAS.Core.Attacks {
     public class HTTPFlooder : IAttacker {
         #region Shit
-        private const int BUFFER_SIZE = 32;
-        private readonly byte[] _buffer; //don't use for anything if you are not Nostradamus
         private IPEndPoint _riep;
         #endregion
         #region Variables
@@ -39,7 +37,6 @@ namespace GAS.Core.Attacks {
             int threadcount = 1,
             int attacktype = 0) {
 
-            this._buffer = new byte[ BUFFER_SIZE ];
             this.ThreadCount = threadcount;
             this._workingThreads = new Thread[ this.ThreadCount ];
             this.IsDelayed = false;

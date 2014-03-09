@@ -27,8 +27,12 @@ namespace GAS.Core.AttackInformation {
         /// </summary>
         public Func<byte[], int, int> Randomizer;
         /// <summary>
-        /// Send/Read buffer size. Default is ok.
+        /// Send buffer size. Default is ok.
         /// </summary>
-        public int bufferSize = 50000;
+        public int SendBufferSize = 512;
+        /// <summary>
+        /// Read buffer size. Deafult is set to
+        /// </summary>
+        public int ReadBufferSize = 512;
     }
 }

