@@ -187,11 +187,11 @@ namespace GAS.Core.Attacks {
                     if ( !t.Connected ) return;
                     using ( var stream = this.ProcessStream( t.GetStream(), token ) ) {
                         if ( !await this.SendHeaders( stream, token ) ) return;
-                        if ( !this.Active && t.Connected ) return;
+                        if ( !( this.Active && t.Connected ) ) return;
                         if ( !await this.SendBody( stream, token ) ) return;
-                        if ( !this.Active && t.Connected ) return;
+                        if ( !( this.Active && t.Connected ) ) return;
                         if ( !await this.ReceiveResponse( stream, token ) ) return;
-                        if ( !this.Active && t.Connected ) return;
+                        if ( !( this.Active && t.Connected ) ) return;
                     }
                 }
             }
