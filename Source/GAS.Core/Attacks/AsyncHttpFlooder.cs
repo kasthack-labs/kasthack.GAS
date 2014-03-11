@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -22,12 +23,12 @@ namespace GAS.Core.Attacks {
         private IPEndPoint _target;
         #region Synchroniztion
         private Timer _syncTimer;
-        private readonly ManualResetEvent ExitEvent = new ManualResetEvent( true );
+        private readonly object _consoleLocker = 0;
+        private readonly ManualResetEvent _exitEvent = new ManualResetEvent( true );
         /// <summary>
         /// Stopwatch for delays/similar
         /// </summary>
         protected readonly Stopwatch SyncWatch;
-        private readonly object _consoleLocker = 0;
         /// <summary>
         /// Lock object for TaskCount
         /// </summary>
@@ -72,7 +73,7 @@ namespace GAS.Core.Attacks {
                 if ( value < 0 )
                     throw new ArgumentOutOfRangeException( "value", this._taskCount, "TaskCount < 0" );
                 if ( value == 0 )
-                    this.ExitEvent.Set();
+                    this._exitEvent.Set();
             }
         }
         /// <summary>
@@ -86,18 +87,18 @@ namespace GAS.Core.Attacks {
                 if ( this.Active )
                     throw new InvalidOperationException( "Thread setting not allowed while attacking" );
                 if ( value < 1 )
-                    throw new ArgumentOutOfRangeException( "Threads must be > 0" );
+                    throw new ArgumentOutOfRangeException( "value", "Threads must be > 0" );
                 this._threads = value;
             }
         }
         /// <summary>
         /// Requested counter
         /// </summary>
-        public int Requested { get; set; }
+        public int Requested { get; protected set; }
         /// <summary>
         /// Failed counter
         /// </summary>
-        public int Failed { get; set; }
+        public int Failed { get; protected set; }
         /// <summary>
         /// Limit of parallel connections
         /// </summary>
@@ -107,12 +108,12 @@ namespace GAS.Core.Attacks {
                 if ( this.Active )
                     throw new InvalidOperationException( "Task limit setting is not allowed while attacking" );
                 if ( value < 1 )
-                    throw new ArgumentOutOfRangeException( "MaxTasks must be > 0" );
+                    throw new ArgumentOutOfRangeException( "value",  "MaxTasks must be > 0" );
                 this._maxTasks = value;
             }
         }
         /// <summary>
-        /// Timer interval in ms. Values &lt; 15 don't work.
+        /// Timer interval in ms. Values &lt; 15 don't work on Windows.
         /// </summary>
         public double Interval {
             get { return _interval; }
@@ -120,7 +121,7 @@ namespace GAS.Core.Attacks {
                 if ( this.Active )
                     throw new InvalidOperationException( "Interval setting is not allowed while attacking" );
                 if ( value <= 0 )
-                    throw new ArgumentOutOfRangeException( "Interval must be > 0" );
+                    throw new ArgumentOutOfRangeException( "value",  "Interval must be > 0" );
                 if ( this._interval == value ) return;
                 this._interval = value;
                 this._syncTimer.Interval = value;
@@ -165,8 +166,8 @@ namespace GAS.Core.Attacks {
             bool running;
             lock ( this.TaskCountLocker ) running = this._taskCount > 0;
             if ( !running ) return;
-            this.ExitEvent.Reset();
-            this.ExitEvent.WaitOne();
+            this._exitEvent.Reset();
+            this._exitEvent.WaitOne();
             for ( var i = 0; i < this.Threads; i++ )
                 this._syncTimer.Elapsed -= _handlers[ i ];
         }
@@ -185,15 +186,17 @@ namespace GAS.Core.Attacks {
                 using ( var t = this.GetTcpClient( out token ) ) {
                     await t.ConnectAsync( this.Target.Address, this.Target.Port );
                     if ( !t.Connected ) return;
-                    using ( var stream = this.ProcessStream( t.GetStream(), token ) ) {
-                        if ( !await this.SendHeaders( stream, token ) ) return;
-                        if ( !( this.Active && t.Connected ) ) return;
-                        if ( !await this.SendBody( stream, token ) ) return;
-                        await stream.FlushAsync();
-                        if ( !( this.Active && t.Connected ) ) return;
-                        if ( !await this.ReceiveResponse( stream, token ) ) return;
-                        if ( !( this.Active && t.Connected ) ) return;
-                        stream.Close();
+                    using ( var basestream = t.GetStream() ) {
+                        using ( var stream = await this.ProcessStream( basestream, token ) ) {
+                            if ( !await this.SendHeaders( stream, token ) ) return;
+                            if ( !( this.Active && t.Connected ) ) return;
+                            if ( !await this.SendBody( stream, token ) ) return;
+                            await stream.FlushAsync();
+                            if ( !( this.Active && t.Connected ) ) return;
+                            if ( !await this.ReceiveResponse( stream, token ) ) return;
+                            if ( !( this.Active && t.Connected ) ) return;
+                            stream.Close();
+                        }
                     }
                     t.Close();
                 }
@@ -242,7 +245,7 @@ namespace GAS.Core.Attacks {
         /// <param name="stream">IO stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>Was operation succeed</returns>
-        protected virtual async Task<bool> ReceiveResponse( NetworkStream stream, object token ) {
+        protected virtual async Task<bool> ReceiveResponse( Stream stream, object token ) {
             this.dw( "Receiving body" );
             return true;
         }
@@ -252,7 +255,7 @@ namespace GAS.Core.Attacks {
         /// <param name="stream">IO stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>Was operation succeed</returns>
-        protected virtual async Task<bool> SendBody( NetworkStream stream, object token ) {
+        protected virtual async Task<bool> SendBody( Stream stream, object token ) {
             this.dw( "Sending body" );
             return true;
         }
@@ -264,7 +267,7 @@ namespace GAS.Core.Attacks {
         /// <param name="stream">IO stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>Was operation succeed</returns>
-        protected virtual async Task<bool> SendHeaders( NetworkStream stream, object token ) {
+        protected virtual async Task<bool> SendHeaders( Stream stream, object token ) {
             this.dw( "Sending headers" );
             return true;
         }
@@ -276,7 +279,7 @@ namespace GAS.Core.Attacks {
         /// <param name="getStream">input stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>stream which will be used to transfer data</returns>
-        protected virtual NetworkStream ProcessStream( NetworkStream getStream, object token ) {
+        protected virtual async Task<Stream> ProcessStream( NetworkStream getStream, object token ) {
             this.dw( "Wrapping stream" );
             return getStream;
         }

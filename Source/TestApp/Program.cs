@@ -6,10 +6,12 @@ using GAS.Core.Attacks;
 namespace TestApp {
     class Program {
         private static void Main() {
-            var f = new AsyncHttpFlooder();
-            f.Target = new IPEndPoint( IPAddress.Parse( "127.0.0.1" ), 8118 );
-            f.Interval = 10; f.Threads = 100; // ~6.5K RPS
-            f.MaxTasks = 10000; //10K connections max
+            var f = new AsyncHttpFlooder {
+                Target = new IPEndPoint( IPAddress.Parse( "127.0.0.1" ), 8118 ),
+                Interval = 15,
+                Threads = 100,
+                MaxTasks = 10000
+            };
             f.Start();
             for (var i = 0; i < 200; i++) {
                 Thread.Sleep( 100 );

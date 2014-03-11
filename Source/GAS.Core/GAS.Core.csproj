@@ -51,6 +51,7 @@
     <Compile Include="AttackInformation\AttackParam.cs" />
     <Compile Include="AttackInformation\HttpAttackParams.cs" />
     <Compile Include="AttackInformation\AttackInfo.cs" />
+    <Compile Include="Attacks\AsyncFlooderImplementations.cs" />
     <Compile Include="Attacks\AsyncHttpFlooder.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="AttackInformation\IAttacker.cs" />
@@ -62,7 +63,6 @@
     </Compile>
     <Compile Include="Attacks\ReCoil.cs" />
     <Compile Include="Tools\Misc.cs" />
-    <Compile Include="Tools\rSocket.cs" />
     <Compile Include="Attacks\SlowLoic.cs" />
     <Compile Include="Attacks\TMOF.cs" />
   </ItemGroup>
