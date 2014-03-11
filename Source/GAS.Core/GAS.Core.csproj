@@ -46,13 +46,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttackInformation\AttackMethodInfo.cs" />
-    <Compile Include="AttackInformation\AttackMethod.cs" />
-    <Compile Include="AttackInformation\AttackParam.cs" />
-    <Compile Include="AttackInformation\HttpAttackParams.cs" />
     <Compile Include="AttackInformation\AttackInfo.cs" />
     <Compile Include="Attacks\AsyncFlooderImplementations.cs" />
     <Compile Include="Attacks\AsyncHttpFlooder.cs" />
+    <Compile Include="Attacks\HttpFlooderCore.cs" />
+    <Compile Include="AttackInformation\SslInfo.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="AttackInformation\IAttacker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

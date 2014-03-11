@@ -45,7 +45,7 @@ namespace GAS.Core.Attacks {
                 if ( cancellationToken() ) return false;
                 totalRead += ( readCurrent = await stream.ReadAsync( buffer, 0, bufferSize ) );
             } while ( readCurrent > 0 && totalRead < maxRead );
-            return false;
+            return true;
         }
         /// <summary>
         /// Opens ssl stream without sslcert validation

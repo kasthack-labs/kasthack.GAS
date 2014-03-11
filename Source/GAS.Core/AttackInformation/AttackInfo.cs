@@ -1,38 +1,42 @@
-﻿using System;
-using System.Net;
-using System.Net.Sockets;
+﻿using System.Net;
+using GAS.Core.Attacks;
 
 namespace GAS.Core.AttackInformation {
-    public class AttackInfo {
+    public interface IAttackInfo {
         /// <summary>
         /// Attack Target
         /// </summary>
-        public IPEndPoint Target;
-        /// <summary>
-        /// Protocol
-        /// </summary>
-        public ProtocolType Protocol;
-        /// <summary>
-        /// Max packets to receive.
-        /// </summary>
-        public ulong MaxRead = 0;
-        /// <summary>
-        /// Max packets to send.
-        /// </summary>
-        public ulong MaxWrite = ulong.MaxValue;
-        /// <summary>
-        /// Data generator for sending
-        /// first parameter - buffer
-        /// second - thread identifer
-        /// </summary>
-        public Func<byte[], int, int> Randomizer;
+        IPEndPoint Target { get; set; }
         /// <summary>
         /// Send buffer size. Default is ok.
         /// </summary>
-        public int SendBufferSize = 512;
+        int SendBufferSize { get; set; }
         /// <summary>
         /// Read buffer size. Deafult is set to
         /// </summary>
-        public int ReadBufferSize = 512;
+        int ReadBufferSize { get; set; }
+        /// <summary>
+        /// Maximum number of threads
+        /// </summary>
+        int MaxThreads { get; set; }
+        /// <summary>
+        /// Maximum number of connections
+        /// </summary>
+        int MaxConnections { get; set; }
+    }
+
+    public interface IHttpAttackInfo : IAttackInfo {
+        /// <summary>
+        /// Max bytes to receive.
+        /// </summary>
+        ulong MaxRead { get; set; }
+        /// <summary>
+        /// Max bytes to send.
+        /// </summary>
+        ulong MaxWrite { get; set; }
+        /// <summary>
+        /// SslInfo
+        /// </summary>
+        SslInfo Ssl { get; set; }
     }
 }
