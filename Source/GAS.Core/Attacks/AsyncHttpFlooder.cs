@@ -187,16 +187,18 @@ namespace GAS.Core.Attacks {
                     await t.ConnectAsync( this.Target.Address, this.Target.Port );
                     if ( !t.Connected ) return;
                     using ( var basestream = t.GetStream() ) {
-                        using ( var stream = await this.ProcessStream( basestream, token ) ) {
-                            if ( !await this.SendHeaders( stream, token ) ) return;
+                        using ( var stream = await this.WrapStream( basestream, token ) ) {
+                            if ( !await this.SendHeaders( stream, basestream, token ) ) return;
                             if ( !( this.Active && t.Connected ) ) return;
-                            if ( !await this.SendBody( stream, token ) ) return;
+                            if ( !await this.SendBody( stream, basestream, token ) ) return;
                             await stream.FlushAsync();
                             if ( !( this.Active && t.Connected ) ) return;
-                            if ( !await this.ReceiveResponse( stream, token ) ) return;
+                            if ( !await this.ReceiveResponse( stream, basestream, token ) ) return;
                             if ( !( this.Active && t.Connected ) ) return;
                             stream.Close();
+                            //manually close stream. using(...){} does not dispose it properly in some cases
                         }
+                        basestream.Close();
                     }
                     t.Close();
                 }
@@ -239,35 +241,41 @@ namespace GAS.Core.Attacks {
             token = null;
             return new TcpClient();
         }
+
         /// <summary>
         /// Receives response
         /// </summary>
         /// <param name="stream">IO stream</param>
+        /// <param name="basestream">Unwrapped IO stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>Was operation succeed</returns>
-        protected virtual async Task<bool> ReceiveResponse( Stream stream, object token ) {
+        protected virtual async Task<bool> ReceiveResponse( Stream stream, NetworkStream basestream, object token ) {
             this.dw( "Receiving body" );
             return true;
         }
+
         /// <summary>
         /// Sends body.
         /// </summary>
         /// <param name="stream">IO stream</param>
+        /// <param name="basestream">Unwrapped IO stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>Was operation succeed</returns>
-        protected virtual async Task<bool> SendBody( Stream stream, object token ) {
+        protected virtual async Task<bool> SendBody( Stream stream, NetworkStream basestream, object token ) {
             this.dw( "Sending body" );
             return true;
         }
+
         /// <summary>
         /// Sends headers.
         /// Override to do magic with headers.
         /// Don't forget to append double \r\n to end
         /// </summary>
         /// <param name="stream">IO stream</param>
+        /// <param name="basestream">Unwrapped IO stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>Was operation succeed</returns>
-        protected virtual async Task<bool> SendHeaders( Stream stream, object token ) {
+        protected virtual async Task<bool> SendHeaders( Stream stream, NetworkStream basestream, object token ) {
             this.dw( "Sending headers" );
             return true;
         }
@@ -279,12 +287,12 @@ namespace GAS.Core.Attacks {
         /// <param name="getStream">input stream</param>
         /// <param name="token">token from GetTcpClient</param>
         /// <returns>stream which will be used to transfer data</returns>
-        protected virtual async Task<Stream> ProcessStream( NetworkStream getStream, object token ) {
+        protected virtual async Task<Stream> WrapStream( NetworkStream getStream, object token ) {
             this.dw( "Wrapping stream" );
             return getStream;
         }
         /// <summary>
-        /// Just for debugging
+        /// Just for debugging. 
         /// </summary>
         /// <param name="s"></param>
         private void dw( string s ) {
