@@ -2,10 +2,10 @@
 GAS is opensource stress-test tool originally based on IRC-LOIC(neweracracker/loic)
 Some features may be broken. If you want to perform TCP/UDP flood try net_flooder(kasthack/net_flooder)
 #TODO
-1. Rewrite attack methods using async IO [_~_]
-2. Add support of setting any http field: host/cookie/referrer/etc
+1. Rewrite attack methods using async IO [_X_]
+2. Add support of setting any http field: host/cookie/referrer/etc [_~_]
 3. Optimize RANDOM generator — it's really slow.	[_x_] moved to separate project: [kasthack/RandomStringGenerator](//github.com/kasthack/RandomStringGenerator)
-4. Add random generator features to attacking classes
+4. Add random generator features to attacking classes [_~_]
 5. Add multitargetting
 6. Add socks proxy support
 7. Add attack exporting (xml serialization)
