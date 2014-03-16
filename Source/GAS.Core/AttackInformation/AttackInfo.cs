@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using GAS.Core.Attacks;
+using RandomStringGenerator;
 
 namespace GAS.Core.AttackInformation {
     public interface IAttackInfo {
@@ -38,5 +39,9 @@ namespace GAS.Core.AttackInformation {
         /// SslInfo
         /// </summary>
         SslInfo Ssl { get; set; }
+        /// <summary>
+        /// HeaderGenerator
+        /// </summary>
+        IExpression HeaderExpression { get; set; }
     }
 }

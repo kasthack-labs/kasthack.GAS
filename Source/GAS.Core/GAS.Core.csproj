@@ -48,8 +48,8 @@
   <ItemGroup>
     <Compile Include="AttackInformation\AttackInfo.cs" />
     <Compile Include="Attacks\AsyncFlooderImplementations.cs" />
+    <Compile Include="Attacks\AsyncHttpFlooderCore.cs" />
     <Compile Include="Attacks\AsyncHttpFlooder.cs" />
-    <Compile Include="Attacks\HttpFlooderCore.cs" />
     <Compile Include="AttackInformation\SslInfo.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="AttackInformation\IAttacker.cs" />
@@ -60,7 +60,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Attacks\ReCoil.cs" />
-    <Compile Include="Tools\Misc.cs" />
     <Compile Include="Attacks\SlowLoic.cs" />
     <Compile Include="Attacks\TMOF.cs" />
   </ItemGroup>

@@ -49,7 +49,7 @@ namespace GAS {
         void StartAttack() {
             #region Configure
             this._core.Subsite = txtSubsite.Text;
-            this._core.Method = (AttackMethod) Enum.Parse( typeof( AttackMethod ), cbMethod.Text );
+            //this._core.Method = (AttackMethod) Enum.Parse( typeof( AttackMethod ), cbMethod.Text );
             this._core.Port = Convert.ToInt32( nudPort.Value );
             this._core.Timeout = Convert.ToInt32( nudTimeout.Value );
             this._core.Threads = Convert.ToInt32( nudThreadNum.Value );

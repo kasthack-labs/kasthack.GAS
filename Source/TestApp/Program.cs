@@ -7,7 +7,10 @@ namespace TestApp {
     class Program {
         private static void Main() {
             var f = new AsyncHttpFlooder {
-                Target = new IPEndPoint( IPAddress.Parse( "127.0.0.1" ), 8118 ),
+                HttpAttackInfo = {
+                    Target = new IPEndPoint( IPAddress.Parse( "127.0.0.1" ), 8118 ),
+                    
+                },
                 Interval = 15,
                 Threads = 100,
                 MaxTasks = 10000

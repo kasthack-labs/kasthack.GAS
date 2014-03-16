@@ -12,7 +12,7 @@ namespace GAS.Core {
         public int Spt = 50;
         public int Port = 80;
         public int Delay;
-        public AttackMethod Method;
+        //public AttackMethod Method;
         public IPAddress Target = Locolhaust;
         public bool WaitForResponse;
         public bool AppendRandomChars;
