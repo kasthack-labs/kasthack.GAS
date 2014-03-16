@@ -53,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\RandomStringGenerator\Source\RandomStringGenerator.csproj">
+      <Project>{D389C0C4-D9F2-42BD-9BA4-8A507FF673F2}</Project>
+      <Name>RandomStringGenerator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GAS.Core\GAS.Core.csproj">
       <Project>{14e25eb2-be99-4157-aa66-2b1606466927}</Project>
       <Name>GAS.Core</Name>

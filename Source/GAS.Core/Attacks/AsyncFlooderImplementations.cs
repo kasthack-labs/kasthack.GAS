@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
+using System.Security.Permissions;
 using System.Threading.Tasks;
-using RandomStringGenerator;
 using RandomStringGenerator.Expressions;
 
 namespace GAS.Core.Attacks {
@@ -113,11 +114,38 @@ namespace GAS.Core.Attacks {
         /// <param name="buffer">Buffer to write</param>
         /// <param name="expression">Expression</param>
         /// <returns>Number of written bytes</returns>
-        public static int Generate(byte[] buffer, MultiExpression expression) {
+        public static int Generate( byte[] buffer, MultiExpression expression ) {
             var sizeBufferSize = expression.ComputeLengthDataSize();
-            var sizeBuffer = new int[sizeBufferSize];
+            var sizeBuffer = new int[ sizeBufferSize ];
             expression.GetInsertLength( sizeBuffer );
             return expression.InsertAsciiBytes( sizeBuffer, buffer );
+        }
+
+        public static string GenerateHeaderExpression(
+            string domain,
+            string method,
+            bool gzip = true,
+            string baseUrlExpression = "/",
+            bool referrerFromDomain = false
+            ) {
+            return string.Format(
+                String.Join(
+                    "\r\n", new[]
+                    {
+                        @"{0} {1} HTTP/1.1",
+                        @"Host: {2}",
+                        @"Connection: keep-alive",
+                        @"Cache-Control: no-cache",
+                        @"Pragma: no-cache",
+                        gzip ? @"Accept-Encoding: gzip, deflate" : null,
+                        referrerFromDomain ? @"Referer: http://" + domain : null
+                    }
+                    .Where( a => !String.IsNullOrEmpty( a ) )
+                ),
+                method,
+                baseUrlExpression,
+                domain
+            );
         }
     }
 }

