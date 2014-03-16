@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,15 +12,12 @@ namespace GAS.Core.Attacks {
     /// <summary>
     /// Base class for http flooders
     /// </summary>
-    public abstract class AsyncHttpFlooderCore {
+    public class AsyncHttpFlooderCore {
         #region Vars
         private bool _active;
         private double _interval;
         private ElapsedEventHandler[] _handlers;
-        private int _maxTasks = 64;
-        private int _taskCount = 0;
-        private int _threads = 1;
-        private IPEndPoint _target;
+        private int _taskCount;
         #region Implementations
         private Func<object, Task<TcpClient>> _getTcpClient;
         private Func<Stream, NetworkStream, object, Task<bool>> _receiveResponse;
@@ -32,7 +28,6 @@ namespace GAS.Core.Attacks {
         #endregion
         #region Synchronization
         private Timer _syncTimer;
-        private readonly object _consoleLocker = 0;
         private IAttackInfo _attackInfo;
         private readonly ManualResetEvent _exitEvent = new ManualResetEvent( true );
         /// <summary>
@@ -69,7 +64,7 @@ namespace GAS.Core.Attacks {
             set {
                 if ( this._active )
                     throw new InvalidOperationException( "Target changing is not allowed while attacking" );
-                this._attackInfo = value; ;
+                this._attackInfo = value;
             }
         }
 
@@ -92,16 +87,16 @@ namespace GAS.Core.Attacks {
         /// <summary>
         /// Number of || invoked connection requests
         /// </summary>
-        public int Threads {
+        public int MaxThreads {
             get {
-                return this._threads;
+                return this.AttackInfo.MaxThreads;
             }
             set {
                 if ( this.Active )
                     throw new InvalidOperationException( "Thread setting not allowed while attacking" );
                 if ( value < 1 )
                     throw new ArgumentOutOfRangeException( "value", "Threads must be > 0" );
-                this._threads = value;
+                this.AttackInfo.MaxThreads = value;
             }
         }
         /// <summary>
@@ -116,13 +111,13 @@ namespace GAS.Core.Attacks {
         /// Limit of parallel connections
         /// </summary>
         public int MaxTasks {
-            get { return this._maxTasks; }
+            get { return this.AttackInfo.MaxConnections; }
             set {
                 if ( this.Active )
                     throw new InvalidOperationException( "Task limit setting is not allowed while attacking" );
                 if ( value < 1 )
                     throw new ArgumentOutOfRangeException( "value", "MaxTasks must be > 0" );
-                this._maxTasks = value;
+                this.AttackInfo.MaxConnections = value;
             }
         }
         /// <summary>
@@ -135,6 +130,7 @@ namespace GAS.Core.Attacks {
                     throw new InvalidOperationException( "Interval setting is not allowed while attacking" );
                 if ( value <= 0 )
                     throw new ArgumentOutOfRangeException( "value", "Interval must be > 0" );
+                //I know
                 if ( this._interval == value ) return;
                 this._interval = value;
                 this._syncTimer.Interval = value;
@@ -166,8 +162,8 @@ namespace GAS.Core.Attacks {
                 this._active = true;
             }
             _syncTimer.Start();
-            _handlers = new ElapsedEventHandler[ this.Threads ];
-            for ( var i = 0; i < this.Threads; i++ ) {
+            _handlers = new ElapsedEventHandler[ this.MaxThreads ];
+            for ( var i = 0; i < this.MaxThreads; i++ ) {
                 _handlers[ i ] = this.AttackCore;
                 this._syncTimer.Elapsed += _handlers[ i ];
             }
@@ -187,7 +183,7 @@ namespace GAS.Core.Attacks {
             if ( !running ) return;
             this._exitEvent.Reset();
             this._exitEvent.WaitOne();
-            for ( var i = 0; i < this.Threads; i++ )
+            for ( var i = 0; i < this.MaxThreads; i++ )
                 this._syncTimer.Elapsed -= _handlers[ i ];
         }
         #endregion
@@ -235,7 +231,6 @@ namespace GAS.Core.Attacks {
         /// Wrapper for debugging purposes
         /// </summary>
         private void DecrementTaskCount() {
-            this.dw( this.TaskCount.ToString() );
             lock ( this.TaskCountLocker )
                 --this.TaskCount;
         }
@@ -243,7 +238,6 @@ namespace GAS.Core.Attacks {
         /// Wrapper for debugging purposes
         /// </summary>
         private void IncrementTaskCount() {
-            this.dw( this.TaskCount.ToString() );
             lock ( this.TaskCountLocker )
                 ++this.TaskCount;
         }

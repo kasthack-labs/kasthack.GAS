@@ -4,6 +4,8 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Threading.Tasks;
+using RandomStringGenerator;
+using RandomStringGenerator.Expressions;
 
 namespace GAS.Core.Attacks {
     public class AsyncFlooderImplementations {
@@ -103,6 +105,19 @@ namespace GAS.Core.Attacks {
                     await Task.Delay( delay );
             }
             return true;
+        }
+
+        /// <summary>
+        /// Fill header
+        /// </summary>
+        /// <param name="buffer">Buffer to write</param>
+        /// <param name="expression">Expression</param>
+        /// <returns>Number of written bytes</returns>
+        public static int Generate(byte[] buffer, MultiExpression expression) {
+            var sizeBufferSize = expression.ComputeLengthDataSize();
+            var sizeBuffer = new int[sizeBufferSize];
+            expression.GetInsertLength( sizeBuffer );
+            return expression.InsertAsciiBytes( sizeBuffer, buffer );
         }
     }
 }

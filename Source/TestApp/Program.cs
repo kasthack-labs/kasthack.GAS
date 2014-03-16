@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using GAS.Core.AttackInformation;
 using GAS.Core.Attacks;
 
 namespace TestApp {
     class Program {
         private static void Main() {
             var f = new AsyncHttpFlooder {
-                HttpAttackInfo = {
+                HttpAttackInfo = new HttpAttackInfo {
                     Target = new IPEndPoint( IPAddress.Parse( "127.0.0.1" ), 8118 ),
+                    MaxConnections = 500,
+                    Ssl = new SslInfo() {
+                        
+                    },
                     
                 },
                 Interval = 15,
-                Threads = 100,
+                MaxThreads = 100,
                 MaxTasks = 10000
             };
             f.Start();

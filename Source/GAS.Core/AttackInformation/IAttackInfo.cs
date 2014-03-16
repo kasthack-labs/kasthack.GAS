@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using GAS.Core.Attacks;
-using RandomStringGenerator;
 
 namespace GAS.Core.AttackInformation {
     public interface IAttackInfo {
@@ -24,24 +22,5 @@ namespace GAS.Core.AttackInformation {
         /// Maximum number of connections
         /// </summary>
         int MaxConnections { get; set; }
-    }
-
-    public interface IHttpAttackInfo : IAttackInfo {
-        /// <summary>
-        /// Max bytes to receive.
-        /// </summary>
-        ulong MaxRead { get; set; }
-        /// <summary>
-        /// Max bytes to send.
-        /// </summary>
-        ulong MaxWrite { get; set; }
-        /// <summary>
-        /// SslInfo
-        /// </summary>
-        SslInfo Ssl { get; set; }
-        /// <summary>
-        /// HeaderGenerator
-        /// </summary>
-        IExpression HeaderExpression { get; set; }
     }
 }

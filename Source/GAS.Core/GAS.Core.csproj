@@ -46,12 +46,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttackInformation\AttackInfo.cs" />
+    <Compile Include="AttackInformation\IHttpAttackInfo.cs" />
+    <Compile Include="AttackInformation\IAttackInfo.cs" />
     <Compile Include="Attacks\AsyncFlooderImplementations.cs" />
     <Compile Include="Attacks\AsyncHttpFlooderCore.cs" />
     <Compile Include="Attacks\AsyncHttpFlooder.cs" />
     <Compile Include="AttackInformation\SslInfo.cs" />
-    <Compile Include="Manager.cs" />
     <Compile Include="AttackInformation\IAttacker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
