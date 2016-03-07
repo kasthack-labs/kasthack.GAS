@@ -1,3 +1,9 @@
+#GAS IS DEAD. Try something else.
+
+
+--------------------------------------
+
+
 #GAS
 GAS is opensource stress-test tool originally based on IRC-LOIC(neweracracker/loic)
 Some features may be broken. If you want to perform TCP/UDP flood try net_flooder(kasthack/net_flooder)
