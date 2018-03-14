@@ -1,13 +1,13 @@
-#GAS IS DEAD. Try something else.
+# GAS IS DEAD. Try something else.
 
 
 --------------------------------------
 
 
-#GAS
+# GAS
 GAS is opensource stress-test tool originally based on IRC-LOIC(neweracracker/loic)
 Some features may be broken. If you want to perform TCP/UDP flood try net_flooder(kasthack/net_flooder)
-#TODO
+# TODO
 1. Rewrite attack methods using async IO [_~_]
 2. Add support of setting any http field: host/cookie/referrer/etc
 3. Optimize RANDOM generator — it's really slow.	[_x_] moved to separate project: [kasthack/RandomStringGenerator](//github.com/kasthack/RandomStringGenerator)
